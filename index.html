@@ -2387,7 +2387,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   const salvarVivo = () => { try { localStorage.setItem(VIVO_KEY, JSON.stringify(vivo)); } catch(e){} };
   const pctBR = v => v.toFixed(2).replace('.', ',') + '%';
   const sgsData = d => { const [dd,mm,yy] = String(d).split('/'); return yy ? `${yy}-${mm}-${dd}` : d; };
-  const TEMPO_LIMITE = 12000;
+  const TEMPO_LIMITE = 30000;   // o SGS do Banco Central levou cerca de 19 s por consulta no teste real de 29/10/2026
   const nBR = (v, d = 2) => Number(v).toFixed(d).replace('.', ',');
 
   /* Data e hora de Brasília, independentes do fuso do aparelho */
@@ -2425,13 +2425,15 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   async function focus(ind){
     const y = +agoraBR().iso.slice(0, 4);
     const f = `Indicador eq '${ind}' and baseCalculo eq 0 and (DataReferencia eq '${y}' or DataReferencia eq '${y + 1}')`;
-    const r = await obterJSON(`https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$top=12&$format=json&$select=Data,DataReferencia,Mediana&$orderby=Data%20desc&$filter=${encodeURIComponent(f)}`);
+    const r = await obterJSON(`https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$top=40&$format=json&$select=Data,DataReferencia,Mediana&$orderby=Data%20desc&$filter=${encodeURIComponent(f)}`);
     const v = Array.isArray(r?.value) ? r.value.filter(o => /^\d{4}-\d{2}-\d{2}/.test(o?.Data || '') && isFinite(+o?.Mediana)) : null;
     if (!v) throw new Error('formato inesperado'); if (!v.length) throw new Error('resposta vazia');
     const doAno = ano => v.filter(o => String(o.DataReferencia) === String(ano)).sort((a, b) => b.Data.localeCompare(a.Data));
     const atual = doAno(y), prox = doAno(y + 1);
     if (!atual.length) throw new Error('sem projeção para ' + y);
-    return {v:+atual[0].Mediana, ref:atual[0].Data.slice(0, 10), ant: atual[1] ? {v:+atual[1].Mediana, ref:atual[1].Data.slice(0, 10)} : null, prox: prox[0] ? {ano:y + 1, v:+prox[0].Mediana} : null, ano:y};
+    // a série tem um ponto por dia útil: compara com o dado de pelo menos 5 dias antes (semana anterior)
+    const ref = atual[0].Data.slice(0, 10), sem = atual.find(o => o.Data.slice(0, 10) <= addDias(ref, -5));
+    return {v:+atual[0].Mediana, ref, ant: sem ? {v:+sem.Mediana, ref:sem.Data.slice(0, 10)} : null, prox: prox[0] ? {ano:y + 1, v:+prox[0].Mediana} : null, ano:y};
   }
 
   /* Catálogo de fontes: tipo (oficial/expectativa/indicativo), unidade, validade e como buscar */
@@ -2469,7 +2471,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     } else if (k === 'selic') s = rec.ref >= addDias(hoje, -7) ? {cls:'ok', txt: rec.vigenteDesde ? `vigente desde ${fmtDia(rec.vigenteDesde)}` : 'vigente'} : {cls:'warn', txt:`atrasado · dado de ${fmtDia(rec.ref)}`};
     else if (k === 'cdi' || k === 'dolarBcb'){ const minimo = diaUtilAnterior(diaUtilAnterior(hoje)); s = rec.ref >= minimo ? {cls:'ok', txt:`em dia · referência ${fmtDia(rec.ref)}`} : {cls:'warn', txt:`atrasado · último dado de ${fmtDia(rec.ref)}`}; }
     else if (k === 'ipcaMes' || k === 'ipca12'){ const esperado = shiftMes(hoje.slice(0, 7), +hoje.slice(8) >= 15 ? -1 : -2); s = rec.ref >= esperado ? {cls:'ok', txt:`último divulgado: ${mesRef(rec.ref)}`} : {cls:'warn', txt:`atrasado · último obtido: ${mesRef(rec.ref)}`}; }
-    else if (k === 'focusIpca' || k === 'focusSelic') s = rec.ref >= addDias(hoje, -10) ? {cls:'ok', txt:`boletim de ${fmtDia(rec.ref)}`} : {cls:'warn', txt:`atrasado · boletim de ${fmtDia(rec.ref)}`};
+    else if (k === 'focusIpca' || k === 'focusSelic') s = rec.ref >= addDias(hoje, -10) ? {cls:'ok', txt:`dados de ${fmtDia(rec.ref)}`} : {cls:'warn', txt:`atrasado · dados de ${fmtDia(rec.ref)}`};
     else s = {cls:'info', txt:`dado de ${fmtDia(rec.ref)}`};
     if (st && !st.ok) s = {cls:'warn', txt:`última consulta falhou (${st.erro}) · mostrando ${s.txt}`};
     // Selic: o SGS repete a taxa vigente todo dia; "hoje" só se a mudança foi hoje
@@ -2635,7 +2637,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
       if (h.length >= 20) out.push(`desde ${fmtDia(h[0][0])}: ${dif(l[1], h[0][1], un)}`);
     }
     if ((k === 'ipcaMes' || k === 'ipca12') && h?.length > 1){ const p = h[h.length - 2]; out.push(`${mesRef(p[0])}: ${nBR(p[1])}%`); if (k === 'ipcaMes' && h.length >= 13) out.push(`${mesRef(h[0][0])}: ${nBR(h[0][1])}%`); }
-    if ((k === 'focusIpca' || k === 'focusSelic') && rec.ant) out.push(`boletim anterior (${fmtDia(rec.ant.ref)}): ${nBR(rec.ant.v)}%`);
+    if ((k === 'focusIpca' || k === 'focusSelic') && rec.ant) out.push(`semana anterior (${fmtDia(rec.ant.ref)}): ${nBR(rec.ant.v)}%`);
     if ((k === 'focusIpca' || k === 'focusSelic') && rec.prox) out.push(`para ${rec.prox.ano}: ${nBR(rec.prox.v)}%`);
     if (k === 'selic' && rec.ant) out.push(`antes: ${nBR(rec.ant.v)}% (até ${fmtDia(rec.ant.ref)})`);
     if (k === 'dolar' && rec.var != null) out.push(`${rec.var >= 0 ? '+' : '−'}${nBR(Math.abs(rec.var))}% ${agoraBR(rec.cot).iso === agoraBR().iso ? 'no dia' : `na sessão de ${fmtDia(agoraBR(rec.cot).iso)}`}`);
@@ -2664,7 +2666,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     const juros = [];
     if (sel) juros.push(S('fato', `Selic em ${nBR(sel.v)}% ao ano (${st('selic').txt}).`, FONTES.selic.fonte, FONTES.selic.url));
     if (cdi) juros.push(S('fato', `CDI em ${nBR(cdi.v)}% ao ano, referência de ${fmtDia(cdi.ref)}.`, FONTES.cdi.fonte, FONTES.cdi.url));
-    if (fs) juros.push(S('expectativa', `Mediana do Focus para a Selic no fim de ${fs.ano}: ${nBR(fs.v)}%${fs.ant ? ` (era ${nBR(fs.ant.v)}% no boletim anterior)` : ''}${fs.prox ? `; para ${fs.prox.ano}: ${nBR(fs.prox.v)}%` : ''}.`, 'Boletim Focus de ' + fmtDia(fs.ref), FONTES.focusSelic.url));
+    if (fs) juros.push(S('expectativa', `Mediana do Focus para a Selic no fim de ${fs.ano}: ${nBR(fs.v)}%${fs.ant ? ` (era ${nBR(fs.ant.v)}% uma semana antes)` : ''}${fs.prox ? `; para ${fs.prox.ano}: ${nBR(fs.prox.v)}%` : ''}.`, 'Focus, dados de ' + fmtDia(fs.ref), FONTES.focusSelic.url));
     if (sel && fs) juros.push(S('interpretacao', fs.v < sel.v - 0.1 ? 'O mercado espera cortes da Selic até o fim do ano.' : fs.v > sel.v + 0.1 ? 'O mercado espera alta da Selic até o fim do ano.' : 'O mercado espera a Selic estável até o fim do ano.'));
     if (real != null) juros.push(S('interpretacao', `Juro real (CDI descontado do IPCA de 12 meses) perto de ${nBR(real)}% ao ano: ${real >= 6 ? 'nível muito alto, que favorece a renda fixa' : real >= 4 ? 'nível atrativo para a renda fixa' : 'nível moderado'}.`));
     // 4. Inflação
@@ -2672,7 +2674,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     if (im) infl.push(S('fato', `IPCA de ${mesRef(im.ref)}: ${nBR(im.v)}%.`, FONTES.ipcaMes.fonte, FONTES.ipcaMes.url));
     if (i12) infl.push(S('fato', `IPCA acumulado em 12 meses até ${mesRef(i12.ref)}: ${nBR(i12.v)}%. A meta é de 3%, com tolerância até 4,5%.`, FONTES.ipca12.fonte, FONTES.ipca12.url));
     if (i12 && i12.hist?.length > 1){ const p = i12.hist[i12.hist.length - 2][1]; infl.push(S('interpretacao', i12.v > p + 0.05 ? 'A inflação de 12 meses subiu em relação ao mês anterior.' : i12.v < p - 0.05 ? 'A inflação de 12 meses caiu em relação ao mês anterior.' : 'A inflação de 12 meses ficou praticamente estável.')); }
-    if (fi) infl.push(S('expectativa', `Mediana do Focus para o IPCA de ${fi.ano}: ${nBR(fi.v)}%${fi.ant ? ` (era ${nBR(fi.ant.v)}%)` : ''}.`, 'Boletim Focus de ' + fmtDia(fi.ref), FONTES.focusIpca.url));
+    if (fi) infl.push(S('expectativa', `Mediana do Focus para o IPCA de ${fi.ano}: ${nBR(fi.v)}%${fi.ant ? ` (era ${nBR(fi.ant.v)}%)` : ''}.`, 'Focus, dados de ' + fmtDia(fi.ref), FONTES.focusIpca.url));
     if (i12) infl.push(S('interpretacao', i12.v > 4.5 ? 'Inflação acima do teto da meta: pressão para juros mais altos por mais tempo.' : i12.v > 3 ? 'Inflação dentro da meta, mas acima do centro de 3%.' : 'Inflação no centro da meta ou abaixo dele.'));
     // 5. Câmbio
     const camb = [];
