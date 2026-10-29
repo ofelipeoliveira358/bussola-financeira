@@ -6,7 +6,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 
 const ARQ = process.env.CENARIO_ARQ || 'cenario.json';
-const TEMPO = 20000;
+const TEMPO = 40000;   // o SGS do Banco Central levou cerca de 19 s por consulta no GitHub (29/10/2026)
 const UA = 'BussolaFinanceira/2 (+GitHub Actions; uso pessoal)';
 
 /* ---------- utilitários puros (testados em testar-gerador.mjs) ---------- */
@@ -32,7 +32,9 @@ export function focusDe(r, ano) {
   const doAno = a => v.filter(o => String(o.DataReferencia) === String(a)).sort((x, y) => y.Data.localeCompare(x.Data));
   const atual = doAno(ano), prox = doAno(ano + 1);
   if (!atual.length) throw new Error('sem projeção para ' + ano);
-  return { v: +atual[0].Mediana, ref: atual[0].Data.slice(0, 10), ant: atual[1] ? { v: +atual[1].Mediana, ref: atual[1].Data.slice(0, 10) } : null, prox: prox[0] ? { ano: ano + 1, v: +prox[0].Mediana } : null, ano };
+  // a série tem um ponto por dia útil: compara com o dado de pelo menos 5 dias antes (semana anterior)
+  const ref = atual[0].Data.slice(0, 10), lim = new Date(Date.parse(ref + 'T12:00:00Z') - 5 * 864e5).toISOString().slice(0, 10), sem = atual.find(o => o.Data.slice(0, 10) <= lim);
+  return { v: +atual[0].Mediana, ref, ant: sem ? { v: +sem.Mediana, ref: sem.Data.slice(0, 10) } : null, prox: prox[0] ? { ano: ano + 1, v: +prox[0].Mediana } : null, ano };
 }
 export function dolarDe(r) {
   const q = r?.USDBRL, v = parseFloat(q?.bid), vr = parseFloat(q?.pctChange), ts = +q?.timestamp * 1000;
@@ -43,9 +45,15 @@ export function dolarDe(r) {
 }
 export function indiceDe(r, nome) {
   const res = r?.chart?.result?.[0], m = res?.meta;
-  const v = +m?.regularMarketPrice, t = +m?.regularMarketTime * 1000, prev = +m?.chartPreviousClose || +m?.previousClose;
+  const v = +m?.regularMarketPrice, t = +m?.regularMarketTime * 1000;
   if (!isFinite(v) || !(v > 0) || !isFinite(t)) throw new Error(`${nome}: formato inesperado`);
-  return { v, ref: agoraBR(t), cot: t, var: isFinite(prev) && prev > 0 ? (v - prev) / prev * 100 : null };
+  // Variação do dia = último preço ÷ fechamento do último pregão ANTERIOR ao dia da cotação.
+  // (chartPreviousClose é o fechamento antes do início do período consultado, não o do dia anterior.)
+  const ts = res?.timestamp || [], cl = res?.indicators?.quote?.[0]?.close || [], dia = agoraBR(t);
+  let prev = null;
+  for (let i = ts.length - 1; i >= 0; i--) if (isFinite(+cl[i]) && cl[i] != null && agoraBR(ts[i] * 1000) < dia) { prev = +cl[i]; break; }
+  if (prev == null && isFinite(+m?.previousClose) && +m.previousClose > 0) prev = +m.previousClose;
+  return { v, ref: dia, cot: t, var: prev ? (v - prev) / prev * 100 : null };
 }
 const ent = t => String(t || '').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]*>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 export const RX_MERCADO = /(bolsa|ibovespa|d[oó]lar|juros|selic|copom|infla[cç][aã]o|ipca|tesouro|mercado|banco central|fiscal|d[ií]vida p[uú]blica|arcabou[cç]o|\bpib\b|desemprego|emprego|c[aâ]mbio|a[cç][oõ]es|investiment|renda fixa|cdb|poupan[cç]a|imposto|petrobras|\bb3\b|\bfed\b|economia|or[cç]amento|meta fiscal)/i;
@@ -90,6 +98,10 @@ async function obter(url, tipo = 'json') {
   if (tipo !== 'json') return txt;
   try { return JSON.parse(txt); } catch { throw new Error('resposta não é JSON válido'); }
 }
+async function comNovaTentativa(f) {
+  try { return await f(); }
+  catch (e) { if (!/HTTP (429|5\d\d)|tempo esgotado|sem conexão/.test(e.message)) throw e; await new Promise(r => setTimeout(r, 5000)); try { return await f(); } catch (e2) { throw new Error(`${e2.message} (2 tentativas)`); } }
+}
 const sgs = (cod, n) => obter(`https://api.bcb.gov.br/dados/serie/bcdata.sgs.${cod}/dados/ultimos/${n}?formato=json`).then(parseSGS);
 const FONTES = {
   selic: { fonte: 'Banco Central · SGS 432', url: 'https://www.bcb.gov.br/controleinflacao/historicotaxasjuros', buscar: async () => selicDe(await sgs(432, 20), agoraBR()) },
@@ -104,7 +116,7 @@ const FONTES = {
 async function focus(ind) {
   const y = +agoraBR().slice(0, 4);
   const f = `Indicador eq '${ind}' and baseCalculo eq 0 and (DataReferencia eq '${y}' or DataReferencia eq '${y + 1}')`;
-  return focusDe(await obter(`https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$top=12&$format=json&$select=Data,DataReferencia,Mediana&$orderby=Data%20desc&$filter=${encodeURIComponent(f)}`), y);
+  return focusDe(await obter(`https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$top=40&$format=json&$select=Data,DataReferencia,Mediana&$orderby=Data%20desc&$filter=${encodeURIComponent(f)}`), y);
 }
 // Índices de bolsa: Yahoo Finance (não oficial). Entram só se a resposta for válida; senão, ficam indisponíveis.
 const MERCADO = {
@@ -124,7 +136,7 @@ async function main() {
   const saida = { versao: 2, geradoEm: agora, fontes: {}, estado: {}, mercado: {}, noticias: [] };
   await Promise.all(Object.entries(FONTES).map(async ([k, f]) => {
     const t0 = Date.now();
-    try { saida.fontes[k] = { ...(await f.buscar()), at: agora, fonte: f.fonte, url: f.url }; saida.estado[k] = { ok: true, em: agora, ms: Date.now() - t0 }; }
+    try { saida.fontes[k] = { ...(await comNovaTentativa(f.buscar)), at: agora, fonte: f.fonte, url: f.url }; saida.estado[k] = { ok: true, em: agora, ms: Date.now() - t0 }; }
     catch (e) { saida.estado[k] = { ok: false, em: agora, erro: e.message, ms: Date.now() - t0 }; if (anterior.fontes?.[k]) saida.fontes[k] = anterior.fontes[k]; }   // preserva o último válido
   }));
   for (const [k, m] of Object.entries(MERCADO)) {
