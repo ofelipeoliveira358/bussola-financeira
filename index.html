@@ -359,6 +359,43 @@ input.inline:hover,input.inline:focus{border-color:var(--line);background:var(--
 .ind2 a{font-size:.76rem}
 @media (max-width:860px){.ind.ind2{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.ind.ind2{grid-template-columns:1fr}}
+.cen2{display:flex;flex-direction:column;gap:20px}
+.cen-hero{display:flex;flex-direction:column;gap:16px}
+.cen-hero-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.cen-hero-txt{min-width:0;flex:1 1 420px}
+.cen-eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cen-hero h2{font-size:1.35rem;line-height:1.3;margin:4px 0 6px}
+.cen-hero p{margin:0;max-width:75ch;line-height:1.55}
+.cen-hero-acao{display:flex;gap:10px;align-items:center}
+.cen-kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.cen-kpis > div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.cen-kpis .k{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
+.cen-kpis .k i{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0}
+.cen-kpis .k i.ok{background:var(--ok)}.cen-kpis .k i.warn{background:var(--warn)}.cen-kpis .k i.crit{background:var(--crit)}.cen-kpis .k i.info{background:var(--accent)}
+.cen-kpis .v{font-family:var(--f-mono);font-size:1.25rem;font-weight:500}
+.cen-kpis .s{font-size:.75rem;color:var(--muted)}
+.cen-kpis .s .up{color:var(--ok)}.cen-kpis .s .down{color:var(--crit)}
+.cen-status{font-size:.82rem;line-height:1.5}
+.cen-perfis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.perfil{border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.perfil.seu{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.perfil header{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.perfil h3{margin:0;font-size:1rem}
+.perfil .postura{font-size:.9rem;font-weight:600;color:var(--accent)}
+.perfil .tag-seu{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+.perfil ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.perfil li{font-size:.87rem;line-height:1.45;display:flex;flex-direction:column;gap:2px}
+.perfil li b{font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.cen-duo{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:20px;align-items:start}
+.cen-det summary{cursor:pointer;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;list-style:none}
+.cen-det summary::-webkit-details-marker{display:none}
+.cen-det summary h2{margin:0;font-size:1.05rem}
+.cen-det summary::before{content:"▸";color:var(--muted);transition:transform .15s}
+.cen-det[open] summary::before{transform:rotate(90deg)}
+@media (max-width:1100px){.cen-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.cen-duo>:last-child{align-self:start;position:sticky;top:16px}
+@media (max-width:900px){.cen-perfis{grid-template-columns:1fr}.cen-duo{grid-template-columns:1fr}.cen-duo>:last-child{position:static}}
+@media (max-width:520px){.cen-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.cen-hero h2{font-size:1.15rem}.cen-hero-acao{width:100%}.cen-hero-acao .btn{flex:1}}
 .cen-analise{display:flex;flex-direction:column;gap:14px;margin-top:10px}
 .cen-analise section h3{font-size:.95rem;margin:0 0 6px}
 .cen-analise ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
@@ -1086,33 +1123,50 @@ details[open] summary{margin-bottom:12px}
 
   <!-- CENÁRIO -->
   <section class="view" id="v-cenario" hidden>
-    <div class="vivo-bar panel" style="padding:12px 14px">
-      <div style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1"><strong id="vivo-geral">Aguardando a primeira atualização</strong><span class="muted small" id="vivo-status" aria-live="polite">Os dados do mercado ainda não foram buscados neste aparelho.</span></div>
-      <div class="row" style="gap:8px;align-items:center"><label class="small muted" for="vivo-int">Com a página aberta, verificar a cada</label><select id="vivo-int"><option value="30">30 min</option><option value="45">45 min</option><option value="60">60 min</option></select><button class="btn primary" id="vivo-btn" type="button">Atualizar agora</button></div>
-    </div>
-    <div id="cen-empty" class="empty" hidden><h3>Ainda não há dados de mercado neste aparelho</h3><p class="small muted">Toque em Atualizar agora. Se nenhuma fonte responder, veja o motivo em "Fontes e situação".</p></div>
-    <div id="cen-body" style="display:flex;flex-direction:column;gap:20px">
+    <div id="cen-empty" class="empty" hidden><h3>Ainda não há dados de mercado neste aparelho</h3><p class="small muted">Toque em Atualizar agora. Se nenhuma fonte responder, veja o motivo em "Fontes e situação", no fim da página.</p></div>
+    <div id="cen-body" class="cen2">
+      <!-- 1. Painel do dia -->
+      <div class="panel cen-hero">
+        <div class="cen-hero-top">
+          <div class="cen-hero-txt"><span class="cen-eyebrow" id="cen-hero-data"></span><h2 id="cen-hero-tit">Cenário do dia</h2><p id="cen-hero-sub"></p></div>
+          <div class="cen-hero-acao"><span class="pill hip" id="vivo-pill">aguardando</span><button class="btn primary" id="vivo-btn" type="button">Atualizar agora</button></div>
+        </div>
+        <div class="cen-kpis" id="cen-kpis"></div>
+        <div class="cen-status"><strong id="vivo-geral">Aguardando a primeira atualização</strong> <span class="muted" id="vivo-status" aria-live="polite">Os dados do mercado ainda não foram buscados neste aparelho.</span></div>
+      </div>
+      <!-- 2. Perfis -->
       <div class="panel">
-        <div class="panel-head"><h2>Indicadores</h2><span class="small muted">Oficial = dado publicado · Expectativa = Boletim Focus · Indicativo = cotação de mercado</span></div>
+        <div class="panel-head"><h2>O que muda para cada perfil</h2><span class="small muted">leitura geral do dia · não é recomendação individual</span></div>
+        <div class="cen-perfis" id="cen-perfis"></div>
+      </div>
+      <!-- 3. Análise + notícias -->
+      <div class="cen-duo">
+        <div class="panel">
+          <div class="panel-head"><h2 id="cen-title">Análise do dia</h2><span class="small muted" id="cen-date"></span></div>
+          <p class="small muted" id="cen-tipo"></p>
+          <p class="summary" id="cen-resumo"></p>
+          <div id="cen-analise" class="cen-analise"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>O que está acontecendo</h2></div>
+          <p class="small muted" id="cen-news-st"></p>
+          <div class="news" id="cen-dest"></div>
+          <label class="check small" for="news-rss" style="margin-top:14px"><input type="checkbox" id="news-rss"> <span>Buscar manchetes direto neste aparelho pelo rss2json, um serviço de terceiros que recebe só o endereço do feed. Pelo site, as notícias já chegam do GitHub sem intermediário.</span></label>
+        </div>
+      </div>
+      <!-- 4. Detalhes recolhidos -->
+      <details class="panel cen-det">
+        <summary><h2>Todos os indicadores</h2><span class="small muted">valores, datas, comparações e fontes</span></summary>
+        <p class="small muted" style="margin:10px 0">Oficial = dado publicado · Expectativa = Boletim Focus · Indicativo = cotação de mercado</p>
         <div class="ind ind2" id="cen-ind"></div>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><h2 id="cen-title">Análise do dia</h2><span class="small muted" id="cen-date"></span></div>
-        <p class="small muted" id="cen-tipo"></p>
-        <p class="summary" id="cen-resumo"></p>
-        <div id="cen-analise" class="cen-analise"></div>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><h2>O que está acontecendo</h2><span class="small muted" id="cen-news-st"></span></div>
-        <div class="news" id="cen-dest"></div>
-        <label class="check small" for="news-rss" style="margin-top:12px"><input type="checkbox" id="news-rss"> <span>Buscar manchetes do g1 e do Google Notícias pelo rss2json, um serviço de terceiros: ele recebe só o endereço do feed, nenhum dado seu. Esses sites não permitem leitura direta pelo navegador.</span></label>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><h2>Fontes e situação</h2><button class="btn ghost" type="button" id="vivo-copiar">Copiar diagnóstico</button></div>
+      </details>
+      <details class="panel cen-det">
+        <summary><h2>Fontes e situação</h2><span class="small muted">o que cada fonte respondeu</span></summary>
+        <div class="row" style="gap:8px;align-items:center;margin:10px 0;flex-wrap:wrap"><label class="small muted" for="vivo-int">Com a página aberta, verificar a cada</label><select id="vivo-int"><option value="30">30 min</option><option value="45">45 min</option><option value="60">60 min</option></select><button class="btn ghost" type="button" id="vivo-copiar">Copiar diagnóstico</button></div>
         <div class="tablewrap"><table class="fontes-st"><thead><tr><th>Fonte</th><th>Situação</th><th>Dado de</th><th>Última consulta</th><th>Detalhe</th></tr></thead><tbody id="cen-fontes-st"></tbody></table></div>
         <p class="hint" id="cen-remoto-st"></p>
-      </div>
-      <div class="grid2"><div class="panel"><h3>Fontes desta análise</h3><div class="sources" id="cen-fontes"></div></div><div class="panel"><h3>Para acompanhar o dia a dia do mercado</h3><div class="sources" id="cen-acomp"></div></div></div>
+        <div class="grid2" style="margin-top:12px"><div><h3>Fontes desta análise</h3><div class="sources" id="cen-fontes"></div></div><div><h3>Para acompanhar o mercado</h3><div class="sources" id="cen-acomp"></div></div></div>
+      </details>
       <ul class="plain" id="cen-impl" hidden></ul>
     </div>
   </section>
@@ -2448,7 +2502,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
       buscar: async () => { const pts = await sgs(13522, 13); const l = pts[pts.length - 1]; return {v:l[1], ref:l[0].slice(0, 7), hist:pts.map(p => [p[0].slice(0, 7), p[1]])}; }},
     focusIpca: {nome:'Focus: IPCA do ano', tipo:'expectativa', un:'% no ano', fonte:'Banco Central · Boletim Focus', url:'https://www.bcb.gov.br/publicacoes/focus', ttl:12 * 3600e3, freq:'semanal', buscar: () => focus('IPCA')},
     focusSelic: {nome:'Focus: Selic no fim do ano', tipo:'expectativa', un:'% a.a.', fonte:'Banco Central · Boletim Focus', url:'https://www.bcb.gov.br/publicacoes/focus', ttl:12 * 3600e3, freq:'semanal', buscar: () => focus('Selic')},
-    dolarBcb: {nome:'Dólar comercial (fechamento)', tipo:'oficial', un:'R$', fonte:'Banco Central · SGS 1', url:'https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes', ttl:3 * 3600e3, freq:'diária',
+    dolarBcb: {nome:'Dólar PTAX (venda)', tipo:'oficial', un:'R$', fonte:'Banco Central · SGS 1 (PTAX)', url:'https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes', ttl:3 * 3600e3, freq:'diária',
       buscar: async () => { const pts = await sgs(1, 20); const l = pts[pts.length - 1]; return {v:l[1], ref:l[0], hist:pts}; }},
     dolar: {nome:'Dólar agora', tipo:'indicativo', un:'R$', fonte:'AwesomeAPI (USD-BRL)', url:'https://docs.awesomeapi.com.br/api-de-moedas', ttl:15 * 60e3, freq:'contínua (dias úteis)',
       buscar: async () => { const r = await obterJSON('https://economia.awesomeapi.com.br/json/last/USD-BRL'); const q = r?.USDBRL; const v = parseFloat(q?.bid), vr = parseFloat(q?.pctChange); const ts = +q?.timestamp * 1000;
@@ -2537,14 +2591,15 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   const NOME_F = k => k === 'noticias' ? 'Notícias' : FONTES[k]?.nome || k;
   function renderVivoStatus(){
     const g = $('#vivo-geral'), el = $('#vivo-status'), btn = $('#vivo-btn'); if (!el) return;
-    if (rodadaInfo){ btn.disabled = true; btn.textContent = `Atualizando… ${rodadaInfo.feitas} de ${rodadaInfo.total}`; g.textContent = 'Atualizando'; el.textContent = `Consultando ${rodadaInfo.total} fonte(s). Os valores atuais continuam na tela até as respostas chegarem.`; return; }
+    const pill = $('#vivo-pill'), P = (c, t) => { if (pill){ pill.className = 'pill ' + c; pill.textContent = t; } };
+    if (rodadaInfo){ P('info', 'atualizando'); btn.disabled = true; btn.textContent = `Atualizando… ${rodadaInfo.feitas} de ${rodadaInfo.total}`; g.textContent = 'Atualizando'; el.textContent = `Consultando ${rodadaInfo.total} fonte(s). Os valores atuais continuam na tela até as respostas chegarem.`; return; }
     btn.disabled = false; btn.textContent = 'Atualizar agora';
     const r = vivo.rodada;
-    if (!r){ g.textContent = 'Aguardando a primeira atualização'; el.textContent = 'Os dados do mercado ainda não foram buscados neste aparelho.'; return; }
+    if (!r){ P('hip', 'aguardando'); g.textContent = 'Aguardando a primeira atualização'; el.textContent = 'Os dados do mercado ainda não foram buscados neste aparelho.'; return; }
     const quando = fmtHora(Date.parse(r.em));
-    if (!r.falhas.length){ g.textContent = 'Atualizado'; el.textContent = `Última verificação ${quando}: ${r.ok} de ${r.total} fonte(s) responderam${r.forcar ? '' : ' (só as que estavam vencidas)'}.`; }
-    else if (r.ok){ g.textContent = 'Atualizado parcialmente'; el.textContent = `Última verificação ${quando}: ${r.ok} de ${r.total} responderam. Falharam: ${r.falhas.map(([k, e]) => `${NOME_F(k)} (${e})`).join('; ')}. Essas fontes mostram o último valor válido, com a data, e serão tentadas de novo.`; }
-    else { g.textContent = 'Falha na atualização'; el.textContent = `Última verificação ${quando}: nenhuma fonte respondeu (${r.falhas.map(([k, e]) => `${NOME_F(k)}: ${e}`).slice(0, 3).join('; ')}${r.falhas.length > 3 ? '…' : ''}). ${Object.keys(FONTES).some(k => vivo.dados[k]) ? 'Os valores na tela são os últimos válidos, com a data de cada um.' : 'Ainda não há nenhum dado guardado neste aparelho. Veja o motivo em Fontes e situação.'}`; }
+    if (!r.falhas.length){ P('ok', 'atualizado'); g.textContent = 'Atualizado'; el.textContent = `Última verificação ${quando}: ${r.ok} de ${r.total} fonte(s) responderam${r.forcar ? '' : ' (só as que estavam vencidas)'}.`; }
+    else if (r.ok){ P('warn', 'parcial'); g.textContent = 'Atualizado parcialmente'; el.textContent = `Última verificação ${quando}: ${r.ok} de ${r.total} responderam. Falharam: ${r.falhas.map(([k, e]) => `${NOME_F(k)} (${e})`).join('; ')}. Essas fontes mostram o último valor válido, com a data, e serão tentadas de novo.`; }
+    else { P('crit', 'falha'); g.textContent = 'Falha na atualização'; el.textContent = `Última verificação ${quando}: nenhuma fonte respondeu (${r.falhas.map(([k, e]) => `${NOME_F(k)}: ${e}`).slice(0, 3).join('; ')}${r.falhas.length > 3 ? '…' : ''}). ${Object.keys(FONTES).some(k => vivo.dados[k]) ? 'Os valores na tela são os últimos válidos, com a data de cada um.' : 'Ainda não há nenhum dado guardado neste aparelho. Veja o motivo em Fontes e situação.'}`; }
   }
 
   /* ---------- Notícias ---------- */
@@ -2678,7 +2733,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     if (i12) infl.push(S('interpretacao', i12.v > 4.5 ? 'Inflação acima do teto da meta: pressão para juros mais altos por mais tempo.' : i12.v > 3 ? 'Inflação dentro da meta, mas acima do centro de 3%.' : 'Inflação no centro da meta ou abaixo dele.'));
     // 5. Câmbio
     const camb = [];
-    if (dbc) camb.push(S('fato', `Dólar comercial de fechamento em ${fmtDia(dbc.ref)}: R$ ${nBR(dbc.v, 4)}${comparacoes('dolarBcb', dbc)[1] ? ` (${comparacoes('dolarBcb', dbc)[1]})` : ''}.`, FONTES.dolarBcb.fonte, FONTES.dolarBcb.url));
+    if (dbc) camb.push(S('fato', `Dólar PTAX (Banco Central) em ${fmtDia(dbc.ref)}: R$ ${nBR(dbc.v, 4)}${comparacoes('dolarBcb', dbc)[1] ? ` (${comparacoes('dolarBcb', dbc)[1]})` : ''}.`, FONTES.dolarBcb.fonte, FONTES.dolarBcb.url));
     if (dl) camb.push(S('fato', `Cotação indicativa: R$ ${nBR(dl.v, 4)} (${st('dolar').txt}${dl.var != null ? `; ${comparacoes('dolar', dl).slice(-1)[0]}` : ''}).`, FONTES.dolar.fonte, FONTES.dolar.url));
     if (dl && dl.var != null && Math.abs(dl.var) >= 1.5 && agoraBR(dl.cot).iso === agoraBR().iso) camb.push(S('interpretacao', `Movimento ${Math.abs(dl.var) >= 3 ? 'forte' : 'relevante'} do câmbio hoje: costuma refletir tensão no mercado.`));
     // 6. Mercado
@@ -2694,7 +2749,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     if (sel?.vigenteDesde && sel.vigenteDesde >= addDias(agoraBR().iso, -30) && sel.ant) mud.push(S('fato', `A Selic mudou de ${nBR(sel.ant.v)}% para ${nBR(sel.v)}% em ${fmtDia(sel.vigenteDesde)}.`, FONTES.selic.fonte, FONTES.selic.url));
     if (fs?.ant && Math.abs(fs.v - fs.ant.v) >= 0.01) mud.push(S('expectativa', `Focus da Selic ${fs.v > fs.ant.v ? 'subiu' : 'caiu'} de ${nBR(fs.ant.v)}% para ${nBR(fs.v)}% na última semana.`, 'Boletim Focus', FONTES.focusSelic.url));
     if (fi?.ant && Math.abs(fi.v - fi.ant.v) >= 0.01) mud.push(S('expectativa', `Focus do IPCA ${fi.v > fi.ant.v ? 'subiu' : 'caiu'} de ${nBR(fi.ant.v)}% para ${nBR(fi.v)}%.`, 'Boletim Focus', FONTES.focusIpca.url));
-    if (dbc?.hist?.length > 5){ const p = dbc.hist[dbc.hist.length - 6][1], vr = (dbc.v - p) / p * 100; if (Math.abs(vr) >= 1) mud.push(S('fato', `Dólar comercial ${vr > 0 ? 'subiu' : 'caiu'} ${nBR(Math.abs(vr))}% em 5 dias úteis.`, FONTES.dolarBcb.fonte, FONTES.dolarBcb.url)); }
+    if (dbc?.hist?.length > 5){ const p = dbc.hist[dbc.hist.length - 6][1], vr = (dbc.v - p) / p * 100; if (Math.abs(vr) >= 1) mud.push(S('fato', `Dólar PTAX ${vr > 0 ? 'subiu' : 'caiu'} ${nBR(Math.abs(vr))}% em 5 dias úteis.`, FONTES.dolarBcb.fonte, FONTES.dolarBcb.url)); }
     if (!mud.length) mud.push(S('fato', 'Sem mudanças relevantes nos indicadores disponíveis desde a última semana.'));
     // 8. Riscos e oportunidades
     const risc = [];
@@ -2731,7 +2786,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     const res = [];
     if (sel && i12) res.push(S('fato', `Selic em ${nBR(sel.v)}%, inflação de 12 meses em ${nBR(i12.v)}%${real != null ? ` e juro real perto de ${nBR(real)}%` : ''}.`));
     if (sel && fs) res.push(S('expectativa', `Focus vê a Selic em ${nBR(fs.v)}% no fim do ano.`));
-    if (dl || dbc) res.push(S('fato', dl ? `Dólar a R$ ${nBR(dl.v, 2)} (${st('dolar').txt}).` : `Dólar comercial a R$ ${nBR(dbc.v, 2)} em ${fmtDia(dbc.ref)}.`));
+    if (dl || dbc) res.push(S('fato', dl ? `Dólar a R$ ${nBR(dl.v, 2)} (${st('dolar').txt}).` : `Dólar PTAX a R$ ${nBR(dbc.v, 2)} em ${fmtDia(dbc.ref)}.`));
     if (news[0]) res.push(S('fato', `Destaque do noticiário: ${news[0].titulo} (${news[0].fonte}).`, news[0].fonte, news[0].url));
     if (!res.length) res.push(S('falta', 'Dados insuficientes para um resumo.'));
     // 12. Fontes
@@ -2765,6 +2820,61 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     const el = $('#cen-fontes-st'); if (el) el.innerHTML = linhas.join('');
     const rs = $('#cen-remoto-st'); if (rs) rs.textContent = remotoInfo.txt || '';
   }
+  /* ---------- Leitura do dia por perfil (regras sobre os dados disponíveis; interpretação, não recomendação) ---------- */
+  function sinaisDoDia(){
+    const d = vivo.dados, rm = vivo.remoto?.mercado || {}, hoje = agoraBR().iso;
+    const sel = d.selic?.v, fs = d.focusSelic?.v, i12 = d.ipca12?.v, cdi = d.cdi?.v;
+    const real = cdi != null && i12 != null ? ((1 + cdi / 100) / (1 + i12 / 100) - 1) * 100 : null;
+    const dir = sel != null && fs != null ? (fs < sel - 0.25 ? 'corte' : fs > sel + 0.25 ? 'alta' : 'estavel') : null;
+    const h = d.dolarBcb?.hist, dolar5 = h?.length > 5 ? (h[h.length - 1][1] / h[h.length - 6][1] - 1) * 100 : null;
+    const dolarDia = d.dolar && d.dolar.var != null && agoraBR(d.dolar.cot).iso === hoje ? d.dolar.var : null;
+    const ib = rm.ibov, ibovDia = ib && ib.var != null && ib.ref >= diaUtilAnterior(hoje) ? ib.var : null;
+    const vol = (dolarDia != null && Math.abs(dolarDia) >= 1.5) || (ibovDia != null && Math.abs(ibovDia) >= 2);
+    return {sel, fs, i12, cdi, real, dir, dolar5, dolarDia, ibovDia, vol, inflAcima: i12 != null && i12 > 4.5, temDados: sel != null || cdi != null || i12 != null};
+  }
+  function perfisDoDia(){
+    const z = sinaisDoDia(); if (!z.temDados) return null;
+    const p = v => nBR(v, 1) + '%', I = (rot, txt) => ({rot, txt});
+    const cons = {k:'conservador', nome:'Conservador', postura: z.vol ? 'Proteger e não reagir' : z.real != null && z.real >= 4 ? 'Pós-fixado como base' : 'Manter o plano', itens:[
+      I('Base', z.real != null && z.real >= 4 ? `Pós-fixados (Tesouro Selic, CDB a partir de 100% do CDI) rendem perto de ${p(z.real)} acima da inflação, com liquidez.` : 'Pós-fixados seguem como base da carteira e da reserva de emergência.'),
+      I('Oportunidade', z.dir === 'corte' ? 'Com cortes da Selic esperados, travar uma parte em prefixado ou IPCA+ de prazo médio que você consiga levar até o vencimento.' : z.inflAcima ? 'Com a inflação acima da meta, IPCA+ protege o poder de compra no longo prazo.' : 'Sem pressa para alongar prazos: o pós-fixado já paga bem.'),
+      I('Cuidado', z.vol ? 'Dia de forte oscilação: não venda títulos no susto; levados ao vencimento, pagam a taxa contratada.' : z.dir === 'alta' ? 'Se a Selic subir, prefixados longos perdem valor na marcação a mercado.' : 'Reserva de emergência completa antes de qualquer outro passo.'),
+      I('Evite', 'Aumentar ações, cripto ou alavancagem por causa de uma notícia do dia.')]};
+    const mod = {k:'moderado', nome:'Moderado', postura: z.vol ? 'Rebalancear sem pressa' : z.dir === 'corte' ? 'Aumentar risco aos poucos' : z.dir === 'alta' ? 'Renda fixa primeiro' : 'Equilibrar', itens:[
+      I('Base', 'Núcleo em renda fixa (pós-fixado e IPCA+), com parcela menor em fundos imobiliários, ações e exterior, dentro da meta de alocação.'),
+      I('Oportunidade', z.ibovDia != null && z.ibovDia <= -2 ? `Ibovespa caiu ${p(Math.abs(z.ibovDia))} no último pregão: use a queda para voltar à meta de alocação, comprando aos poucos.` : z.dir === 'corte' ? 'Queda de juros esperada tende a favorecer fundos imobiliários e ações pagadoras de dividendos; entre aos poucos.' : z.real != null && z.real >= 6 ? `Juro real perto de ${p(z.real)}: IPCA+ longo paga bem para quem tem prazo.` : 'Aportes regulares em cada classe, conforme a meta.'),
+      I('Cuidado', z.dolar5 != null && z.dolar5 >= 2 ? `Dólar subiu ${p(z.dolar5)} em 5 dias úteis: aporte no exterior em parcelas, sem concentrar no pico.` : z.dir === 'alta' ? 'Juros subindo pesam sobre fundos imobiliários e ações.' : 'Fique dentro dos percentuais da sua meta.'),
+      I('Evite', 'Trocar a estratégia inteira por causa de um dia de mercado.')]};
+    const arr = {k:'arrojado', nome:'Arrojado', postura: z.vol && z.ibovDia != null && z.ibovDia < 0 ? 'Oportunidade com risco' : z.dir === 'corte' ? 'Pró-risco seletivo' : z.real != null && z.real >= 6 ? 'Exigente com a bolsa' : 'Seletivo', itens:[
+      I('Base', 'Horizonte longo e tolerância a quedas: renda variável e prefixados longos são as principais alavancas de retorno.'),
+      I('Oportunidade', z.ibovDia != null && z.ibovDia <= -2 ? `Queda de ${p(Math.abs(z.ibovDia))} do Ibovespa: quedas fortes abrem pontos de entrada graduais para quem aguenta oscilação.` : z.dir === 'corte' ? 'Cortes de juros esperados tendem a favorecer bolsa e prefixados longos.' : 'Procure ativos descontados com bons fundamentos, sem pressa.'),
+      I('Cuidado', z.real != null && z.real >= 6 ? `Com juro real perto de ${p(z.real)}, o custo de oportunidade é alto: a bolsa precisa render bem acima disso para compensar o risco.` : z.dolar5 != null && z.dolar5 >= 2 ? 'Ativos dolarizados já se valorizaram: não persiga o pico.' : 'Volatilidade pode durar: dimensione posições para aguentar quedas.'),
+      I('Evite', 'Alavancagem e concentração em um só ativo em dias de volatilidade.')]};
+    return [cons, mod, arr];
+  }
+  function renderPainelDia(){
+    const a = analiseAtual, c = state.cenario, d = vivo.dados, rm = vivo.remoto?.mercado || {};
+    const dia = new Date().toLocaleDateString('pt-BR', {timeZone:'America/Sao_Paulo', weekday:'long', day:'2-digit', month:'2-digit'});
+    $('#cen-hero-data').textContent = dia + (a ? ` · análise das ${new Date(a.geradoEm).toLocaleTimeString('pt-BR', {timeZone:'America/Sao_Paulo', hour:'2-digit', minute:'2-digit'})}` : '');
+    $('#cen-hero-tit').textContent = c?.manchete || 'Cenário do dia';
+    const res = a?.secoes?.[0]?.i?.filter(x => x.tipo !== 'falta').map(x => x.texto) || [];
+    $('#cen-hero-sub').textContent = c && !c.auto && c.resumo ? c.resumo : res.length ? res.join(' ') : 'Toque em Atualizar agora para buscar os dados do dia.';
+    const sinal = v => v == null ? '' : `<span class="${v >= 0 ? 'up' : 'down'}">${v >= 0 ? '+' : '−'}${nBR(Math.abs(v))}%</span>`;
+    const st = k => d[k] ? situacao(k, d[k], vivo.st[k]).cls : 'crit';
+    const kp = [];
+    const K = (rot, cls, val, sub) => kp.push(`<div><span class="k"><i class="${cls}"></i>${esc(rot)}</span><span class="v">${val}</span><span class="s">${sub}</span></div>`);
+    K('Selic', st('selic'), d.selic ? nBR(d.selic.v) + '%' : '—', d.selic ? 'meta do Copom, ao ano' : 'indisponível');
+    K('CDI', st('cdi'), d.cdi ? nBR(d.cdi.v) + '%' : '—', d.cdi ? `ao ano · ${esc(fmtDia(d.cdi.ref))}` : 'indisponível');
+    K('IPCA 12 meses', st('ipca12'), d.ipca12 ? nBR(d.ipca12.v) + '%' : '—', d.ipca12 ? `até ${esc(mesRef(d.ipca12.ref))} · meta 3%` : 'indisponível');
+    K('Focus Selic', st('focusSelic'), d.focusSelic ? nBR(d.focusSelic.v) + '%' : '—', d.focusSelic ? `fim de ${d.focusSelic.ano} · expectativa` : 'indisponível');
+    if (d.dolar) K('Dólar agora', st('dolar'), 'R$ ' + nBR(d.dolar.v), `${sinal(d.dolar.var)} ${esc(situacao('dolar', d.dolar, vivo.st.dolar).cls === 'info' ? 'mercado fechado' : fmtHora(d.dolar.cot).slice(-5))}`);
+    else K('Dólar PTAX', st('dolarBcb'), d.dolarBcb ? 'R$ ' + nBR(d.dolarBcb.v) : '—', d.dolarBcb ? esc(fmtDia(d.dolarBcb.ref)) : 'indisponível');
+    K('Ibovespa', rm.ibov ? 'info' : 'crit', rm.ibov ? Math.round(rm.ibov.v).toLocaleString('pt-BR') : '—', rm.ibov ? `${sinal(rm.ibov.var)} ${esc(fmtDia(rm.ibov.ref))}` : 'só pelo site (GitHub)');
+    $('#cen-kpis').innerHTML = kp.join('');
+    const ps = perfisDoDia();
+    $('#cen-perfis').innerHTML = ps ? ps.map(p => `<article class="perfil${p.k === 'conservador' ? ' seu' : ''}"><header><h3>${p.nome}</h3>${p.k === 'conservador' ? '<span class="tag-seu">seu perfil</span>' : ''}</header><span class="postura">${esc(p.postura)}</span><ul>${p.itens.map(i => `<li><b>${esc(i.rot)}</b><span>${esc(i.txt)}</span></li>`).join('')}</ul></article>`).join('')
+      : '<p class="small muted">A leitura por perfil aparece quando houver dados de juros e inflação.</p>';
+  }
   function renderCenario(){
     renderVivoStatus(); renderFontesSt();
     const a = analiseAtual, c = state.cenario, temDados = Object.keys(FONTES).some(k => vivo.dados[k]);
@@ -2790,7 +2900,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
       $('#cen-title').textContent = 'Análise do dia'; $('#cen-date').textContent = `Gerada às ${fmtHora(a.geradoEm)} com os dados abaixo`;
       $('#cen-tipo').textContent = (a.parcial ? `Análise parcial: faltam ${a.faltam.join(', ')}. ` : '') + (velhos.length ? `Com dados atrasados: ${velhos.map(k => FONTES[k].nome).join(', ')}. ` : '') + 'Gerada por regras a partir dos dados oficiais, das expectativas do Focus e das manchetes; não é recomendação de compra ou venda.';
       $('#cen-resumo').textContent = '';
-      $('#cen-analise').innerHTML = a.secoes.map(s => `<section><h3>${esc(s.t)}</h3><ul>${s.i.map(x => `<li><span class="pill ${TAG[x.tipo][0]}">${TAG[x.tipo][1]}</span><span>${esc(x.texto)}${x.url && /^https:\/\//.test(x.url) ? ` <a class="small" href="${esc(x.url)}" target="_blank" rel="noopener">fonte</a>` : ''}</span></li>`).join('')}</ul></section>`).join('');
+      $('#cen-analise').innerHTML = a.secoes.slice(1).map(s => `<section><h3>${esc(s.t)}</h3><ul>${s.i.map(x => `<li><span class="pill ${TAG[x.tipo][0]}">${TAG[x.tipo][1]}</span><span>${esc(x.texto)}${x.url && /^https:\/\//.test(x.url) ? ` <a class="small" href="${esc(x.url)}" target="_blank" rel="noopener">fonte</a>` : ''}</span></li>`).join('')}</ul></section>`).join('');
     } else { $('#cen-title').textContent = 'Análise do dia'; $('#cen-date').textContent = ''; $('#cen-tipo').textContent = 'Sem dados suficientes: atualize para gerar a análise.'; $('#cen-resumo').textContent = ''; $('#cen-analise').innerHTML = ''; }
     // Notícias
     const news = noticiasRecentes();
@@ -2801,6 +2911,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     const fl = a ? a.fontes : (c?.fontes || []);
     $('#cen-fontes').innerHTML = fl.map(f => /^https:\/\//.test(f.url || '') ? `<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.titulo)}</a>` : `<span>${esc(f.titulo)}</span>`).join('') || '<span class="muted">Nenhuma fonte consultada ainda.</span>';
     $('#cen-acomp').innerHTML = LINKS_ACOMPANHAR.map(f => `<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.titulo)}</a>`).join('');
+    renderPainelDia();
   }
   $('#vivo-copiar').onclick = e => {
     const t = ['Diagnóstico das fontes da Bússola · ' + fmtHora(Date.now()), `Endereço: ${location.protocol}//${location.host || '(arquivo local)'} · Navegador: ${navigator.userAgent}`,
