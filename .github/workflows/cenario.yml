@@ -1,37 +1,91 @@
-# Bússola Financeira: gera o cenario.json nos dias úteis e publica no próprio repositório (GitHub Pages).
-# Horários em UTC; Brasília é UTC-3 o ano todo.
+# Bússola Financeira: busca os dados do Cenário nos dias úteis, embute no index.html e publica o site (GitHub Pages).
+# Requer: Settings → Pages → Source = "GitHub Actions".
+# Horários em UTC; Brasília é UTC-3 o ano todo. Minutos fora da hora cheia para reduzir atrasos do GitHub.
 name: Cenário diário
 on:
   schedule:
     - cron: '27 10 * * 1-5'   # 07:27 em Brasília
     - cron: '57 15 * * 1-5'   # 12:57
     - cron: '27 21 * * 1-5'   # 18:27
-  workflow_dispatch: {}
+  workflow_dispatch: {}       # botão "Run workflow" para rodar na hora
+  push:                       # você enviou um arquivo: embute os últimos dados e publica (sem consultar fontes)
+    branches: [main]
 permissions:
-  contents: write
+  contents: write             # gravar index.html e cenario.json no repositório
+  pages: write                # publicar o site
+  id-token: write             # exigido pela publicação do GitHub Pages
 concurrency:
   group: cenario
   cancel-in-progress: false
 jobs:
   gerar:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
+
       - name: Testar o gerador (respostas simuladas)
         run: node testar-gerador.mjs
-      - name: Gerar cenario.json (fontes reais)
+
+      - name: Buscar as fontes, validar e embutir no index.html
+        if: github.event_name != 'push'
         run: node gerar-cenario.mjs
-      - name: Publicar se mudou
+
+      - name: Embutir os últimos dados válidos no index.html enviado
+        if: github.event_name == 'push'
+        run: node gerar-cenario.mjs --embutir
+
+      - name: Gravar no repositório
         run: |
-          if git diff --quiet -- cenario.json && git ls-files --error-unmatch cenario.json >/dev/null 2>&1; then
-            echo "Sem mudanças no cenario.json."; exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add cenario.json
-          git commit -m "Cenário atualizado $(date -u +%Y-%m-%dT%H:%MZ)"
-          git push
+          if [ -f cenario.json ]; then cp cenario.json "$RUNNER_TEMP/cenario.json"; fi
+          git add index.html; if [ -f cenario.json ]; then git add cenario.json; fi
+          if git diff --cached --quiet; then echo "Nada mudou no repositório."; exit 0; fi
+          git commit -q -m "Cenário atualizado $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3; do
+            if git push -q; then echo "Gravado no repositório."; exit 0; fi
+            echo "O repositório mudou durante a geração (tentativa $i de 3): refazendo sobre a versão mais nova."
+            git fetch -q origin main && git reset -q --hard origin/main
+            if [ -f "$RUNNER_TEMP/cenario.json" ]; then cp "$RUNNER_TEMP/cenario.json" cenario.json; fi
+            node gerar-cenario.mjs --embutir
+            git add index.html; if [ -f cenario.json ]; then git add cenario.json; fi
+            if git diff --cached --quiet; then echo "Nada a gravar sobre a versão mais nova."; exit 0; fi
+            git commit -q -m "Cenário atualizado $(date -u +%Y-%m-%dT%H:%MZ)"
+            sleep 5
+          done
+          echo "::error::Não foi possível gravar no repositório. A última versão publicada continua no ar."
+          exit 1
+
+      - name: Montar o site (só index.html e cenario.json)
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          if [ -f cenario.json ]; then cp cenario.json _site/; fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Confirmar que a versão nova está no ar
+        run: |
+          URL="${{ steps.deploy.outputs.page_url }}"
+          ESPERADO=$(node -e "const fs=require('fs');const m=fs.readFileSync('index.html','utf8').match(/id=\"cenario-embutido\">([\s\S]*?)<\/script>/);const j=m&&JSON.parse(m[1]);console.log(j&&j.geradoEm||'')")
+          if [ -z "$ESPERADO" ]; then echo "::warning::O index.html publicado não tem dados embutidos ainda."; exit 0; fi
+          for i in $(seq 1 18); do
+            if curl -fsSL "${URL}?v=$(date +%s)" | grep -qF "\"geradoEm\":\"$ESPERADO\""; then
+              echo "Confirmado no ar: ${URL} com dados gerados em $ESPERADO."; exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::A publicação não foi confirmada em ${URL} após 3 minutos."
+          exit 1
