@@ -1,4 +1,5 @@
-// Bússola Financeira: gera cenario.json (versão 2) no GitHub Actions.
+// Bússola Financeira: gera os dados do Cenário (versão 2) no GitHub Actions e os embute no index.html.
+// Também grava cenario.json: memória dos últimos dados válidos e verificação opcional para cópias salvas no aparelho.
 // Busca as fontes pelo servidor (sem bloqueio de CORS e sem intermediários), valida,
 // preserva o último valor válido de cada fonte e só grava se houver dados suficientes.
 // Node 20+, sem dependências. Nenhuma chave ou dado pessoal é usado.
@@ -6,6 +7,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 
 const ARQ = process.env.CENARIO_ARQ || 'cenario.json';
+const HTML = process.env.HTML_ARQ || 'index.html';
 const TEMPO = 40000;   // o SGS do Banco Central levou cerca de 19 s por consulta no GitHub (29/10/2026)
 const UA = 'BussolaFinanceira/2 (+GitHub Actions; uso pessoal)';
 
@@ -85,6 +87,39 @@ export function validarSaida(c) {
   return true;
 }
 
+/* ---------- dados embutidos no index.html ---------- */
+// O bloco <script type="application/json" id="cenario-embutido"> recebe os dados validados.
+// Nada fora do bloco é alterado; o conteúdo é JSON puro (o navegador lê com JSON.parse, nunca executa).
+const RX_BLOCO = /(<script type="application\/json" id="cenario-embutido">)([\s\S]*?)(<\/script>)/g;
+export const jsonSeguro = o => JSON.stringify(o).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+export function lerBloco(html) {
+  const m = [...html.matchAll(RX_BLOCO)];
+  if (m.length !== 1) throw new Error(m.length ? `o index.html tem ${m.length} blocos cenario-embutido (deveria ter 1)` : 'o index.html não tem o bloco cenario-embutido (envie a versão nova do index.html)');
+  return m[0][2];
+}
+export function embutir(html, dados) {
+  if (dados?.versao !== 2 || isNaN(Date.parse(dados.geradoEm)) || !dados.fontes) throw new Error('dados para embutir em formato inválido');
+  lerBloco(html);
+  const conteudo = jsonSeguro({ formato: 'bussola-cenario', ...dados });
+  const novo = html.replace(RX_BLOCO, (_, a, __, c) => a + conteudo + c);
+  // conferências: o bloco relido é igual aos dados e o resto do arquivo não mudou
+  const relido = JSON.parse(lerBloco(novo));
+  if (relido.geradoEm !== dados.geradoEm || JSON.stringify(relido.fontes) !== JSON.stringify(dados.fontes)) throw new Error('conferência do bloco embutido falhou');
+  if (novo.replace(RX_BLOCO, '') !== html.replace(RX_BLOCO, '')) throw new Error('alteração fora do bloco embutido');
+  return novo;
+}
+async function embutirNoHTML(dados) {
+  let html;
+  try { html = await readFile(HTML, 'utf8'); } catch { console.log(`AVISO: ${HTML} não encontrado; dados não embutidos.`); return false; }
+  let novo;
+  try { novo = embutir(html, dados); }
+  catch (e) { if (/não tem o bloco/.test(e.message)) { console.log(`::warning::${e.message}. Só o cenario.json foi atualizado.`); return false; } throw e; }
+  if (novo === html) { console.log(`${HTML}: dados embutidos já estavam atualizados.`); return true; }
+  await writeFile(HTML, novo);
+  console.log(`${HTML}: dados de ${dados.geradoEm} embutidos (${Buffer.byteLength(lerBloco(novo))} bytes).`);
+  return true;
+}
+
 /* ---------- busca ---------- */
 async function obter(url, tipo = 'json') {
   const c = new AbortController(), t = setTimeout(() => c.abort(), TEMPO);
@@ -159,5 +194,13 @@ async function main() {
   validarSaida(saida);   // lança erro e não grava nada se faltar o essencial
   await writeFile(ARQ, JSON.stringify(saida, null, 1) + '\n');
   console.log(`cenario.json gravado: ${Object.keys(saida.fontes).length} indicadores, ${Object.keys(saida.mercado).length} índices, ${saida.noticias.length} notícias.`);
+  await embutirNoHTML(saida);
 }
-if (import.meta.url === pathToFileURL(process.argv[1] || '').href) main().catch(e => { console.error('ERRO: ' + e.message + '\nO cenario.json anterior foi mantido.'); process.exit(1); });
+// Só embute os últimos dados válidos já gravados (usado quando um index.html novo é enviado), sem consultar fontes.
+async function soEmbutir() {
+  let dados;
+  try { dados = JSON.parse(await readFile(ARQ, 'utf8')); } catch { console.log(`Sem ${ARQ} válido ainda: nada a embutir (a próxima geração agendada preenche).`); return; }
+  validarSaida(dados);
+  await embutirNoHTML(dados);
+}
+if (import.meta.url === pathToFileURL(process.argv[1] || '').href) (process.argv.includes('--embutir') ? soEmbutir() : main()).catch(e => { console.error('ERRO: ' + e.message + '\nNada foi alterado: a última versão publicada continua no ar.'); process.exit(1); });

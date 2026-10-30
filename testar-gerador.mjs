@@ -1,7 +1,7 @@
 // Testes do gerador com respostas simuladas (não acessam a internet).
 // Rodam antes de cada geração no GitHub Actions; se algum falhar, nada é publicado.
 import assert from 'node:assert/strict';
-import { parseSGS, selicDe, focusDe, dolarDe, indiceDe, parseRSS, juntarNoticias, validarSaida, agoraBR } from './gerar-cenario.mjs';
+import { parseSGS, selicDe, focusDe, dolarDe, indiceDe, parseRSS, juntarNoticias, validarSaida, agoraBR, embutir, lerBloco, jsonSeguro } from './gerar-cenario.mjs';
 
 let n = 0; const t = (nome, f) => { f(); n++; console.log('ok', nome); };
 
@@ -26,4 +26,16 @@ t('Validação: menos de 3 fontes principais não publica', () => assert.throws(
 t('Validação: dados preservados de falha não contam como frescos', () => { const r = { v: 1, ref: '2026-10-27', at: '2026-10-28T10:00:00Z' }; assert.throws(() => validarSaida({ fontes: { selic: r, cdi: r, ipca12: { ...r, ref: '2026-09' } }, estado: { selic: { ok: true }, cdi: { ok: false }, ipca12: { ok: false } } }), /não publicado/); });
 t('Validação: 3 fontes frescas publicam', () => { const r = { v: 1, ref: '2026-10-27', at: '2026-10-28T10:00:00Z' }; assert.ok(validarSaida({ fontes: { selic: r, cdi: r, ipca12: { ...r, ref: '2026-09' } }, estado: { selic: { ok: true }, cdi: { ok: true }, ipca12: { ok: true } } })); });
 t('Data de Brasília', () => assert.equal(agoraBR(Date.UTC(2026, 9, 29, 2)), '2026-10-28'));
+
+// Dados embutidos no index.html
+const H = '<!doctype html><p>a</p>\n<script type="application/json" id="cenario-embutido">null</script>\n<script>const x = 1;</script>';
+const D = { versao: 2, geradoEm: '2026-10-29T16:41:35.296Z', fontes: { selic: { v: 13.75, ref: '2026-10-29', at: '2026-10-29T16:41:35.296Z' } }, estado: {}, mercado: {}, noticias: [{ titulo: 'Fim </script><script>alert(1)</script> & <!-- x', url: 'https://a', ts: 1 }] };
+t('Embutir: grava o bloco e só ele', () => { const n = embutir(H, D); const j = JSON.parse(lerBloco(n)); assert.equal(j.formato, 'bussola-cenario'); assert.equal(j.geradoEm, D.geradoEm); assert.equal(j.fontes.selic.v, 13.75); assert.ok(n.startsWith('<!doctype html><p>a</p>')); assert.ok(n.endsWith('<script>const x = 1;</script>')); });
+t('Embutir: texto com </script> não fecha o bloco', () => { const n = embutir(H, D); assert.equal((n.match(/<\/script>/g) || []).length, 2); assert.equal(JSON.parse(lerBloco(n)).noticias[0].titulo, D.noticias[0].titulo); assert.ok(!/[<>]/.test(lerBloco(n))); });
+t('Embutir: repetir com os mesmos dados não muda o arquivo', () => { const a = embutir(H, D); assert.equal(embutir(a, D), a); });
+t('Embutir: dados novos substituem os antigos', () => { const a = embutir(H, D), b = embutir(a, { ...D, geradoEm: '2026-10-30T10:00:00Z' }); assert.equal(JSON.parse(lerBloco(b)).geradoEm, '2026-10-30T10:00:00Z'); assert.equal(lerBloco(b).includes('"geradoEm":"2026-10-29'), false); });
+t('Embutir: index.html sem bloco é erro claro', () => assert.throws(() => embutir('<html></html>', D), /não tem o bloco/));
+t('Embutir: dois blocos é erro', () => assert.throws(() => embutir(H + H, D), /2 blocos/));
+t('Embutir: dados inválidos não são gravados', () => { assert.throws(() => embutir(H, { versao: 1 }), /formato inválido/); assert.throws(() => embutir(H, { ...D, geradoEm: 'x' }), /formato inválido/); });
+t('JSON seguro: caracteres de controle do HTML escapados', () => assert.equal(jsonSeguro({ a: '<&> ' }), '{"a":"\\u003c\\u0026\\u003e\\u2028"}'));
 console.log(`${n} testes do gerador aprovados`);
