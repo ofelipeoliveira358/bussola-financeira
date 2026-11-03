@@ -1,7 +1,7 @@
 // Testes do gerador com respostas simuladas (não acessam a internet).
 // Rodam antes de cada geração no GitHub Actions; se algum falhar, nada é publicado.
 import assert from 'node:assert/strict';
-import { parseSGS, selicDe, focusDe, dolarDe, indiceDe, parseRSS, juntarNoticias, validarSaida, agoraBR, embutir, lerBloco, jsonSeguro } from './gerar-cenario.mjs';
+import { parseSGS, selicDe, focusDe, dolarDe, indiceDe, parseRSS, juntarNoticias, validarSaida, agoraBR, embutir, lerBloco, jsonSeguro, resumoDe } from './gerar-cenario.mjs';
 
 let n = 0; const t = (nome, f) => { f(); n++; console.log('ok', nome); };
 
@@ -38,4 +38,10 @@ t('Embutir: index.html sem bloco é erro claro', () => assert.throws(() => embut
 t('Embutir: dois blocos é erro', () => assert.throws(() => embutir(H + H, D), /2 blocos/));
 t('Embutir: dados inválidos não são gravados', () => { assert.throws(() => embutir(H, { versao: 1 }), /formato inválido/); assert.throws(() => embutir(H, { ...D, geradoEm: 'x' }), /formato inválido/); });
 t('JSON seguro: caracteres de controle do HTML escapados', () => assert.equal(jsonSeguro({ a: '<&> ' }), '{"a":"\\u003c\\u0026\\u003e\\u2028"}'));
+
+t('Resumo: subtítulo do g1 com imagem em CDATA', () => assert.equal(resumoDe('<![CDATA[ <img src="https://s2.glbimg.com/x.jpg" /><br /> Moeda americana subiu pelo quinto dia seguido, pressionada pelo aumento da percepção de risco fiscal. ]]>', 'Dólar sobe pela quinta sessão'), 'Moeda americana subiu pelo quinto dia seguido, pressionada pelo aumento da percepção de risco fiscal.'));
+t('Resumo: WordPress (InfoMoney) sem o rodapé "The post"', () => assert.equal(resumoDe('&lt;p&gt;A bolsa passará a abrir às 9h30 a partir de terça-feira, com fechamento às 18h, informou a B3.&lt;/p&gt;&lt;p&gt;The post &lt;a href="x"&gt;B3 amplia&lt;/a&gt; appeared first on InfoMoney.&lt;/p&gt;', 'B3 amplia horário'), 'A bolsa passará a abrir às 9h30 a partir de terça-feira, com fechamento às 18h, informou a B3.'));
+t('Resumo: Google Notícias (só repete o título) fica vazio', () => assert.equal(resumoDe('&lt;a href="https://news.google.com/x"&gt;Copom deve manter Selic&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color="#6f6f6f"&gt;Valor Econômico&lt;/font&gt;', 'Copom deve manter Selic'), ''));
+t('Resumo: texto longo cortado em palavra inteira', () => { const r = resumoDe('palavra '.repeat(60), 'x'); assert.ok(r.length <= 241 && r.endsWith('…') && !r.includes('palavr…')); });
+t('RSS: resumo entra no item quando existe', () => { const it = parseRSS('<rss><item><title>Dólar sobe</title><link>https://g1.globo.com/a</link><pubDate>Fri, 30 Oct 2026 16:00:00 GMT</pubDate><description><![CDATA[A moeda americana subiu 1,1% nesta sexta, no maior nível desde julho, com investidores cautelosos.]]></description></item></rss>', 'g1'); assert.equal(it[0].resumo.slice(0, 20), 'A moeda americana su'); });
 console.log(`${n} testes do gerador aprovados`);

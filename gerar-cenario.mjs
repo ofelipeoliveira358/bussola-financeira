@@ -59,6 +59,16 @@ export function indiceDe(r, nome) {
 }
 const ent = t => String(t || '').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]*>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 export const RX_MERCADO = /(bolsa|ibovespa|d[oó]lar|juros|selic|copom|infla[cç][aã]o|ipca|tesouro|mercado|banco central|fiscal|d[ií]vida p[uú]blica|arcabou[cç]o|\bpib\b|desemprego|emprego|c[aâ]mbio|a[cç][oõ]es|investiment|renda fixa|cdb|poupan[cç]a|imposto|petrobras|\bb3\b|\bfed\b|economia|or[cç]amento|meta fiscal)/i;
+// Resumo curto da notícia a partir do <description> do feed (texto do próprio veículo, sem HTML).
+export function resumoDe(desc, titulo) {
+  let t = ent(ent(desc)).replace(/<[^>]*>/g, ' ');
+  t = t.replace(/\b(The post|O post)\b[\s\S]*$/i, '').replace(/\s*(Leia mais|Continue lendo|Leia a íntegra)[\s\S]*$/i, '').replace(/\s+/g, ' ').trim();
+  const norm = x => x.toLowerCase().replace(/[^a-z0-9à-ú]+/g, ' ').trim();
+  if (titulo && norm(t).startsWith(norm(titulo))) t = t.slice(titulo.length).replace(/^[\s\-–—:|.]+/, '');
+  if (t.length < 40 || (titulo && norm(titulo).includes(norm(t)))) return '';
+  if (t.length > 240) t = t.slice(0, 240).replace(/\s+\S*$/, '') + '…';
+  return t;
+}
 export function parseRSS(xml, fonte) {
   const itens = [];
   for (const m of String(xml).matchAll(/<item\b[\s\S]*?<\/item>/gi)) {
@@ -66,7 +76,8 @@ export function parseRSS(xml, fonte) {
     let titulo = ent(tag('title')), url = ent(tag('link')), f = fonte;
     const src = ent(tag('source')); if (src) { f = src; titulo = titulo.replace(new RegExp(`\\s+-\\s+${src.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`), ''); }
     const ts = Date.parse(ent(tag('pubDate')));    // RFC 822 com fuso: convertido corretamente
-    if (titulo && /^https:\/\//.test(url) && isFinite(ts)) itens.push({ titulo, url, fonte: f, ts });
+    const resumo = resumoDe(tag('description'), titulo);
+    if (titulo && /^https:\/\//.test(url) && isFinite(ts)) itens.push({ titulo, url, fonte: f, ts, ...(resumo ? { resumo } : {}) });
   }
   return itens;
 }
