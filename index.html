@@ -2501,8 +2501,11 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     if (!txt.trim()) throw new Error('resposta vazia');
     try { return JSON.parse(txt); } catch(e){ throw new Error('resposta não é JSON válido'); }
   }
+  // Selic (SGS 432): o BC publica valores diários até a PRÓXIMA reunião do Copom; "últimos N" pode trazer só datas futuras.
+  // Por isso a Selic é pedida por período (de 120 dias atrás até hoje).
+  const sgsPeriodo = (cod, dias) => { const h = agoraBR().iso, br = iso => dataBR(iso); return `https://api.bcb.gov.br/dados/serie/bcdata.sgs.${cod}/dados?formato=json&dataInicial=${br(addDias(h, -dias))}&dataFinal=${br(h)}`; };
   async function sgs(cod, n){
-    const a = await obterJSON(`https://api.bcb.gov.br/dados/serie/bcdata.sgs.${cod}/dados/ultimos/${n}?formato=json`);
+    const a = await obterJSON(typeof n === 'string' ? n : `https://api.bcb.gov.br/dados/serie/bcdata.sgs.${cod}/dados/ultimos/${n}?formato=json`);
     if (!Array.isArray(a)) throw new Error('formato inesperado');
     const pts = a.map(o => [sgsData(o?.data), parseFloat(o?.valor)]).filter(p => /^\d{4}-\d{2}-\d{2}$/.test(p[0]) && isFinite(p[1])).sort((x, y) => x[0].localeCompare(y[0]));
     if (!pts.length) throw new Error('resposta vazia');
@@ -2526,7 +2529,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   /* Catálogo de fontes: tipo (oficial/expectativa/indicativo), unidade, validade e como buscar */
   const FONTES = {
     selic: {nome:'Selic (meta)', tipo:'oficial', un:'% a.a.', fonte:'Banco Central · SGS 432', url:'https://www.bcb.gov.br/controleinflacao/historicotaxasjuros', ttl:6 * 3600e3, freq:'decisão do Copom',
-      buscar: async () => { const pts = ultimoAte(await sgs(432, 20), agoraBR().iso); if (!pts) throw new Error('sem dado até hoje'); const v = pts[pts.length - 1][1]; let i = pts.length - 1; while (i > 0 && pts[i - 1][1] === v) i--; return {v, ref:pts[pts.length - 1][0], vigenteDesde: i > 0 ? pts[i][0] : null, ant: i > 0 ? {v:pts[i - 1][1], ref:pts[i - 1][0]} : null, hist:pts}; }},
+      buscar: async () => { const pts = ultimoAte(await sgs(432, sgsPeriodo(432, 120)), agoraBR().iso); if (!pts) throw new Error('sem dado até hoje'); const v = pts[pts.length - 1][1]; let i = pts.length - 1; while (i > 0 && pts[i - 1][1] === v) i--; return {v, ref:pts[pts.length - 1][0], vigenteDesde: i > 0 ? pts[i][0] : null, ant: i > 0 ? {v:pts[i - 1][1], ref:pts[i - 1][0]} : null, hist:pts.slice(-30)}; }},
     cdi: {nome:'CDI', tipo:'oficial', un:'% a.a.', fonte:'Banco Central · SGS 4389', url:'https://www.bcb.gov.br/estabilidadefinanceira/historicotaxasjuros', ttl:3 * 3600e3, freq:'diária',
       buscar: async () => { const pts = await sgs(4389, 20); const l = pts[pts.length - 1]; return {v:l[1], ref:l[0], hist:pts}; }},
     ipcaMes: {nome:'IPCA do mês', tipo:'oficial', un:'% no mês', fonte:'IBGE via Banco Central · SGS 433', url:'https://www.ibge.gov.br/explica/inflacao.php', ttl:12 * 3600e3, freq:'mensal',

@@ -1,7 +1,7 @@
 // Testes do gerador com respostas simuladas (não acessam a internet).
 // Rodam antes de cada geração no GitHub Actions; se algum falhar, nada é publicado.
 import assert from 'node:assert/strict';
-import { parseSGS, selicDe, focusDe, dolarDe, indiceDe, parseRSS, juntarNoticias, validarSaida, agoraBR, embutir, lerBloco, jsonSeguro, resumoDe } from './gerar-cenario.mjs';
+import { parseSGS, selicDe, focusDe, dolarDe, indiceDe, parseRSS, juntarNoticias, validarSaida, agoraBR, embutir, lerBloco, jsonSeguro, resumoDe, urlPeriodo } from './gerar-cenario.mjs';
 
 let n = 0; const t = (nome, f) => { f(); n++; console.log('ok', nome); };
 
@@ -44,4 +44,6 @@ t('Resumo: WordPress (InfoMoney) sem o rodapé "The post"', () => assert.equal(r
 t('Resumo: Google Notícias (só repete o título) fica vazio', () => assert.equal(resumoDe('&lt;a href="https://news.google.com/x"&gt;Copom deve manter Selic&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color="#6f6f6f"&gt;Valor Econômico&lt;/font&gt;', 'Copom deve manter Selic'), ''));
 t('Resumo: texto longo cortado em palavra inteira', () => { const r = resumoDe('palavra '.repeat(60), 'x'); assert.ok(r.length <= 241 && r.endsWith('…') && !r.includes('palavr…')); });
 t('RSS: resumo entra no item quando existe', () => { const it = parseRSS('<rss><item><title>Dólar sobe</title><link>https://g1.globo.com/a</link><pubDate>Fri, 30 Oct 2026 16:00:00 GMT</pubDate><description><![CDATA[A moeda americana subiu 1,1% nesta sexta, no maior nível desde julho, com investidores cautelosos.]]></description></item></rss>', 'g1'); assert.equal(it[0].resumo.slice(0, 20), 'A moeda americana su'); });
+t('Selic por período até hoje (o SGS traz datas futuras após o Copom)', () => { assert.equal(urlPeriodo(432, '2026-11-05', 120), 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json&dataInicial=08/07/2026&dataFinal=05/11/2026'); });
+t('Selic: série só com datas futuras é erro claro, sem valor inventado', () => assert.throws(() => selicDe([['2026-11-06', 13.5], ['2026-11-07', 13.5]], '2026-11-05')));
 console.log(`${n} testes do gerador aprovados`);

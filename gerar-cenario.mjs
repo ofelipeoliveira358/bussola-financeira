@@ -26,7 +26,7 @@ export function parseSGS(a) {
 export function selicDe(pts, hoje) {
   const ok = pts.filter(p => p[0] <= hoje); if (!ok.length) throw new Error('sem dado até hoje');
   const v = ok[ok.length - 1][1]; let i = ok.length - 1; while (i > 0 && ok[i - 1][1] === v) i--;
-  return { v, ref: ok[ok.length - 1][0], vigenteDesde: i > 0 ? ok[i][0] : null, ant: i > 0 ? { v: ok[i - 1][1], ref: ok[i - 1][0] } : null, hist: ok };
+  return { v, ref: ok[ok.length - 1][0], vigenteDesde: i > 0 ? ok[i][0] : null, ant: i > 0 ? { v: ok[i - 1][1], ref: ok[i - 1][0] } : null, hist: ok.slice(-30) };
 }
 export function focusDe(r, ano) {
   const v = Array.isArray(r?.value) ? r.value.filter(o => /^\d{4}-\d{2}-\d{2}/.test(o?.Data || '') && isFinite(+o?.Mediana)) : null;
@@ -149,8 +149,11 @@ async function comNovaTentativa(f) {
   catch (e) { if (!/HTTP (429|5\d\d)|tempo esgotado|sem conexão/.test(e.message)) throw e; await new Promise(r => setTimeout(r, 5000)); try { return await f(); } catch (e2) { throw new Error(`${e2.message} (2 tentativas)`); } }
 }
 const sgs = (cod, n) => obter(`https://api.bcb.gov.br/dados/serie/bcdata.sgs.${cod}/dados/ultimos/${n}?formato=json`).then(parseSGS);
+// Selic (SGS 432): o BC publica valores até a PRÓXIMA reunião do Copom; "últimos N" pode trazer só datas futuras. Pede por período até hoje.
+const brData = iso => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
+export const urlPeriodo = (cod, hoje, dias) => { const d = new Date(hoje + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() - dias); return `https://api.bcb.gov.br/dados/serie/bcdata.sgs.${cod}/dados?formato=json&dataInicial=${brData(d.toISOString().slice(0, 10))}&dataFinal=${brData(hoje)}`; };
 const FONTES = {
-  selic: { fonte: 'Banco Central · SGS 432', url: 'https://www.bcb.gov.br/controleinflacao/historicotaxasjuros', buscar: async () => selicDe(await sgs(432, 20), agoraBR()) },
+  selic: { fonte: 'Banco Central · SGS 432', url: 'https://www.bcb.gov.br/controleinflacao/historicotaxasjuros', buscar: async () => selicDe(parseSGS(await obter(urlPeriodo(432, agoraBR(), 120))), agoraBR()) },
   cdi: { fonte: 'Banco Central · SGS 4389', url: 'https://www.bcb.gov.br/estabilidadefinanceira/historicotaxasjuros', buscar: async () => { const p = await sgs(4389, 20); return { v: p.at(-1)[1], ref: p.at(-1)[0], hist: p }; } },
   ipcaMes: { fonte: 'IBGE via Banco Central · SGS 433', url: 'https://www.ibge.gov.br/explica/inflacao.php', buscar: async () => { const p = await sgs(433, 13); return { v: p.at(-1)[1], ref: p.at(-1)[0].slice(0, 7), hist: p.map(x => [x[0].slice(0, 7), x[1]]) }; } },
   ipca12: { fonte: 'IBGE via Banco Central · SGS 13522', url: 'https://www.ibge.gov.br/explica/inflacao.php', buscar: async () => { const p = await sgs(13522, 13); return { v: p.at(-1)[1], ref: p.at(-1)[0].slice(0, 7), hist: p.map(x => [x[0].slice(0, 7), x[1]]) }; } },
