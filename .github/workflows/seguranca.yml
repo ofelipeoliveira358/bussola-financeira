@@ -20,11 +20,13 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Instalar analisadores (versões fixas)
-        run: python3 -m pip install --user --quiet 'zizmor==1.32.0' 'actionlint-py==1.7.12.25'
+      - name: Instalar analisadores (versões fixas, em ambiente isolado)
+        run: |
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install --quiet 'zizmor==1.32.0' 'actionlint-py==1.7.12.25'
       - name: Analisar workflows
         run: |
-          export PATH="$HOME/.local/bin:$PATH"
+          export PATH="$RUNNER_TEMP/venv/bin:$PATH"
           actionlint
           zizmor --offline --min-severity medium .github/workflows
       - name: Segredos, CSP e dados publicados
