@@ -113,7 +113,7 @@ jobs:
           echo "Cabeçalhos de segurança enviados pelo GitHub Pages:"
           curl -fsSI "$URL" | grep -iE '^(strict-transport-security|x-content-type-options|content-security-policy|referrer-policy|permissions-policy|x-frame-options):' || echo "(nenhum dos cabeçalhos procurados)"
           if [ -z "$ESPERADO" ]; then echo "::warning::O index.html publicado não tem dados embutidos ainda."; exit 0; fi
-          for i in $(seq 1 18); do
+          for _ in $(seq 1 18); do
             if curl -fsSL "${URL}?v=$(date +%s)" | grep -qF "\"geradoEm\":\"$ESPERADO\""; then
               echo "Confirmado no ar: ${URL} com dados gerados em $ESPERADO."; exit 0
             fi
