@@ -1,0 +1,31 @@
+# Bússola Financeira: verificação de segurança do repositório (só leitura).
+# Analisa os workflows (zizmor e actionlint) e procura segredos e dados pessoais nos arquivos e no histórico.
+name: Segurança
+on:
+  push:
+    branches: [main]
+    paths: ['.github/**', '*.mjs']
+  schedule:
+    - cron: '43 12 * * 1'     # segundas, 09:43 em Brasília
+  workflow_dispatch: {}
+permissions: {}
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09   # v5.1.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Instalar analisadores (versões fixas)
+        run: python3 -m pip install --user --quiet 'zizmor==1.32.0' 'actionlint-py==1.7.12.25'
+      - name: Analisar workflows
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          actionlint
+          zizmor --offline --min-severity medium .github/workflows
+      - name: Segredos, CSP e dados publicados
+        run: node verificar-seguranca.mjs
