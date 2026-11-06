@@ -1,6 +1,7 @@
 // Testes do gerador com respostas simuladas (não acessam a internet).
 // Rodam antes de cada geração no GitHub Actions; se algum falhar, nada é publicado.
 import assert from 'node:assert/strict';
+import { conferirCSP, corrigirCSP, procurarSegredos, conferirPublicavel, conferirBibliotecas } from './verificar-seguranca.mjs';
 import { parseSGS, selicDe, focusDe, dolarDe, indiceDe, parseRSS, juntarNoticias, validarSaida, agoraBR, embutir, lerBloco, jsonSeguro, resumoDe, urlPeriodo } from './gerar-cenario.mjs';
 
 let n = 0; const t = (nome, f) => { f(); n++; console.log('ok', nome); };
@@ -46,4 +47,14 @@ t('Resumo: texto longo cortado em palavra inteira', () => { const r = resumoDe('
 t('RSS: resumo entra no item quando existe', () => { const it = parseRSS('<rss><item><title>Dólar sobe</title><link>https://g1.globo.com/a</link><pubDate>Fri, 30 Oct 2026 16:00:00 GMT</pubDate><description><![CDATA[A moeda americana subiu 1,1% nesta sexta, no maior nível desde julho, com investidores cautelosos.]]></description></item></rss>', 'g1'); assert.equal(it[0].resumo.slice(0, 20), 'A moeda americana su'); });
 t('Selic por período até hoje (o SGS traz datas futuras após o Copom)', () => { assert.equal(urlPeriodo(432, '2026-11-05', 120), 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json&dataInicial=08/07/2026&dataFinal=05/11/2026'); });
 t('Selic: série só com datas futuras é erro claro, sem valor inventado', () => assert.throws(() => selicDe([['2026-11-06', 13.5], ['2026-11-07', 13.5]], '2026-11-05')));
+
+// Verificações de segurança do que é publicado
+const CSPH = c => `<head><script id="seg-boot">var m={};m.content="${c}";</script></head><body><script>app()</script><script type="application/json" id="cenario-embutido">null</script></body>`;
+const BASE = "default-src 'none'; script-src 'sha256-AAAA' https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/; object-src 'none'; base-uri 'none'; form-action 'none'";
+t('CSP: hash errado é detectado e corrigido', () => { const h = CSPH(BASE); assert.ok(conferirCSP(h).length >= 2); const c = corrigirCSP(h); assert.deepEqual(conferirCSP(c), []); assert.ok(c.includes("script-src 'sha256-")); });
+t('CSP: unsafe-eval e unsafe-inline em scripts são recusados', () => { const c = corrigirCSP(CSPH(BASE.replace("script-src", "script-src 'unsafe-eval' 'unsafe-inline'"))); assert.ok(conferirCSP(c).some(e => /unsafe/.test(e))); });
+t('CSP: o bloco de dados JSON não entra nos hashes', () => { const a = corrigirCSP(CSPH(BASE)); const b = a.replace('>null<', '>{"x":1}<'); assert.deepEqual(conferirCSP(b), []); });
+t('Segredos: token do GitHub e chave privada são achados', () => { assert.equal(procurarSegredos('x ghp_' + 'a'.repeat(36) + ' y', 'f').length, 1); assert.equal(procurarSegredos('-----BEGIN RSA ' + 'PRIVATE KEY-----', 'f').length, 1); assert.equal(procurarSegredos("const PDFJS_SRI = 'sha384-oPqHr8MeYfJpkh4zgHbWYiuwabTzthRiOS5tSWsWGmCVWlwqIkS9coGro5aa48OF'", 'f').length, 0); });
+t('Publicação: dados pessoais no cenário são recusados', () => { assert.ok(conferirPublicavel({ versao: 2, fontes: {}, ativos: [{}] }, 'x').length); assert.ok(conferirPublicavel({ versao: 2, noticias: [{ url: 'javascript:alert(1)' }] }, 'x').length); assert.deepEqual(conferirPublicavel({ versao: 2, geradoEm: 'x', fontes: { selic: { hist: [[1, 2]] } }, noticias: [{ url: 'https://g1.globo.com/a' }] }, 'x'), []); });
+t('Bibliotecas: SheetJS antiga ou PDF.js 3 são recusados', () => { assert.ok(conferirBibliotecas("xlsx@0.18.5 pdfjs-dist@3.11.174").length >= 2); });
 console.log(`${n} testes do gerador aprovados`);

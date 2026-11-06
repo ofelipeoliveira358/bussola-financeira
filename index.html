@@ -2,6 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<meta name="referrer" content="no-referrer">
+<script id="seg-boot">(function(){var d=document,r=d.documentElement;if(window.self!==window.top&&!window.claude)r.setAttribute("data-emoldurado","1");if(window.claude)return;var m=d.createElement("meta");m.httpEquiv="Content-Security-Policy";m.content="default-src 'none'; script-src 'sha256-dP6d5zKpz7oVZdvqCr9yrEWP3hqbRTz46RAZa36eWwI=' 'sha256-hseL2MvYDNFjXx5ZUXjb6kY36YBnZMqnpSImOyH1q8A=' https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.bcb.gov.br https://olinda.bcb.gov.br https://economia.awesomeapi.com.br https://api.rss2json.com https://ofelipeoliveira358.github.io https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/; worker-src blob:; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'";d.head.appendChild(m);})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1D6A4F">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -359,6 +361,22 @@ input.inline:hover,input.inline:focus{border-color:var(--line);background:var(--
 .ind2 a{font-size:.76rem}
 @media (max-width:860px){.ind.ind2{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.ind.ind2{grid-template-columns:1fr}}
+.cofre-tela{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:16px}
+.cofre-caixa{width:min(400px,100%);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.cofre-caixa h1{font-family:var(--f-display);font-size:1.4rem;margin:0}
+.cofre-caixa details p{margin:8px 0}
+body.cofre-bloqueado main,body.cofre-bloqueado .side,body.cofre-bloqueado nav{visibility:hidden}
+html[data-emoldurado] body{display:none}
+.seg-sheet{width:min(620px,100%)}
+.seg-sheet section{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:14px}
+.seg-sheet h3{margin:0;font-size:1rem}
+.seg-passos{display:flex;flex-direction:column;gap:10px;padding-left:18px;margin:0}
+.seg-diag{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.seg-diag li{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:.85rem;line-height:1.45}
+.seg-diag li .pill{align-self:start}
+.seg-diag li span:last-child{grid-column:2;color:var(--muted)}
+#ia-previa{width:100%;font-family:var(--f-mono);font-size:.78rem;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink)}
+.btn.danger{border-color:var(--crit);color:var(--crit)}
 .cen2{display:flex;flex-direction:column;gap:16px}
 .cen-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .cen-eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -798,10 +816,13 @@ details[open] summary{margin-bottom:12px}
     <div class="panel-head"><h2>Seus dados</h2><span class="small muted" id="bk-msg" aria-live="polite"></span></div>
     <p class="small muted" id="bk-desc">Tudo fica salvo neste navegador. Exporte um backup de vez em quando e importe-o para levar os dados a outro computador.</p>
     <div class="row">
-      <button class="btn" id="bk-exp">Exportar backup</button>
+      <button class="btn" id="bk-exp-c">Exportar backup criptografado</button>
+      <button class="btn ghost" id="bk-exp" title="O arquivo fica legível por quem tiver acesso a ele">Exportar sem criptografia</button>
       <label class="btn" for="bk-file">Importar backup</label><input type="file" id="bk-file" accept="application/json,.json" hidden>
       <button class="btn primary" id="bk-ok" hidden>Confirmar importação</button><button class="btn ghost" id="bk-cancel" hidden>Cancelar</button>
+      <button class="btn" id="seg-open" type="button">Segurança e senha</button>
     </div>
+    <p class="small muted" id="seg-resumo"></p>
   </div>
   </section>
 
@@ -852,7 +873,7 @@ details[open] summary{margin-bottom:12px}
           <textarea id="imp-text" rows="6" placeholder="Cole aqui as linhas da fatura ou do extrato. Ex.:&#10;12/10  IFOOD *RESTAURANTE   45,90&#10;14/10  UBER *TRIP   18,40"></textarea>
           <button class="btn" type="button" id="imp-text-go" style="margin-top:8px">Ler texto colado</button>
         </details>
-        <p class="small muted" id="imp-msg" aria-live="polite"></p>
+        <p class="small muted" id="imp-msg" aria-live="polite"></p><button class="btn ghost" type="button" id="imp-cancelar" hidden>Cancelar leitura</button>
         <div class="row" id="imp-ia-row" hidden><button class="btn primary" type="button" id="imp-ia">Ler com o Claude</button><span class="small muted">O Claude interpreta o texto quando o formato não é reconhecido.</span></div>
       </div>
       <div id="imp-step2" hidden>
@@ -1289,6 +1310,77 @@ details[open] summary{margin-bottom:12px}
   </div>
 </div>
 
+<!-- Tela de desbloqueio (proteção por senha) -->
+<div class="cofre-tela" id="cofre-tela" hidden>
+  <form class="cofre-caixa" id="cofre-form" autocomplete="off">
+    <h1>Bússola Financeira</h1>
+    <p>Os dados deste navegador estão protegidos por senha.</p>
+    <label class="field"><span>Senha</span><input type="password" id="cofre-senha" autocomplete="current-password" required></label>
+    <button class="btn primary" id="cofre-ok" type="submit">Desbloquear</button>
+    <p class="small" id="cofre-msg" role="alert" aria-live="assertive"></p>
+    <details class="small"><summary>Esqueci a senha</summary>
+      <p>A senha não fica guardada em lugar nenhum, então não há como recuperá-la. O caminho é apagar os dados protegidos deste navegador e importar o seu último backup (o criptografado pede a senha dele).</p>
+      <button class="btn danger" type="button" id="cofre-apagar">Apagar os dados protegidos deste navegador</button>
+    </details>
+  </form>
+</div>
+
+<div class="sheet-bg" id="senha-sheet" hidden>
+  <form class="sheet" id="senha-form" role="dialog" aria-modal="true" aria-labelledby="senha-title" autocomplete="off">
+    <h2 id="senha-title">Senha</h2>
+    <p class="small muted" id="senha-texto"></p>
+    <label class="field"><span>Senha</span><input type="password" id="senha-a"></label>
+    <label class="field" id="senha-b-wrap"><span>Repita a senha</span><input type="password" id="senha-b" autocomplete="new-password"></label>
+    <p class="small" id="senha-msg" role="alert"></p>
+    <div class="row"><button class="btn primary" id="senha-ok" type="submit">Continuar</button><button class="btn ghost" id="senha-cancel" type="button">Cancelar</button></div>
+  </form>
+</div>
+
+<div class="sheet-bg" id="ia-sheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="ia-title">
+    <h2 id="ia-title">Enviar ao Claude?</h2>
+    <p class="small"><strong>Para quê:</strong> <span id="ia-fin"></span></p>
+    <ul class="small" id="ia-itens"></ul>
+    <p class="small muted" id="ia-editar-dica">Você pode editar o texto abaixo; só ele será enviado.</p>
+    <textarea id="ia-previa" rows="9" spellcheck="false" aria-label="Conteúdo que será enviado"></textarea>
+    <div class="row"><button class="btn primary" id="ia-ok" type="button">Enviar ao Claude</button><button class="btn ghost" id="ia-cancel" type="button">Cancelar</button></div>
+  </div>
+</div>
+
+<div class="sheet-bg" id="seg-sheet" hidden>
+  <div class="sheet seg-sheet" role="dialog" aria-modal="true" aria-labelledby="seg-title">
+    <div class="panel-head"><h2 id="seg-title">Segurança e privacidade</h2><button class="btn ghost" id="seg-close" type="button">Fechar</button></div>
+    <section>
+      <h3>Proteção por senha</h3>
+      <p class="small muted" id="seg-cofre-st"></p>
+      <div id="seg-off">
+        <p class="small">Com a proteção ligada, os dados ficam criptografados no navegador (AES-GCM 256, chave derivada da sua senha com PBKDF2-SHA-256). A Bússola pede a senha ao abrir e bloqueia sozinha depois de um tempo sem uso. Ela protege contra quem copiar os arquivos do navegador ou abrir a Bússola no seu aparelho; não protege enquanto a Bússola está desbloqueada nem se o aparelho estiver com vírus.</p>
+        <ol class="small seg-passos">
+          <li>Guarde um backup antes. <button class="btn" type="button" id="seg-bk-c">Baixar backup criptografado</button> <button class="btn ghost" type="button" id="seg-bk">Baixar sem criptografia</button></li>
+          <li><label class="check"><input type="checkbox" id="seg-guardei"> <span>Guardei um backup em lugar seguro e entendi que, se eu esquecer a senha, só consigo voltar pelo backup.</span></label></li>
+          <li><button class="btn primary" type="button" id="seg-ativar" disabled>Criar senha e ativar</button></li>
+        </ol>
+      </div>
+      <div id="seg-on" hidden>
+        <div class="row"><button class="btn" type="button" id="seg-bloquear">Bloquear agora</button><button class="btn" type="button" id="seg-trocar">Trocar senha</button><button class="btn ghost" type="button" id="seg-desativar">Desativar proteção</button></div>
+        <button class="btn ghost" type="button" id="seg-limpar-sobra" hidden>Apagar a cópia antiga sem senha</button>
+      </div>
+      <p class="small" id="seg-msg" role="status" aria-live="polite"></p>
+    </section>
+    <section>
+      <h3>Limites</h3>
+      <div class="opt"><span class="label">Bloquear depois de</span><div class="seg" data-segopt="bloqueio"><button type="button" data-v="5">5 min</button><button type="button" data-v="15">15 min</button><button type="button" data-v="30">30 min</button><button type="button" data-v="60">60 min</button></div></div>
+      <div class="opt"><span class="label">Tamanho máximo por arquivo importado</span><div class="seg" data-segopt="mb"><button type="button" data-v="5">5 MB</button><button type="button" data-v="15">15 MB</button><button type="button" data-v="30">30 MB</button></div></div>
+      <div class="opt"><span class="label">Tempo limite de leitura</span><div class="seg" data-segopt="seg"><button type="button" data-v="15">15 s</button><button type="button" data-v="30">30 s</button><button type="button" data-v="60">60 s</button></div></div>
+    </section>
+    <section>
+      <h3>Diagnóstico</h3>
+      <ul class="seg-diag" id="seg-diag"></ul>
+      <p class="small muted">Nada deste painel inclui senhas, valores ou conteúdo de extratos.</p>
+    </section>
+  </div>
+</div>
+
 <div class="sheet-bg" id="ap-sheet" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="ap-title">
     <div class="panel-head"><h2 id="ap-title">Aparência</h2><button class="btn ghost" id="ap-close" type="button">Fechar</button></div>
@@ -1401,6 +1493,7 @@ details[open] summary{margin-bottom:12px}
   /* Grava no navegador. Devolve true se gravou; avisa na tela quando não consegue. */
   function lsSave(){
     if (db || state.demo) return true;
+    if (typeof cofreLigado !== 'undefined' && cofreLigado){ if (!cofre) return false; gravarCifrado(JSON.stringify({ativos:state.ativos, config:state.config, analise:state.analise, fin:state.fin, hist:state.hist})); return true; }   // bloqueado: nunca grava por cima do cofre
     try { localStorage.setItem(LS, JSON.stringify({ativos:state.ativos, config:state.config, analise:state.analise, fin:state.fin, hist:state.hist})); avisoGravacao(true); return true; }
     catch(e){ avisoGravacao(false); return false; }
   }
@@ -1412,6 +1505,419 @@ details[open] summary{margin-bottom:12px}
   const fmt = v => BRL.format(+v || 0);
   const pct = (v, d=1) => (v*100).toFixed(d).replace('.', ',') + '%';
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  /* ======================================================================
+     SEGURANÇA — URLs externas, limites de importação, cofre por senha,
+     backup criptografado, consentimento para a IA e diagnóstico.
+     ====================================================================== */
+
+  /* URLs externas: só https, sem usuário/senha embutidos, sem javascript:/data:/file:/vbscript:.
+     Usada ao receber dados (RSS, GitHub) e de novo ao montar cada link na tela. */
+  function urlSegura(u){
+    if (typeof u !== 'string' || !u || u.length > 2048) return null;
+    let x; try { x = new URL(u); } catch(e){ return null; }
+    if (x.protocol !== 'https:' || x.username || x.password || !x.hostname) return null;
+    return x.href;
+  }
+  /* Link externo seguro para innerHTML: inválido vira texto, nunca link clicável. */
+  function linkExt(url, htmlInterno, attrs = ''){
+    const u = urlSegura(url);
+    return u ? `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"${attrs}>${htmlInterno}</a>` : `<span${attrs}>${htmlInterno}</span>`;
+  }
+
+  /* ---------- Preferências de segurança (sem dados pessoais) ---------- */
+  const SEG_KEY = 'bussola-seguranca-v1';
+  const segPref = (() => { const p = {mb:15, seg:30, bloqueio:15, ultimoBackup:''}; try { Object.assign(p, JSON.parse(localStorage.getItem(SEG_KEY) || '{}')); } catch(e){} return p; })();
+  if (![5, 15, 30].includes(+segPref.mb)) segPref.mb = 15;
+  if (![15, 30, 60].includes(+segPref.seg)) segPref.seg = 30;
+  if (![5, 15, 30, 60].includes(+segPref.bloqueio)) segPref.bloqueio = 15;
+  const salvarSegPref = () => { try { localStorage.setItem(SEG_KEY, JSON.stringify(segPref)); } catch(e){} };
+
+  /* ---------- Limites da importação ---------- */
+  const LIM = {arquivos:12, linhas:20000, colunas:200, celulas:300000, paginas:40, textoMB:4, descompactadoMB:80, entradasZip:3000};
+  const diagImport = [];   // só tipo e motivo, sem nome de arquivo nem conteúdo
+  class ErroImp extends Error { constructor(motivo){ super(motivo); this.motivo = motivo; } }
+  const MOTIVO_TXT = {grande:'arquivo maior que o limite', formato:'o conteúdo não corresponde à extensão', corrompido:'arquivo corrompido ou ilegível', tempo:'a leitura passou do tempo limite', limite:'arquivo com estrutura grande demais', cancelado:'leitura cancelada', 'xls-antigo':'formato .xls antigo do Excel (salve como .xlsx ou CSV)', cifrado:'planilha protegida por senha', lib:'não foi possível carregar o leitor de PDF'};
+  function anotarErroImp(tipo, motivo){ diagImport.unshift({tipo, motivo, em:Date.now()}); diagImport.length = Math.min(diagImport.length, 10); }
+  /* Formato real pelos primeiros bytes, independente da extensão. */
+  function tipoReal(u8){
+    const h = (i, ...b) => b.every((x, k) => u8[i + k] === x);
+    if (h(0, 0x25, 0x50, 0x44, 0x46, 0x2D)) return 'pdf';
+    if (h(0, 0x50, 0x4B, 0x03, 0x04)) return 'zip';
+    if (h(0, 0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1)) return 'ole';
+    const amostra = u8.subarray(0, 8192);
+    if (amostra.length >= 2 && ((amostra[0] === 0xFF && amostra[1] === 0xFE) || (amostra[0] === 0xFE && amostra[1] === 0xFF))) return 'texto16';
+    let nul = 0; for (const b of amostra) if (b === 0) nul++;
+    if (nul > 0) return 'binario';
+    const ini = new TextDecoder('latin1').decode(amostra.subarray(0, 2048)).replace(/^﻿/, '').trimStart().toLowerCase();
+    if (/^%pdf-/.test(ini)) return 'pdf';
+    if (/ofxheader|<ofx>/.test(ini)) return 'ofx';
+    if (/^<\?xml[\s\S]*urn:schemas-microsoft-com:office:spreadsheet/.test(ini) || /^<workbook\b/.test(ini)) return 'xml';
+    if (/^(<!doctype html|<html|<table|<meta|<head|<\?xml[\s\S]*<html)/.test(ini)) return 'html';
+    return 'texto';
+  }
+  const EXT_ACEITA = {pdf:['pdf'], xlsx:['zip'], xls:['html', 'xml', 'zip'], csv:['texto', 'texto16'], txt:['texto', 'texto16'], ofx:['ofx', 'texto'], qfx:['ofx', 'texto']};
+  /* Leitura de planilha .xlsx em um Worker separado (pode ser interrompido). Só dados: fórmulas e macros são ignoradas. */
+  function NUCLEO_PLANILHA(){
+    const dec = new TextDecoder('utf-8');
+    const ent = s => s.replace(/&(#x[0-9a-f]+|#\d+|lt|gt|amp|quot|apos);/gi, (m, e) => { const l = e.toLowerCase(); if (l[0] === '#'){ const c = l[1] === 'x' ? parseInt(l.slice(2), 16) : parseInt(l.slice(1), 10); return c > 0 && c < 0x110000 ? String.fromCodePoint(c) : ''; } return {lt:'<', gt:'>', amp:'&', quot:'"', apos:"'"}[l]; });
+    const falha = m => { throw Object.assign(new Error(m), {motivo:m}); };
+    self.onmessage = async ev => {
+      const {buf, lim} = ev.data;
+      try {
+        const u8 = new Uint8Array(buf), dv = new DataView(buf), N = u8.length;
+        const u16 = p => { if (p + 2 > N) falha('corrompido'); return dv.getUint16(p, true); }, u32 = p => { if (p + 4 > N) falha('corrompido'); return dv.getUint32(p, true); };
+        let eocd = -1; for (let i = N - 22; i >= Math.max(0, N - 65557); i--) if (u32(i) === 0x06054b50){ eocd = i; break; }
+        if (eocd < 0) falha('corrompido');
+        const n = u16(eocd + 10), cdOff = u32(eocd + 16);
+        if (n > lim.entradasZip) falha('limite');
+        if (cdOff === 0xFFFFFFFF) falha('limite');
+        const ents = {}; let p = cdOff;
+        for (let k = 0; k < n; k++){
+          if (u32(p) !== 0x02014b50) falha('corrompido');
+          const flags = u16(p + 8), met = u16(p + 10), cs = u32(p + 20), us = u32(p + 24), nl = u16(p + 28), el = u16(p + 30), cl = u16(p + 32), lho = u32(p + 42);
+          if (p + 46 + nl > N) falha('corrompido');
+          const nome = dec.decode(u8.subarray(p + 46, p + 46 + nl));
+          ents[nome] = {flags, met, cs, us, lho};
+          p += 46 + nl + el + cl;
+        }
+        if (Object.values(ents).some(e => e.flags & 1)) falha('cifrado');
+        let total = 0;
+        async function ler(nome, opcional){
+          const e = ents[nome]; if (!e){ if (opcional) return ''; falha('corrompido'); }
+          if (u32(e.lho) !== 0x04034b50) falha('corrompido');
+          const ini = e.lho + 30 + u16(e.lho + 26) + u16(e.lho + 28); if (ini + e.cs > N) falha('corrompido');
+          const comp = u8.subarray(ini, ini + e.cs);
+          let bytes;
+          if (e.met === 0) bytes = comp;
+          else if (e.met === 8){
+            const rd = new Blob([comp]).stream().pipeThrough(new DecompressionStream('deflate-raw')).getReader(), partes = []; let t = 0;
+            for (;;){ const {done, value} = await rd.read(); if (done) break; t += value.length; total += value.length; if (total > lim.descompactadoMB * 1048576){ rd.cancel(); falha('limite'); } partes.push(value); }
+            bytes = new Uint8Array(t); let o = 0; for (const q of partes){ bytes.set(q, o); o += q.length; }
+          } else falha('corrompido');
+          const xml = dec.decode(bytes);
+          if (/<!DOCTYPE|<!ENTITY/i.test(xml)) falha('formato');
+          return xml;
+        }
+        const wb = await ler('xl/workbook.xml');
+        const d1904 = /<workbookPr\b[^>]*\bdate1904="(1|true)"/.test(wb);
+        const sh = wb.match(/<sheet\b[^>]*>/); if (!sh) falha('corrompido');
+        const rid = (sh[0].match(/\br:id="([^"]+)"/) || sh[0].match(/\bid="([^"]+)"/) || [])[1];
+        const rels = await ler('xl/_rels/workbook.xml.rels');
+        let alvo = 'xl/worksheets/sheet1.xml';
+        for (const m of rels.matchAll(/<Relationship\b[^>]*>/g)){ if ((m[0].match(/\bId="([^"]+)"/) || [])[1] === rid){ const t = (m[0].match(/\bTarget="([^"]+)"/) || [])[1] || ''; alvo = t.startsWith('/') ? t.slice(1) : 'xl/' + t.replace(/^\.\//, ''); } }
+        const sstXml = await ler('xl/sharedStrings.xml', true), sst = [];
+        for (const m of sstXml.matchAll(/<si\b[^>]*>([\s\S]*?)<\/si>/g)){ if (sst.length > lim.celulas) falha('limite'); sst.push(ent([...m[1].replace(/<rPh\b[\s\S]*?<\/rPh>/g, '').matchAll(/<t\b[^>]*>([\s\S]*?)<\/t>/g)].map(x => x[1]).join(''))); }
+        const stXml = await ler('xl/styles.xml', true), fmts = {}, xfs = [];
+        for (const m of stXml.matchAll(/<numFmt\b[^>]*>/g)){ const id = (m[0].match(/numFmtId="(\d+)"/) || [])[1], fc = (m[0].match(/formatCode="([^"]*)"/) || [])[1]; if (id) fmts[id] = ent(fc || ''); }
+        const cx = (stXml.match(/<cellXfs\b[^>]*>([\s\S]*?)<\/cellXfs>/) || [])[1] || '';
+        for (const m of cx.matchAll(/<xf\b[^>]*>/g)) xfs.push(+((m[0].match(/numFmtId="(\d+)"/) || [])[1] || 0));
+        const DATAS = new Set([14, 15, 16, 17, 22, 27, 30, 36, 45, 46, 47, 50, 57]);
+        const ehData = id => DATAS.has(id) || (fmts[id] && /[dy]|m{1,4}(?![^\[]*\])/i.test(fmts[id].replace(/"[^"]*"|\[[^\]]*\]|\\./g, '')) && !/^general$/i.test(fmts[id]));
+        const duasCasas = id => [2, 4, 7, 8, 39, 40, 43, 44].includes(id) || /0[.,]00/.test(fmts[id] || '');
+        const dataDe = s => { let v = s + (d1904 ? 1462 : 0); const d = new Date(Math.round((v - 25569) * 864e5)); if (isNaN(d)) return String(s); const z = x => String(x).padStart(2, '0'); return `${z(d.getUTCDate())}/${z(d.getUTCMonth() + 1)}/${d.getUTCFullYear()}`; };
+        const col = r => { const L = (r.match(/^[A-Z]+/) || [''])[0]; let c = 0; for (const ch of L) c = c * 26 + ch.charCodeAt(0) - 64; return c - 1; };
+        const sx = await ler(alvo);
+        const rows = []; let cel = 0, trunc = false;
+        for (const rm of sx.matchAll(/<row\b([^>]*?)(?:\/>|>([\s\S]*?)<\/row>)/g)){
+          if (rows.length >= lim.linhas){ trunc = true; break; }
+          const ri = +((rm[1].match(/\br="(\d+)"/) || [])[1] || rows.length + 1) - 1, lin = [];
+          for (const cm of (rm[2] || '').matchAll(/<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)){
+            if (++cel > lim.celulas){ trunc = true; break; }
+            const a = cm[1], r = (a.match(/\br="([A-Z]+\d+)"/) || [])[1], t = (a.match(/\bt="(\w+)"/) || [])[1] || 'n', s = +((a.match(/\bs="(\d+)"/) || [])[1] || 0);
+            const c = r ? col(r) : lin.length; if (c < 0 || c >= lim.colunas) continue;
+            const inner = cm[2] || '', v = (inner.match(/<v\b[^>]*>([\s\S]*?)<\/v>/) || [])[1];
+            let out = '';
+            if (t === 's') out = sst[+v] ?? '';
+            else if (t === 'inlineStr') out = ent([...inner.matchAll(/<t\b[^>]*>([\s\S]*?)<\/t>/g)].map(x => x[1]).join(''));
+            else if (t === 'str') out = ent(v ?? '');
+            else if (t === 'b') out = v === '1' ? 'VERDADEIRO' : 'FALSO';
+            else if (t === 'e') out = '';
+            else if (t === 'd'){ const m = String(v || '').match(/^(\d{4})-(\d{2})-(\d{2})/); out = m ? `${m[3]}/${m[2]}/${m[1]}` : ''; }
+            else if (v != null && v !== ''){ const num = +v, fid = xfs[s] ?? 0; out = !isFinite(num) ? '' : ehData(fid) ? dataDe(num) : duasCasas(fid) ? num.toFixed(2) : String(num); }
+            while (lin.length < c) lin.push('');
+            lin[c] = out;
+          }
+          while (rows.length < ri && rows.length < lim.linhas) rows.push([]);
+          rows.push(lin);
+          if (trunc) break;
+        }
+        self.postMessage({ok:true, rows, trunc});
+      } catch(e){ self.postMessage({ok:false, motivo:e?.motivo || 'corrompido'}); }
+    };
+  }
+  let tarefaAtiva = null;   // {cancelar()} da leitura em andamento
+  function linhasXLSX(buf){
+    return new Promise((ok, err) => {
+      let w;
+      try { w = new Worker(URL.createObjectURL(new Blob([`(${NUCLEO_PLANILHA.toString()})()`], {type:'text/javascript'}))); }
+      catch(e){ err(new ErroImp('corrompido')); return; }
+      const fim = (f, v) => { clearTimeout(t); w.terminate(); tarefaAtiva = null; f(v); };
+      const t = setTimeout(() => fim(err, new ErroImp('tempo')), segPref.seg * 1000);
+      tarefaAtiva = {cancelar: () => fim(err, new ErroImp('cancelado'))};
+      w.onmessage = e => e.data?.ok ? fim(ok, {rows:e.data.rows, trunc:e.data.trunc}) : fim(err, new ErroImp(e.data?.motivo || 'corrompido'));
+      w.onerror = () => fim(err, new ErroImp('corrompido'));
+      w.postMessage({buf, lim:LIM}, [buf]);
+    });
+  }
+  /* .xls que na verdade é página HTML (comum em bancos) ou XML do Excel 2003: lidos como documento inerte (sem scripts). */
+  function linhasHTMLPlanilha(txt){
+    const doc = new DOMParser().parseFromString(txt, 'text/html');
+    const tabs = [...doc.querySelectorAll('table')]; if (!tabs.length) throw new ErroImp('corrompido');
+    const t = tabs.reduce((a, b) => b.rows.length > a.rows.length ? b : a);
+    if (t.rows.length > LIM.linhas || t.rows.length * 20 > LIM.celulas * 4) throw new ErroImp('limite');
+    return [...t.rows].map(tr => [...tr.cells].slice(0, LIM.colunas).map(td => td.textContent.replace(/\s+/g, ' ').trim()));
+  }
+  function linhasXMLPlanilha(txt){
+    if (/<!DOCTYPE|<!ENTITY/i.test(txt)) throw new ErroImp('formato');
+    const doc = new DOMParser().parseFromString(txt, 'application/xml');
+    if (doc.getElementsByTagName('parsererror').length) throw new ErroImp('corrompido');
+    const ws = doc.getElementsByTagNameNS('*', 'Worksheet')[0]; if (!ws) throw new ErroImp('corrompido');
+    const rows = [];
+    for (const r of ws.getElementsByTagNameNS('*', 'Row')){
+      if (rows.length >= LIM.linhas) break;
+      const lin = [];
+      for (const c of r.getElementsByTagNameNS('*', 'Cell')){
+        const idx = +(c.getAttributeNS('urn:schemas-microsoft-com:office:spreadsheet', 'Index') || c.getAttribute('ss:Index') || 0);
+        if (idx) while (lin.length < idx - 1) lin.push('');
+        if (lin.length >= LIM.colunas) break;
+        const d = c.getElementsByTagNameNS('*', 'Data')[0], tipo = d?.getAttributeNS('urn:schemas-microsoft-com:office:spreadsheet', 'Type') || d?.getAttribute('ss:Type');
+        let v = d ? d.textContent.trim() : '';
+        const m = tipo === 'DateTime' && v.match(/^(\d{4})-(\d{2})-(\d{2})/); if (m) v = `${m[3]}/${m[2]}/${m[1]}`;
+        lin.push(v);
+      }
+      rows.push(lin);
+    }
+    return rows;
+  }
+
+  /* ---------- Criptografia (Web Crypto: PBKDF2-SHA-256 + AES-GCM 256) ----------
+     Nada de algoritmo próprio: só as primitivas do navegador. A senha nunca é gravada;
+     a chave derivada fica só na memória (não exportável) enquanto a Bússola está desbloqueada. */
+  const COFRE_KEY = 'bussola-cofre-v1', KDF_ITER = 600000;   // 600 mil iterações: recomendação OWASP (2023) para PBKDF2-HMAC-SHA256
+  const AAD_COFRE = 'bussola-cofre-v1', AAD_BACKUP = 'bussola-backup-cifrado-v1', AAD_ANT = 'bussola-antes-da-restauracao-v1';
+  const te = new TextEncoder(), td = new TextDecoder();
+  const b64 = u8 => { let s = ''; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode(...u8.subarray(i, i + 0x8000)); return btoa(s); };
+  const deB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  async function derivarChave(senha, salt, iter){
+    const base = await crypto.subtle.importKey('raw', te.encode(senha), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({name:'PBKDF2', hash:'SHA-256', salt, iterations:iter}, base, {name:'AES-GCM', length:256}, false, ['encrypt', 'decrypt']);
+  }
+  async function cifrarCom(key, salt, iter, texto, aad, formato){
+    const iv = crypto.getRandomValues(new Uint8Array(12));   // IV novo em toda gravação
+    const ct = new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM', iv, additionalData:te.encode(aad), tagLength:128}, key, te.encode(texto)));
+    return {formato, v:1, kdf:{alg:'PBKDF2-SHA-256', iter, salt:b64(salt)}, cifra:'AES-GCM-256', iv:b64(iv), ct:b64(ct), em:new Date().toISOString()};
+  }
+  async function decifrarCom(key, env, aad){
+    const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:deB64(env.iv), additionalData:te.encode(aad), tagLength:128}, key, deB64(env.ct));
+    return td.decode(pt);
+  }
+  const envelopeValido = (e, formato) => e && typeof e === 'object' && e.formato === formato && e.v === 1 && e.kdf?.alg === 'PBKDF2-SHA-256' && Number.isInteger(e.kdf.iter) && e.kdf.iter >= 100000 && e.kdf.iter <= 10000000 && typeof e.kdf.salt === 'string' && typeof e.iv === 'string' && typeof e.ct === 'string';
+  async function sha256Hex(texto){ const h = new Uint8Array(await crypto.subtle.digest('SHA-256', te.encode(texto))); return [...h].map(b => b.toString(16).padStart(2, '0')).join(''); }
+
+  /* ---------- Cofre local ---------- */
+  let cofre = null;             // {key, salt, iter} só na memória
+  let cofreLigado = (() => { try { return !!localStorage.getItem(COFRE_KEY); } catch(e){ return false; } })();
+  const dadosLocaisJSON = () => JSON.stringify({ativos:state.ativos, config:state.config, analise:state.analise, fin:state.fin, hist:state.hist});
+  let cofrePend = null, cofreFila = Promise.resolve();
+  function gravarCifrado(json){
+    cofrePend = json;
+    cofreFila = cofreFila.then(async () => {
+      const j = cofrePend; if (j == null || !cofre) return; cofrePend = null;
+      try { const env = await cifrarCom(cofre.key, cofre.salt, cofre.iter, j, AAD_COFRE, 'bussola-cofre'); localStorage.setItem(COFRE_KEY, JSON.stringify(env)); avisoGravacao(true); }
+      catch(e){ avisoGravacao(false); }
+    });
+    return cofreFila;
+  }
+  function lerEnvelope(chave, formato){ try { const e = JSON.parse(localStorage.getItem(chave)); return envelopeValido(e, formato) ? e : null; } catch(e){ return null; } }
+  /* Ativa a proteção: cifra, relê do armazenamento e confere byte a byte antes de apagar a cópia sem senha. */
+  async function ativarCofre(senha){
+    if (db || state.demo) throw new Error('indisponivel');
+    const json = dadosLocaisJSON(), salt = crypto.getRandomValues(new Uint8Array(16)), key = await derivarChave(senha, salt, KDF_ITER);
+    const env = await cifrarCom(key, salt, KDF_ITER, json, AAD_COFRE, 'bussola-cofre');
+    try { localStorage.setItem(COFRE_KEY, JSON.stringify(env)); } catch(e){ throw new Error('gravacao'); }
+    try {
+      const lido = lerEnvelope(COFRE_KEY, 'bussola-cofre'); if (!lido) throw 0;
+      const k2 = await derivarChave(senha, deB64(lido.kdf.salt), lido.kdf.iter);
+      if (await decifrarCom(k2, lido, AAD_COFRE) !== json) throw 0;
+      const ant = localStorage.getItem(BK_ANT);
+      if (ant && !lerEnvelope(BK_ANT, 'bussola-anterior')){ const e2 = await cifrarCom(key, salt, KDF_ITER, ant, AAD_ANT, 'bussola-anterior'); localStorage.setItem(BK_ANT, JSON.stringify(e2)); }
+    } catch(e){ try { localStorage.removeItem(COFRE_KEY); } catch(_){} throw new Error('verificacao'); }
+    localStorage.removeItem(LS);
+    cofre = {key, salt, iter:KDF_ITER}; cofreLigado = true;
+    return true;
+  }
+  async function abrirCofre(senha){
+    const env = lerEnvelope(COFRE_KEY, 'bussola-cofre'); if (!env) throw new Error('ilegivel');
+    const salt = deB64(env.kdf.salt), key = await derivarChave(senha, salt, env.kdf.iter);
+    let json; try { json = await decifrarCom(key, env, AAD_COFRE); } catch(e){ throw new Error('senha'); }
+    const v = JSON.parse(json); if (!v || typeof v !== 'object') throw new Error('ilegivel');
+    cofre = {key, salt, iter:env.kdf.iter};
+    return {v, json};
+  }
+  async function desativarCofre(senha){
+    const {json} = await abrirCofreSemAplicar(senha);
+    localStorage.setItem(LS, json);
+    if (localStorage.getItem(LS) !== json) throw new Error('gravacao');
+    const ant = lerEnvelope(BK_ANT, 'bussola-anterior');
+    if (ant){ try { localStorage.setItem(BK_ANT, await decifrarCom(cofre.key, ant, AAD_ANT)); } catch(e){ localStorage.removeItem(BK_ANT); } }
+    localStorage.removeItem(COFRE_KEY); cofre = null; cofreLigado = false;
+  }
+  async function abrirCofreSemAplicar(senha){ const env = lerEnvelope(COFRE_KEY, 'bussola-cofre'); if (!env) throw new Error('ilegivel'); const key = await derivarChave(senha, deB64(env.kdf.salt), env.kdf.iter); try { return {json: await decifrarCom(key, env, AAD_COFRE), key}; } catch(e){ throw new Error('senha'); } }
+  async function trocarSenhaCofre(atual, nova){
+    const {json} = await abrirCofreSemAplicar(atual);
+    const salt = crypto.getRandomValues(new Uint8Array(16)), key = await derivarChave(nova, salt, KDF_ITER);
+    const env = await cifrarCom(key, salt, KDF_ITER, json, AAD_COFRE, 'bussola-cofre');
+    const antEnv = lerEnvelope(BK_ANT, 'bussola-anterior'); let antNovo = null;
+    if (antEnv && cofre){ try { antNovo = await cifrarCom(key, salt, KDF_ITER, await decifrarCom(cofre.key, antEnv, AAD_ANT), AAD_ANT, 'bussola-anterior'); } catch(e){} }
+    await cofreFila;
+    localStorage.setItem(COFRE_KEY, JSON.stringify(env));
+    if (antNovo) localStorage.setItem(BK_ANT, JSON.stringify(antNovo));
+    cofre = {key, salt, iter:KDF_ITER};
+  }
+  /* Bloqueio: grava o que estiver pendente e recarrega a página (a chave e os dados saem da memória). */
+  let ultimaAtividade = Date.now();
+  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(ev => addEventListener(ev, () => { ultimaAtividade = Date.now(); }, {passive:true}));
+  async function bloquearAgora(){ if (!cofreLigado) return; try { await cofreFila; } catch(e){} cofre = null; location.reload(); }
+  setInterval(() => { if (cofre && Date.now() - ultimaAtividade > segPref.bloqueio * 60000) bloquearAgora(); }, 20000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && cofre && Date.now() - ultimaAtividade > segPref.bloqueio * 60000) bloquearAgora(); });
+
+  /* Tela de desbloqueio: os dados só são lidos depois da senha certa. */
+  let tentativas = 0;
+  function telaDesbloqueio(){
+    return new Promise(resolve => {
+      const tela = $('#cofre-tela'), f = $('#cofre-form'), msg = $('#cofre-msg'), inp = $('#cofre-senha');
+      tela.hidden = false; document.body.classList.add('cofre-bloqueado'); setTimeout(() => inp.focus(), 50);
+      f.onsubmit = async e => {
+        e.preventDefault();
+        if (tentativas >= 5 && Date.now() < (f._espera || 0)){ msg.textContent = `Muitas tentativas. Aguarde ${Math.ceil((f._espera - Date.now()) / 1000)} s.`; return; }
+        const senha = inp.value; if (!senha) return;
+        $('#cofre-ok').disabled = true; msg.textContent = 'Verificando…';
+        try {
+          const {v, json} = await abrirCofre(senha);
+          inp.value = ''; tentativas = 0;
+          aplicarDados(normalizarDados(v));
+          try { const sobra = localStorage.getItem(LS); if (sobra === json) localStorage.removeItem(LS); } catch(e){}
+          tela.hidden = true; document.body.classList.remove('cofre-bloqueado'); ultimaAtividade = Date.now();
+          resolve(true);
+        } catch(err){
+          tentativas++; if (tentativas >= 5) f._espera = Date.now() + 30000 * (tentativas - 4);
+          msg.textContent = err.message === 'senha' ? 'Senha incorreta.' : 'Não foi possível abrir os dados protegidos deste navegador.';
+          inp.select();
+        } finally { $('#cofre-ok').disabled = false; }
+      };
+      $('#cofre-apagar').onclick = () => {
+        if (prompt('Isto apaga os dados protegidos deste navegador. Depois, importe o seu backup. Para confirmar, digite APAGAR') !== 'APAGAR') return;
+        try { localStorage.removeItem(COFRE_KEY); localStorage.removeItem(BK_ANT); } catch(e){}
+        location.reload();
+      };
+    });
+  }
+  async function carregarLocal(){
+    if (cofreLigado && lerEnvelope(COFRE_KEY, 'bussola-cofre')) return telaDesbloqueio();
+    if (cofreLigado){ cofreLigado = false; }   // envelope ilegível: não apaga nada, segue com a cópia sem senha se houver
+    lsLoad();
+  }
+
+  /* ---------- Diálogo de senha ---------- */
+  function pedirSenha({titulo, texto, confirmar = false, minimo = 0, botao = 'Continuar'}){
+    return new Promise(resolve => {
+      const s = $('#senha-sheet'), f = $('#senha-form'), a = $('#senha-a'), b = $('#senha-b'), m = $('#senha-msg');
+      $('#senha-title').textContent = titulo; $('#senha-texto').textContent = texto || ''; $('#senha-ok').textContent = botao;
+      $('#senha-b-wrap').hidden = !confirmar; a.value = ''; b.value = ''; m.textContent = ''; a.autocomplete = confirmar ? 'new-password' : 'current-password';
+      s.hidden = false; setTimeout(() => a.focus(), 30);
+      const fechar = v => { s.hidden = true; a.value = ''; b.value = ''; f.onsubmit = null; resolve(v); };
+      f.onsubmit = e => { e.preventDefault();
+        if (minimo && a.value.length < minimo){ m.textContent = `Use pelo menos ${minimo} caracteres.`; return; }
+        if (confirmar && a.value !== b.value){ m.textContent = 'As duas senhas não são iguais.'; return; }
+        if (!a.value){ m.textContent = 'Digite a senha.'; return; }
+        fechar(a.value); };
+      $('#senha-cancel').onclick = () => fechar(null);
+    });
+  }
+
+  /* ---------- Backup: integridade e versão criptografada ---------- */
+  const dadosBackup = () => ({app:'bussola-financeira', versao:1, exportadoEm:new Date().toISOString(), ativos:state.ativos, config:state.config, fin:state.fin, analise:state.analise, hist:state.hist});
+  async function comIntegridade(d){ const {integridade, ...resto} = d; return {...resto, integridade:{alg:'SHA-256', valor: await sha256Hex(JSON.stringify(resto))}}; }
+  async function integridadeOk(d){ if (!d.integridade) return null; const {integridade, ...resto} = d; return integridade.alg === 'SHA-256' && integridade.valor === await sha256Hex(JSON.stringify(resto)); }
+  function baixar(nome, texto){
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([texto], {type:'application/json'})); a.download = nome;
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    segPref.ultimoBackup = new Date().toISOString(); salvarSegPref();
+  }
+  async function exportarBackupCifrado(msgEl){
+    const senha = await pedirSenha({titulo:'Senha do backup criptografado', texto:'Escolha uma senha para este arquivo (pelo menos 10 caracteres). Sem ela, o backup não pode ser aberto: guarde-a em um lugar seguro, separado do arquivo.', confirmar:true, minimo:10, botao:'Criptografar e baixar'});
+    if (!senha){ msgEl.textContent = 'Exportação cancelada.'; return false; }
+    msgEl.textContent = 'Criptografando…';
+    try {
+      const salt = crypto.getRandomValues(new Uint8Array(16)), key = await derivarChave(senha, salt, KDF_ITER);
+      const env = await cifrarCom(key, salt, KDF_ITER, JSON.stringify(await comIntegridade(dadosBackup())), AAD_BACKUP, 'bussola-backup-cifrado');
+      baixar(`bussola-backup-cifrado-${hojeISO()}.json`, JSON.stringify({...env, app:'bussola-financeira'}, null, 1));
+      msgEl.textContent = 'Backup criptografado exportado.'; return true;
+    } catch(e){ msgEl.textContent = 'Não foi possível criptografar o backup neste navegador.'; return false; }
+  }
+  async function abrirBackupCifrado(env){
+    for (;;){
+      const senha = await pedirSenha({titulo:'Backup criptografado', texto:'Digite a senha usada ao exportar este backup.', botao:'Abrir'});
+      if (!senha) return null;
+      try { const key = await derivarChave(senha, deB64(env.kdf.salt), env.kdf.iter); return JSON.parse(await decifrarCom(key, env, AAD_BACKUP)); }
+      catch(e){ toast('Senha incorreta ou arquivo alterado.'); }
+    }
+  }
+
+  /* ---------- IA: o que vai ser enviado, com autorização ---------- */
+  function luhn(d){ let s = 0, dbl = false; for (let i = d.length - 1; i >= 0; i--){ let n = +d[i]; if (dbl){ n *= 2; if (n > 9) n -= 9; } s += n; dbl = !dbl; } return s % 10 === 0; }
+  function mascararPII(t){
+    let n = 0; const M = (rx, f) => { t = t.replace(rx, (...a) => { n++; return typeof f === 'function' ? f(...a) : f; }); };
+    M(/\b(senha|password|pin|token|c[oó]digo de seguran[cç]a|cvv|cvc)\s*[:=]?\s*\S+/gi, (m, k) => `${k}: [oculto]`);
+    M(/\b(?:\d[ .-]?){12,18}\d\b/g, m => { const d = m.replace(/\D/g, ''); if (d.length < 13 || d.length > 19 || !luhn(d)) { n--; return m; } return '**** **** **** ' + d.slice(-4); });
+    M(/\b\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}\b/g, '[CNPJ oculto]');
+    M(/\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b/g, '[CPF oculto]');
+    M(/\b(ag(?:[eê]ncia)?\.?)\s*(?:n[ºo°.]*\s*)?:?\s*\d{3,5}(?:-\d)?\b/gi, (m, k) => `${k} [oculta]`);
+    M(/\b(c\/c|conta(?:\s+corrente|\s+poupan[cç]a)?|cc)\s*(?:n[ºo°.]*\s*)?:?\s*\d{3,12}-?[\dxX]?\b/gi, (m, k) => `${k} [oculta]`);
+    M(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[e-mail oculto]');
+    M(/\(?\b\d{2}\)?\s?9?\d{4}[-\s]?\d{4}\b/g, '[telefone oculto]');
+    return {texto:t, ocultos:n};
+  }
+  const iaAutorizado = {};
+  function autorizarIA({chave, finalidade, itens, texto, editavel = false, umaVez = false}){
+    if (umaVez && iaAutorizado[chave]) return Promise.resolve(texto);
+    return new Promise(resolve => {
+      const s = $('#ia-sheet');
+      $('#ia-fin').textContent = finalidade;
+      $('#ia-itens').innerHTML = itens.map(i => `<li>${esc(i)}</li>`).join('');
+      const ta = $('#ia-previa'); ta.value = texto; ta.readOnly = !editavel;
+      $('#ia-editar-dica').hidden = !editavel;
+      s.hidden = false; $('#ia-ok').focus();
+      const fechar = v => { s.hidden = true; ta.value = ''; resolve(v); };
+      $('#ia-ok').onclick = () => { if (umaVez) iaAutorizado[chave] = true; fechar(editavel ? ta.value : texto); };
+      $('#ia-cancel').onclick = () => fechar(null);
+    });
+  }
+
+  /* ---------- Diagnóstico de segurança (sem dados pessoais) ---------- */
+  let pdfSriOk = null;
+  function cspAtiva(){ try { new Function('return 1')(); return false; } catch(e){ return true; } }
+  function diagnosticoSeg(){
+    const L = [], it = (st, t, d) => L.push({st, t, d});
+    const ctx = window.claude ? 'dentro do Claude' : /^https?:$/.test(location.protocol) ? 'site (endereço https)' : 'arquivo aberto do aparelho';
+    it(location.protocol === 'https:' || !/^https?:$/.test(location.protocol) ? 'ok' : 'warn', 'Conexão', `${ctx}${navigator.onLine ? '' : ' · sem internet agora'}`);
+    it(cspAtiva() ? 'ok' : (window.claude ? 'info' : 'warn'), 'Política de segurança de conteúdo (CSP)', cspAtiva() ? 'ativa: só os scripts da própria Bússola e o leitor de PDF verificado podem rodar' : window.claude ? 'desligada dentro do Claude (o próprio Claude controla a página)' : 'não está ativa nesta página');
+    it('ok', 'Leitor de PDF', `PDF.js ${PDF_VER}, conferido por hash SRI${pdfSriOk === true ? ' (verificado nesta sessão)' : pdfSriOk === false ? ' · falhou na última tentativa' : ' (verificado quando for usado)'}`);
+    it('ok', 'Leitor de planilhas', 'leitor próprio para .xlsx, sem biblioteca externa; fórmulas e macros nunca são executadas');
+    it(cofreLigado ? 'ok' : 'warn', 'Proteção por senha', cofreLigado ? `ativa · AES-GCM 256, chave PBKDF2-SHA-256 com ${KDF_ITER.toLocaleString('pt-BR')} iterações · bloqueio após ${segPref.bloqueio} min sem uso` : (db ? 'os dados estão na sua conta do Claude' : 'desativada: os dados ficam legíveis no armazenamento deste navegador'));
+    let sobra = false; try { sobra = cofreLigado && !!localStorage.getItem(LS); } catch(e){}
+    if (sobra) it('warn', 'Cópia sem senha', 'ainda existe uma cópia antiga sem senha neste navegador; ela será apagada ao confirmar no painel');
+    const dias = segPref.ultimoBackup ? Math.floor((Date.now() - Date.parse(segPref.ultimoBackup)) / 864e5) : null;
+    it(dias == null ? 'warn' : dias > 30 ? 'warn' : 'ok', 'Backup', dias == null ? 'nenhum backup exportado neste aparelho' : `último exportado há ${dias} dia(s)${dias > 30 ? ': exporte um novo' : ''}`);
+    let integro = true; try { normalizarDados(JSON.parse(dadosLocaisJSON())); } catch(e){ integro = false; }
+    it(integro ? 'ok' : 'crit', 'Integridade dos dados', integro ? `estrutura válida (${state.ativos.length} ativo(s), ${state.fin.lanc.length} lançamento(s))` : 'a estrutura dos dados não passou na validação: exporte um backup');
+    it(gravacaoFalhou ? 'crit' : 'ok', 'Gravação', gravacaoFalhou ? 'a última gravação falhou' : 'normal');
+    it(diagImport.length ? 'info' : 'ok', 'Importações nesta sessão', diagImport.length ? diagImport.slice(0, 3).map(x => `${x.tipo}: ${MOTIVO_TXT[x.motivo] || 'erro'}`).join(' · ') : 'sem erros');
+    let rss = false; try { rss = noticiasLigadas(); } catch(e){}
+    it('info', 'Integrações', `dados de mercado do GitHub${vivo.remoto?.geradoEm ? ` de ${fmtHora(Date.parse(vivo.remoto.geradoEm))}` : ''} · rss2json ${rss ? 'ligado (serviço de terceiros)' : 'desligado'} · IA do Claude ${sample ? 'disponível, só com sua autorização a cada envio' : 'indisponível fora do Claude'}`);
+    it('info', 'Dependências', `versões fixadas e revisadas em ${SEG_REVISAO}; atualizações das ações do GitHub chegam pelo Dependabot`);
+    return L;
+  }
   const parseBR = t => { t = String(t).replace(/[R$\s]/g, ''); if (/,/.test(t)) t = t.replace(/\./g, '').replace(',', '.'); else if (/^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, ''); const n = parseFloat(t); return isFinite(n) && n >= 0 ? n : null; };
   const num = v => { const n = parseFloat(String(v).replace(',', '.')); return isFinite(n) ? n : 0; };
   const dataBR = iso => { if (!iso) return '—'; const [y,m,d] = iso.slice(0,10).split('-'); return `${d}/${m}/${y}`; };
@@ -2220,8 +2726,9 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   };
 
   // Backup
+  $('#bk-exp-c').onclick = () => exportarBackupCifrado($('#bk-msg'));
   $('#bk-exp').onclick = async () => {
-    const data = {app:'bussola-financeira', versao:1, exportadoEm:new Date().toISOString(), ativos:state.ativos, config:state.config, fin:state.fin, analise:state.analise, hist:state.hist};
+    const data = await comIntegridade(dadosBackup());
     const dl = window.claude ? await window.claude.use('downloads') : null;
     if (dl){
       try { await dl.save({filename:`bussola-backup-${hojeISO()}.json`, data:JSON.stringify(data, null, 2)}); $('#bk-msg').textContent = 'Backup exportado.'; }
@@ -2232,16 +2739,26 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
       const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `bussola-backup-${hojeISO()}.json`;
       document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-      $('#bk-msg').textContent = 'Backup exportado.';
+      segPref.ultimoBackup = new Date().toISOString(); salvarSegPref();
+      $('#bk-msg').textContent = 'Backup exportado sem criptografia: guarde o arquivo em lugar seguro.';
     } catch(e){ $('#bk-msg').textContent = 'Não foi possível exportar neste navegador.'; }
   };
   let bkData = null;
   $('#bk-file').addEventListener('change', e => {
     const f = e.target.files?.[0]; if (!f) return;
     const r = new FileReader();
-    r.onload = () => {
+    if (f.size > 50 * 1048576){ $('#bk-msg').textContent = 'Backup recusado, nada foi alterado: arquivo grande demais.'; e.target.value = ''; return; }
+    r.onload = async () => {
       try {
         let d; try { d = JSON.parse(r.result); } catch(err){ throw ['o arquivo não é um JSON válido']; }
+        if (d && d.formato === 'bussola-backup-cifrado'){
+          if (!envelopeValido(d, 'bussola-backup-cifrado')) throw ['backup criptografado em formato desconhecido'];
+          const aberto = await abrirBackupCifrado(d); if (!aberto){ $('#bk-msg').textContent = 'Importação cancelada, nada foi alterado.'; e.target.value = ''; return; }
+          d = aberto;
+        }
+        const integ = d && typeof d === 'object' ? await integridadeOk(d) : null;
+        if (integ === false) throw ['o conteúdo foi alterado ou está corrompido (verificação de integridade falhou)'];
+        if (d && d.integridade){ const {integridade, ...resto} = d; d = resto; }
         const probs = problemasBackup(d);
         if (probs.length) throw probs;
         bkData = d;
@@ -2259,7 +2776,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     if (problemasBackup(d).length){ bkData = null; $('#bk-ok').hidden = true; $('#bk-cancel').hidden = true; $('#bk-msg').textContent = 'Backup recusado, nada foi alterado.'; return; }
     const novo = normalizarDados(d), anterior = structuredClone({ativos:state.ativos, config:state.config, analise:state.analise, fin:state.fin, hist:state.hist});
     if (!db){
-      try { localStorage.setItem(BK_ANT, JSON.stringify({em:new Date().toISOString(), dados:anterior})); }
+      try { const txt = JSON.stringify({em:new Date().toISOString(), dados:anterior}); localStorage.setItem(BK_ANT, cofre ? JSON.stringify(await cifrarCom(cofre.key, cofre.salt, cofre.iter, txt, AAD_ANT, 'bussola-anterior')) : txt); }
       catch(e){ $('#bk-msg').textContent = 'Não consegui guardar uma cópia dos dados atuais antes de importar, então nada foi alterado. Exporte um backup dos dados atuais e tente de novo.'; return; }
     }
     aplicarDados(novo);
@@ -2277,8 +2794,8 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   };
   const BK_ANT = 'bussola-antes-da-restauracao';
   document.addEventListener('click', e => { if (e.target.id === 'bk-undo') desfazerRestauracao(); });
-  function desfazerRestauracao(){
-    let c = null; try { c = JSON.parse(localStorage.getItem(BK_ANT)); } catch(e){}
+  async function desfazerRestauracao(){
+    let c = null; try { c = JSON.parse(localStorage.getItem(BK_ANT)); if (c && c.formato === 'bussola-anterior') c = cofre ? JSON.parse(await decifrarCom(cofre.key, c, AAD_ANT)) : null; } catch(e){ c = null; }
     if (!c?.dados){ $('#bk-msg').textContent = 'Não há uma restauração para desfazer.'; return; }
     aplicarDados(normalizarDados(c.dados));
     if (!lsSave()){ $('#bk-msg').textContent = 'Não foi possível gravar os dados anteriores. Tente exportar e importar manualmente.'; return; }
@@ -2676,14 +3193,14 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   function juntarNoticias(...listas){
     const vistos = new Set(), out = [];
     for (const n of listas.flat()){
-      if (!n || !n.titulo || !/^https:\/\//.test(n.url || '') || !RX_MERCADO.test(n.titulo)) continue;
+      if (!n || !n.titulo || !urlSegura(n.url) || !RX_MERCADO.test(n.titulo)) continue;
       const k = norm(n.titulo).replace(/[^a-z0-9 ]/g, '').slice(0, 70); if (vistos.has(k)) continue; vistos.add(k); out.push(n);
     }
     return out.sort((a, b) => (b.ts || 0) - (a.ts || 0));
   }
   // fora do assunto apesar das palavras-chave (concursos, nota fiscal, "trimestre fiscal" de empresas estrangeiras etc.)
   const RX_FORA = /concurso|auditor[- ]fiscal|nota fiscal|trimestre fiscal|fraude fiscal|chatgpt|openai|ao vivo o valor/;
-  const noticiasRecentes = () => juntarNoticias(noticias.itens, vivo.remoto?.noticias || []).filter(n => n.ts && Date.now() - n.ts <= 36 * 3600e3 && n.ts <= Date.now() + 10 * 60e3 && !RX_FORA.test(norm(n.titulo)));
+  const noticiasRecentes = () => juntarNoticias(noticias.itens, vivo.remoto?.noticias || []).filter(n => n.ts && Date.now() - n.ts <= 36 * 3600e3 && n.ts <= Date.now() + 10 * 60e3 && !RX_FORA.test(norm(n.titulo)) && !!urlSegura(n.url));
 
   /* ---------- cenario.json (publicado pelo GitHub) ---------- */
   const CEN_KEY = 'bussola-cenario-remoto';
@@ -2708,7 +3225,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     }
     const mercado = {};
     for (const k of Object.keys(MERCADO)){ const m = c.mercado?.[k]; if (m && recValido(m)) mercado[k] = {...m, v:+m.v}; }
-    const news = Array.isArray(c.noticias) ? c.noticias.filter(n => n && typeof n.titulo === 'string' && /^https:\/\//.test(n.url || '') && isFinite(+n.ts)).map(n => ({titulo:n.titulo, url:n.url, fonte:String(n.fonte || ''), ts:+n.ts, via:'site', resumo: typeof n.resumo === 'string' ? n.resumo.slice(0, 300) : ''})) : [];
+    const news = Array.isArray(c.noticias) ? c.noticias.filter(n => n && typeof n.titulo === 'string' && urlSegura(n.url) && isFinite(+n.ts)).map(n => ({titulo:String(n.titulo).slice(0, 300), url:urlSegura(n.url), fonte:String(n.fonte || ''), ts:+n.ts, via:'site', resumo: typeof n.resumo === 'string' ? n.resumo.slice(0, 300) : ''})) : [];
     if (!vivo.remoto?.geradoEm || Date.parse(c.geradoEm) >= Date.parse(vivo.remoto.geradoEm)) vivo.remoto = {geradoEm:c.geradoEm, mercado, noticias:news.slice(0, 40)};
     salvarVivo();
     return usados;
@@ -2880,7 +3397,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   const TAG = {fato:['ok','Fato'], expectativa:['info','Expectativa'], interpretacao:['warn','Interpretação'], hipotese:['hip','Cenário hipotético'], falta:['hip','Sem dados']};
   function renderFontesSt(){
     const linhas = Object.keys(FONTES).map(k => { const r = vivo.dados[k], st = vivo.st[k], s = situacao(k, r, st);
-      return `<tr><td><a href="${esc(FONTES[k].url)}" target="_blank" rel="noopener">${esc(FONTES[k].nome)}</a><div class="asset-sub">${esc(FONTES[k].fonte)}</div></td><td><span class="pill ${s.cls}">${esc(s.cls === 'ok' ? 'em dia' : s.cls === 'info' ? 'fechado' : s.cls === 'warn' ? 'atenção' : 'indisponível')}</span><div class="asset-sub">${esc(s.txt)}</div></td><td>${r ? esc(r.ref.length === 7 ? mesRef(r.ref) : fmtDia(r.ref)) : '—'}</td><td>${st ? esc(fmtHora(Date.parse(st.em))) + (st.ms != null ? ` · ${st.ms} ms` : '') : '—'}</td><td>${esc(st && !st.ok ? st.erro : r?.origem === 'site' ? 'valor vindo do site (GitHub)' : st?.obs || (st ? 'respondeu' : ''))}</td></tr>`; });
+      return `<tr><td>${linkExt(FONTES[k].url, `${esc(FONTES[k].nome)}`)}<div class="asset-sub">${esc(FONTES[k].fonte)}</div></td><td><span class="pill ${s.cls}">${esc(s.cls === 'ok' ? 'em dia' : s.cls === 'info' ? 'fechado' : s.cls === 'warn' ? 'atenção' : 'indisponível')}</span><div class="asset-sub">${esc(s.txt)}</div></td><td>${r ? esc(r.ref.length === 7 ? mesRef(r.ref) : fmtDia(r.ref)) : '—'}</td><td>${st ? esc(fmtHora(Date.parse(st.em))) + (st.ms != null ? ` · ${st.ms} ms` : '') : '—'}</td><td>${esc(st && !st.ok ? st.erro : r?.origem === 'site' ? 'valor vindo do site (GitHub)' : st?.obs || (st ? 'respondeu' : ''))}</td></tr>`; });
     const nst = noticiasLigadas() ? (noticias.erro ? `<span class="pill warn">atenção</span><div class="asset-sub">${esc(noticias.erro)}</div>` : noticias.at ? '<span class="pill ok">em dia</span>' : '<span class="pill hip">aguardando</span>') : '<span class="pill hip">desligado</span><div class="asset-sub">ligue a opção em "O que está acontecendo"</div>';
     linhas.push(`<tr><td>Notícias (rss2json)<div class="asset-sub">g1 Economia e Google Notícias</div></td><td>${nst}</td><td>—</td><td>${noticias.consultaEm ? esc(fmtHora(Date.parse(noticias.consultaEm))) : '—'}</td><td>${esc(noticias.itens.length ? `${noticias.itens.length} manchete(s) guardada(s)` : '')}</td></tr>`);
     const el = $('#cen-fontes-st'); if (el) el.innerHTML = linhas.join('');
@@ -3040,7 +3557,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     $('#cen-hero-sub').textContent = escrito ? c.resumo : lead.length ? lead.join(' ') : 'Toque em Atualizar agora para buscar os dados do dia.';
     $('#cen-temas').innerHTML = temas.map(t => `<article class="tema ${t.sinal[0]}" data-tema="${t.k}"><header><h3>${esc(t.titulo)}</h3><span class="pill ${t.sinal[0]}">${esc(t.sinal[1])}</span></header>
       <p>${esc(t.frases.join(' '))}</p><p class="importa"><b>Por que importa:</b> ${esc(t.importa)}</p>
-      ${t.news.length ? `<ul>${t.news.map(n => `<li><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.titulo)}</a>${n.resumo ? `<span>${esc(n.resumo)}</span>` : ''}<small>${esc(n.fonte)} · ${esc(fmtHora(n.ts))}</small></li>`).join('')}</ul>` : ''}</article>`).join('');
+      ${t.news.length ? `<ul>${t.news.map(n => `<li>${linkExt(n.url, `${esc(n.titulo)}`)}${n.resumo ? `<span>${esc(n.resumo)}</span>` : ''}<small>${esc(n.fonte)} · ${esc(fmtHora(n.ts))}</small></li>`).join('')}</ul>` : ''}</article>`).join('');
     // Perfis em abas
     const ps = perfisDoDia();
     if (ps && !ps.some(x => x.k === perfilSel)) perfilSel = 'conservador';
@@ -3053,10 +3570,10 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     let seg = addDias(hoje, 1); while (new Date(seg + 'T12:00:00').getDay() !== 1) seg = addDias(seg, 1);
     ag.push([ddmm(seg), 'Boletim Focus com as novas projeções do mercado.']);
     ag.sort((x, y) => x[0].split('/').reverse().join('').localeCompare(y[0].split('/').reverse().join('')));
-    $('#cen-agenda').innerHTML = ag.map(([dt, t]) => `<li><span class="dt">${dt}</span><span>${esc(t)}</span></li>`).join('') + '<li><span class="dt">IBGE</span><span>Datas do IPCA e do PIB: <a href="https://www.ibge.gov.br/calendario-indicadores-novoportal.html" target="_blank" rel="noopener">calendário do IBGE</a>.</span></li>';
+    $('#cen-agenda').innerHTML = ag.map(([dt, t]) => `<li><span class="dt">${dt}</span><span>${esc(t)}</span></li>`).join('') + '<li><span class="dt">IBGE</span><span>Datas do IPCA e do PIB: <a href="https://www.ibge.gov.br/calendario-indicadores-novoportal.html" target="_blank" rel="noopener noreferrer">calendário do IBGE</a>.</span></li>';
     // Manchetes que não entraram nos temas
     const resto = noticiasRecentes().filter(n => !usadas.has(n.url)).slice(0, 6);
-    $('#cen-dest').innerHTML = resto.length ? resto.map(n => `<a href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.titulo)}</b><small>${esc(n.fonte)} · ${esc(fmtHora(n.ts))}</small></a>`).join('')
+    $('#cen-dest').innerHTML = resto.length ? resto.map(n => `${linkExt(n.url, `<b>${esc(n.titulo)}</b><small>${esc(n.fonte)} · ${esc(fmtHora(n.ts))}</small>`)}`).join('')
       : `<p class="small muted">${noticiasRecentes().length ? 'As manchetes do dia já aparecem no resumo, junto de cada tema.' : !noticiasLigadas() && !vivo.remoto?.noticias?.length ? 'Sem manchetes: elas chegam pelos dados do GitHub ou pela opção abaixo.' : 'Nenhuma notícia de mercado publicada nas últimas 36 horas nas fontes consultadas.'}</p>`;
   }
   document.addEventListener('click', e => {
@@ -3073,10 +3590,10 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     const cards = Object.keys(FONTES).map(k => { const r = vivo.dados[k], f = FONTES[k], s = situacao(k, r, vivo.st[k]);
       if (!r) return `<div class="indisp"><div class="top"><span class="label">${esc(f.nome)}</span><span class="pill crit">indisponível</span></div><span class="v">—</span><span class="d">${esc(s.txt)}</span><span class="tipo">${TIPO_TXT[f.tipo]} · ${esc(f.fonte)}</span></div>`;
       const cmp = comparacoes(k, r);
-      return `<div><div class="top"><span class="label">${esc(f.nome)}${s.hoje ? '<span class="live">hoje</span>' : ''}</span><span class="pill ${s.cls}">${s.cls === 'ok' ? 'em dia' : s.cls === 'info' ? 'fechado' : 'atenção'}</span></div><span class="v">${esc(valorTxt(k, r.v))}</span><span class="d">${esc(f.un)} · ${esc(s.txt)}</span>${cmp.length ? `<span class="cmp">${esc(cmp.join(' · '))}</span>` : ''}<span class="tipo">${TIPO_TXT[f.tipo]} · ${esc(f.fonte)}${r.origem === 'site' ? ' · via site' : ''} · consulta ${esc(fmtHora(Date.parse(r.at)))}</span><a href="${esc(f.url)}" target="_blank" rel="noopener">fonte original</a></div>`; });
+      return `<div><div class="top"><span class="label">${esc(f.nome)}${s.hoje ? '<span class="live">hoje</span>' : ''}</span><span class="pill ${s.cls}">${s.cls === 'ok' ? 'em dia' : s.cls === 'info' ? 'fechado' : 'atenção'}</span></div><span class="v">${esc(valorTxt(k, r.v))}</span><span class="d">${esc(f.un)} · ${esc(s.txt)}</span>${cmp.length ? `<span class="cmp">${esc(cmp.join(' · '))}</span>` : ''}<span class="tipo">${TIPO_TXT[f.tipo]} · ${esc(f.fonte)}${r.origem === 'site' ? ' · via site' : ''} · consulta ${esc(fmtHora(Date.parse(r.at)))}</span>${linkExt(f.url, `fonte original`)}</div>`; });
     const rm = vivo.remoto?.mercado || {};
     for (const k of Object.keys(MERCADO)){ const m = rm[k];
-      cards.push(m ? `<div><div class="top"><span class="label">${esc(MERCADO[k].nome)}</span><span class="pill info">site</span></div><span class="v">${esc(valorTxt(k, m.v))}</span><span class="d">${esc(MERCADO[k].un)} · dado de ${esc(fmtDia(m.ref))}${m.var != null ? ` · ${m.var >= 0 ? '+' : '−'}${nBR(Math.abs(m.var))}% no dia` : ''}</span><span class="tipo">${TIPO_TXT[MERCADO[k].tipo]} · ${esc(m.fonte || 'cenario.json')}</span>${/^https:\/\//.test(m.url || '') ? `<a href="${esc(m.url)}" target="_blank" rel="noopener">fonte original</a>` : ''}</div>`
+      cards.push(m ? `<div><div class="top"><span class="label">${esc(MERCADO[k].nome)}</span><span class="pill info">site</span></div><span class="v">${esc(valorTxt(k, m.v))}</span><span class="d">${esc(MERCADO[k].un)} · dado de ${esc(fmtDia(m.ref))}${m.var != null ? ` · ${m.var >= 0 ? '+' : '−'}${nBR(Math.abs(m.var))}% no dia` : ''}</span><span class="tipo">${TIPO_TXT[MERCADO[k].tipo]} · ${esc(m.fonte || 'cenario.json')}</span>${/^https:\/\//.test(m.url || '') ? `${linkExt(m.url, `fonte original`)}` : ''}</div>`
         : `<div class="indisp"><div class="top"><span class="label">${esc(MERCADO[k].nome)}</span><span class="pill hip">indisponível</span></div><span class="v">—</span><span class="d">Sem fonte aberta que o navegador possa ler. Entra quando o cenario.json do GitHub estiver ativo.</span></div>`); }
     if (vivo.dados.cdi && vivo.dados.ipca12){ const r = ((1 + vivo.dados.cdi.v / 100) / (1 + vivo.dados.ipca12.v / 100) - 1) * 100; cards.push(`<div><div class="top"><span class="label">Juro real</span><span class="pill hip">cálculo</span></div><span class="v">${nBR(r)}%</span><span class="d">% a.a. · CDI de ${esc(fmtDia(vivo.dados.cdi.ref))} descontado do IPCA 12 meses até ${esc(mesRef(vivo.dados.ipca12.ref))}</span><span class="tipo">Cálculo da Bússola</span></div>`); }
     $('#cen-ind').innerHTML = cards.join('');
@@ -3090,15 +3607,15 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
       $('#cen-title').textContent = 'Análise completa'; $('#cen-date').textContent = `fatos, expectativas, interpretações e hipóteses · gerada às ${fmtHora(a.geradoEm)}`;
       $('#cen-tipo').textContent = (a.parcial ? `Análise parcial: faltam ${a.faltam.join(', ')}. ` : '') + (velhos.length ? `Com dados atrasados: ${velhos.map(k => FONTES[k].nome).join(', ')}. ` : '') + 'Gerada por regras a partir dos dados oficiais, das expectativas do Focus e das manchetes; não é recomendação de compra ou venda.';
       $('#cen-resumo').textContent = '';
-      $('#cen-analise').innerHTML = a.secoes.map(s => `<section><h3>${esc(s.t)}</h3><ul>${s.i.map(x => `<li><span class="pill ${TAG[x.tipo][0]}">${TAG[x.tipo][1]}</span><span>${esc(x.texto)}${x.url && /^https:\/\//.test(x.url) ? ` <a class="small" href="${esc(x.url)}" target="_blank" rel="noopener">fonte</a>` : ''}</span></li>`).join('')}</ul></section>`).join('');
+      $('#cen-analise').innerHTML = a.secoes.map(s => `<section><h3>${esc(s.t)}</h3><ul>${s.i.map(x => `<li><span class="pill ${TAG[x.tipo][0]}">${TAG[x.tipo][1]}</span><span>${esc(x.texto)}${x.url && urlSegura(x.url) ? ' ' + linkExt(x.url, 'fonte', ' class="small"') : ''}</span></li>`).join('')}</ul></section>`).join('');
     } else { $('#cen-title').textContent = 'Análise completa'; $('#cen-date').textContent = ''; $('#cen-tipo').textContent = 'Sem dados suficientes: atualize para gerar a análise.'; $('#cen-resumo').textContent = ''; $('#cen-analise').innerHTML = ''; }
     // Notícias
     const news = noticiasRecentes();
     $('#cen-news-st').textContent = noticias.consultaEm || vivo.remoto?.geradoEm ? `consulta: ${noticias.consultaEm ? fmtHora(Date.parse(noticias.consultaEm)) : '—'}${vivo.remoto?.geradoEm ? ` · site: ${fmtHora(Date.parse(vivo.remoto.geradoEm))}` : ''} · horários de Brasília` : '';
     // Fontes e links
     const fl = a ? a.fontes : (c?.fontes || []);
-    $('#cen-fontes').innerHTML = fl.map(f => /^https:\/\//.test(f.url || '') ? `<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.titulo)}</a>` : `<span>${esc(f.titulo)}</span>`).join('') || '<span class="muted">Nenhuma fonte consultada ainda.</span>';
-    $('#cen-acomp').innerHTML = LINKS_ACOMPANHAR.map(f => `<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.titulo)}</a>`).join('');
+    $('#cen-fontes').innerHTML = fl.map(f => linkExt(f.url, esc(f.titulo))).join('') || '<span class="muted">Nenhuma fonte consultada ainda.</span>';
+    $('#cen-acomp').innerHTML = LINKS_ACOMPANHAR.map(f => `${linkExt(f.url, `${esc(f.titulo)}`)}`).join('');
     renderPainelDia();
   }
   $('#vivo-copiar').onclick = e => {
@@ -3255,40 +3772,71 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     out.saldo = saldo;
     return out;
   }
-  const libs = {};
-  /* Bibliotecas externas: endereço fixo no pacote oficial do npm + verificação de integridade (SRI).
-     Se o arquivo baixado não for idêntico ao publicado, o navegador recusa e a importação avisa. */
-  function carregarScript(url, integrity){
-    if (!libs[url]) libs[url] = new Promise((ok, err) => { const sc = document.createElement('script'); sc.src = url; if (integrity){ sc.integrity = integrity; sc.crossOrigin = 'anonymous'; } sc.onload = ok; sc.onerror = () => { delete libs[url]; sc.remove(); err(new Error('lib')); }; document.head.append(sc); });
-    return libs[url];
+  /* Bibliotecas externas: só o leitor de PDF. Versão fixa do pacote oficial pdfjs-dist no npm, servido pelo jsDelivr,
+     conferido por hash SRI (o navegador recusa qualquer arquivo diferente). O worker é baixado com o mesmo controle.
+     Versão 6.x: não tem o caminho de código com eval/new Function explorado no CVE-2024-4367; isEvalSupported:false segue como defesa extra. */
+  const PDF_VER = '6.4.299', SEG_REVISAO = '06/11/2026';
+  const PDFJS = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDF_VER}/legacy/build/pdf.min.mjs`, PDFJS_SRI = 'sha384-oPqHr8MeYfJpkh4zgHbWYiuwabTzthRiOS5tSWsWGmCVWlwqIkS9coGro5aa48OF';
+  const PDFW = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDF_VER}/legacy/build/pdf.worker.min.mjs`, PDFW_SRI = 'sha384-tINN5IYq7dFaoHBUBBc2yfxGwR38mZn9GhaX31UofKYNgAg/3y8A7IjUI3GuEg/8';
+  let pdfCarga = null, pdfWorkerUrl = null;
+  function carregarPDFJS(){
+    if (!pdfCarga) pdfCarga = new Promise((ok, err) => {
+      const sc = document.createElement('script'); sc.type = 'module'; sc.src = PDFJS; sc.integrity = PDFJS_SRI; sc.crossOrigin = 'anonymous';
+      sc.onload = () => globalThis.pdfjsLib ? ok(globalThis.pdfjsLib) : err(new ErroImp('lib'));
+      sc.onerror = () => { pdfCarga = null; sc.remove(); pdfSriOk = false; err(new ErroImp('lib')); };
+      document.head.append(sc);
+    });
+    return pdfCarga;
   }
-  const PDFJS = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js', PDFJS_SRI = 'sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e';
-  const PDFW = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js', PDFW_SRI = 'sha384-SnzOobpRMLXZ52iJvZm/C0fYw0OQemTXzTjIsdsfMcrCtCEe9qgzxTd3RSklO5x2';
-  const XLSXJS = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js', XLSX_SRI = 'sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw';
+  /* Arquivo aberto do aparelho (file://): o navegador não deixa criar worker de módulo, então o leitor roda na própria página,
+     carregado com o mesmo controle de SRI. O tempo limite continua valendo para a resposta, mas não interrompe o processamento já iniciado. */
+  let pdfWorkerPagina = null;
+  function workerNaPagina(){
+    if (!pdfWorkerPagina) pdfWorkerPagina = new Promise((ok, err) => {
+      const sc = document.createElement('script'); sc.type = 'module'; sc.src = PDFW; sc.integrity = PDFW_SRI; sc.crossOrigin = 'anonymous';
+      sc.onload = () => globalThis.pdfjsWorker?.WorkerMessageHandler ? ok() : err(new ErroImp('lib'));
+      sc.onerror = () => { pdfWorkerPagina = null; sc.remove(); pdfSriOk = false; err(new ErroImp('lib')); };
+      document.head.append(sc);
+    });
+    return pdfWorkerPagina;
+  }
+  async function workerPDF(){
+    if (!pdfWorkerUrl){
+      let r; try { r = await fetch(PDFW, {integrity:PDFW_SRI, mode:'cors', credentials:'omit'}); } catch(e){ pdfSriOk = false; throw new ErroImp('lib'); }
+      if (!r.ok){ pdfSriOk = false; throw new ErroImp('lib'); }
+      pdfWorkerUrl = URL.createObjectURL(new Blob([await r.arrayBuffer()], {type:'text/javascript'}));
+    }
+    return new Worker(pdfWorkerUrl, {type:'module', name:'pdfjs'});
+  }
   async function textoPDF(buf, senha){
-    await carregarScript(PDFJS, PDFJS_SRI);
-    const lib = window.pdfjsLib;
-    if (!lib.GlobalWorkerOptions.workerSrc){
-      try { const r = await fetch(PDFW, {integrity: PDFW_SRI, mode:'cors'}); if (!r.ok) throw 0; lib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(await r.blob()); }
-      catch(e){ throw new Error('lib'); }
-    }
-    // isEvalSupported: false fecha a falha CVE-2024-4367 (código embutido em fontes de PDF).
-    const doc = await lib.getDocument({data: new Uint8Array(buf.slice(0)), password: senha || undefined, isEvalSupported: false}).promise;
+    const lib = await carregarPDFJS(), naPagina = location.protocol === 'file:';
+    let w = null, pw = null;
+    if (naPagina) await workerNaPagina(); else { w = await workerPDF(); pw = new lib.PDFWorker({port:w}); }
+    pdfSriOk = true;
+    const task = lib.getDocument({data:new Uint8Array(buf.slice(0)), password:senha || undefined, ...(pw ? {worker:pw} : {}), isEvalSupported:false, enableXfa:false, disableFontFace:true, useSystemFonts:false, disableAutoFetch:true, disableStream:true, useWasm:false, isOffscreenCanvasSupported:false, verbosity:0});
+    let timer, cancelado = false;
+    const encerrar = () => { clearTimeout(timer); try { task.destroy(); } catch(e){} try { pw?.destroy(); } catch(e){} w?.terminate(); tarefaAtiva = null; };
+    const limite = new Promise((_, err) => { timer = setTimeout(() => { cancelado = true; err(new ErroImp('tempo')); }, segPref.seg * 1000); tarefaAtiva = {cancelar: () => { cancelado = true; err(new ErroImp('cancelado')); }}; });
     const RX_D = /^\d{1,2}[\/.-]\d{1,2}|^\d{1,2}\s*(?:de\s+)?(jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)/i, linhas = [];
-    for (let p = 1; p <= Math.min(doc.numPages, 40); p++){
-      const tc = await (await doc.getPage(p)).getTextContent();
-      const it = tc.items.filter(i => i.str && i.str.trim()).map(i => ({x:i.transform[4], y:i.transform[5], w:i.width || 0, s:i.str})).sort((a, b) => b.y - a.y || a.x - b.x);
-      let lin = [], yy = null;
-      const flush = () => { if (!lin.length) return; lin.sort((a, b) => a.x - b.x); let txt = '', fim = null; for (const i of lin){ if (fim != null){ const gap = i.x - fim; txt += gap > 30 && RX_D.test(i.s.trim()) ? '\n' : gap > 6 ? '  ' : ' '; } txt += i.s; fim = i.x + i.w; } linhas.push(txt); lin = []; };
-      for (const i of it){ if (yy != null && Math.abs(i.y - yy) > 2.5) flush(); if (!lin.length) yy = i.y; lin.push(i); }
-      flush();
-    }
-    return linhas.join('\n');
-  }
-  async function linhasExcel(buf){
-    await carregarScript(XLSXJS, XLSX_SRI);
-    const wb = window.XLSX.read(buf, {type:'array', cellDates:true});
-    return window.XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {header:1, raw:false, dateNF:'dd/mm/yyyy', defval:''});
+    const trabalho = (async () => {
+      let doc;
+      try { doc = await task.promise; }
+      catch(e){ if (e?.name === 'PasswordException') throw e; throw new ErroImp('corrompido'); }
+      let tam = 0;
+      for (let p = 1; p <= Math.min(doc.numPages, LIM.paginas); p++){
+        if (cancelado) return '';
+        const tc = await (await doc.getPage(p)).getTextContent();
+        const it = tc.items.filter(i => i.str && i.str.trim()).map(i => ({x:i.transform[4], y:i.transform[5], w:i.width || 0, s:i.str})).sort((a, b) => b.y - a.y || a.x - b.x);
+        let lin = [], yy = null;
+        const flush = () => { if (!lin.length) return; lin.sort((a, b) => a.x - b.x); let txt = '', fim = null; for (const i of lin){ if (fim != null){ const gap = i.x - fim; txt += gap > 30 && RX_D.test(i.s.trim()) ? '\n' : gap > 6 ? '  ' : ' '; } txt += i.s; fim = i.x + i.w; } linhas.push(txt); tam += txt.length; lin = []; };
+        for (const i of it){ if (yy != null && Math.abs(i.y - yy) > 2.5) flush(); if (!lin.length) yy = i.y; lin.push(i); }
+        flush();
+        if (tam > LIM.textoMB * 1048576) break;
+      }
+      return linhas.join('\n');
+    })();
+    try { return await Promise.race([trabalho, limite]); }
+    finally { encerrar(); }
   }
   function decodificar(buf){ try { return new TextDecoder('utf-8', {fatal:true}).decode(buf); } catch(e){ return new TextDecoder('windows-1252').decode(buf); } }
 
@@ -3368,7 +3916,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     impLinhas.sort((a, b) => a.data.localeCompare(b.data));
     if (!impLinhas.length){
       $('#imp-step1').hidden = false; $('#imp-step2').hidden = true;
-      $('#imp-msg').textContent = 'Não encontrei lançamentos nestes arquivos. Tente exportar em CSV ou OFX pelo app do banco, ou copie e cole o texto.';
+      $('#imp-msg').textContent = impFalhas.length ? `Não consegui ler: ${impFalhas.join(', ')}. Exporte em CSV ou OFX pelo app do banco, ou copie e cole o texto.` : 'Não encontrei lançamentos nestes arquivos. Tente exportar em CSV ou OFX pelo app do banco, ou copie e cole o texto.';
       $('#imp-ia-row').hidden = !(sample && impTexto.trim().length > 20); return;
     }
     $('#imp-step1').hidden = true; $('#imp-step2').hidden = false; $('#imp-msg2').textContent = '';
@@ -3425,10 +3973,23 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   let impFalhas = [];
   async function lerArquivo(f){
     const nome = f.name, low = nome.toLowerCase(), ref = $('#imp-ref').value || hojeISO().slice(0,7);
-    const buf = await f.arrayBuffer();
-    if (low.endsWith('.pdf')){ impPdf = {nome, buf}; return abrirPDF(''); }
-    if (/\.xlsx?$/.test(low)){ const rows = await linhasExcel(buf); return adicionarArquivo(nome, deTabela(rows, ref), rows.slice(0, 15).map(r => r.join(' ')).join(' ')); }
-    const txt = decodificar(buf); impTexto = txt;
+    const ext = (low.match(/\.([a-z0-9]+)$/) || [])[1] || '';
+    if (!EXT_ACEITA[ext]) throw new ErroImp('formato');
+    if (f.size > segPref.mb * 1048576) throw new ErroImp('grande');
+    if (!f.size) throw new ErroImp('corrompido');
+    const buf = await f.arrayBuffer(), tipo = tipoReal(new Uint8Array(buf, 0, Math.min(buf.byteLength, 8192)));
+    if (!EXT_ACEITA[ext].includes(tipo)) throw new ErroImp(tipo === 'ole' ? 'xls-antigo' : 'formato');
+    if (ext === 'pdf'){ impPdf = {nome, buf}; return abrirPDF(''); }
+    if (ext === 'xlsx' || ext === 'xls'){
+      let rows;
+      if (tipo === 'zip'){ const r = await linhasXLSX(buf); rows = r.rows; if (r.trunc) toast(`${nome}: só as primeiras ${LIM.linhas.toLocaleString('pt-BR')} linhas foram lidas.`); }
+      else if (tipo === 'html') rows = linhasHTMLPlanilha(decodificar(buf));
+      else rows = linhasXMLPlanilha(decodificar(buf));
+      return adicionarArquivo(nome, deTabela(rows, ref), rows.slice(0, 15).map(r => r.join(' ')).join(' '));
+    }
+    let txt = tipo === 'texto16' ? new TextDecoder(new Uint8Array(buf)[0] === 0xFF ? 'utf-16le' : 'utf-16be').decode(buf) : decodificar(buf);
+    const nl = txt.split('\n'); if (nl.length > LIM.linhas){ txt = nl.slice(0, LIM.linhas).join('\n'); toast(`${nome}: só as primeiras ${LIM.linhas.toLocaleString('pt-BR')} linhas foram lidas.`); }
+    impTexto = txt;
     if (/<OFX>|<STMTTRN>/i.test(txt) || /\.(ofx|qfx)$/.test(low)) return adicionarArquivo(nome, lerOFX(txt), txt);
     let linhas = deTabela(lerCSV(txt), ref); if (!linhas.length) linhas = lerTexto(txt, ref);
     adicionarArquivo(nome, linhas, txt);
@@ -3437,15 +3998,20 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     while (impFila.length){
       const f = impFila.shift();
       $('#imp-msg').textContent = `Lendo ${f.name}…`; $('#imp-pw').hidden = true;
+      if (impCancelado) break;
       try { const r = await lerArquivo(f); if (r === 'senha') return; }
-      catch(e){ impFalhas.push(f.name); if (/lib/.test(e?.message || '')) $('#imp-msg').textContent = 'Não consegui carregar o leitor deste formato. Verifique a internet ou use CSV/OFX.'; }
+      catch(e){ const mot = e instanceof ErroImp ? e.motivo : 'corrompido'; anotarErroImp((f.name.match(/\.([a-z0-9]+)$/i) || [])[1]?.toLowerCase() || '?', mot); impFalhas.push(`${f.name} (${MOTIVO_TXT[mot] || 'não foi possível ler'})`); if (mot === 'cancelado'){ impFila = []; break; } }
     }
+    $('#imp-cancelar').hidden = true; impCancelado = false;
     $('#imp-msg').textContent = impFalhas.length ? `Não consegui ler: ${impFalhas.join(', ')}. Exporte em CSV ou OFX pelo app do banco.` : '';
     montarPrevia();
     if (impFalhas.length && !$('#imp-step2').hidden) $('#imp-msg2').textContent = `Não consegui ler: ${impFalhas.join(', ')}.`;
   }
+  let impCancelado = false;
   function processarArquivos(lista, acrescentar){
-    const fs = [...(lista || [])]; if (!fs.length) return;
+    let fs = [...(lista || [])]; if (!fs.length) return;
+    if (fs.length > LIM.arquivos){ toast(`No máximo ${LIM.arquivos} arquivos por vez: os demais foram deixados de lado.`); fs = fs.slice(0, LIM.arquivos); }
+    $('#imp-cancelar').hidden = false; impCancelado = false;
     if (!acrescentar){ impArqs = []; impEdits = {}; impSoOutros = false; }
     impFalhas = []; impFila = fs; $('#imp-ia-row').hidden = true; processarFila();
   }
@@ -3454,6 +4020,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     try {
       const txt = await textoPDF(impPdf.buf, senha); impTexto = txt;
       $('#imp-pw').hidden = true;
+      $('#imp-senha').value = '';
       if (txt.replace(/\s/g, '').length < 30){ impFalhas.push(impPdf.nome + ' (PDF sem texto, parece imagem)'); return; }
       adicionarArquivo(impPdf.nome, lerTexto(txt, $('#imp-ref').value || hojeISO().slice(0,7)), txt);
     } catch(e){
@@ -3463,7 +4030,9 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
         $('#imp-msg').textContent = e.code === 2 ? 'Senha incorreta. Tente de novo.' : ''; $('#imp-senha').value = ''; $('#imp-senha').focus();
         return 'senha';
       }
-      impFalhas.push(impPdf.nome);
+      const mot = e instanceof ErroImp ? e.motivo : 'corrompido'; anotarErroImp('pdf', mot);
+      impFalhas.push(`${impPdf.nome} (${MOTIVO_TXT[mot] || 'não foi possível ler'})`);
+      if (mot === 'cancelado') impFila = [];
     }
   }
   function ajustarImp(){
@@ -3481,6 +4050,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
     p.scrollIntoView({behavior:'smooth', block:'start'});
   };
   $('#imp-close').onclick = () => { $('#imp-panel').hidden = true; };
+  $('#imp-cancelar').onclick = () => { impCancelado = true; impFila = []; tarefaAtiva?.cancelar(); $('#imp-msg').textContent = 'Leitura cancelada.'; };
   $('#imp-banco').onchange = ajustarImp; $('#imp-tipo').onchange = ajustarImp;
   let impAcrescentar = false;
   $('#imp-file').addEventListener('change', e => { processarArquivos(e.target.files, impAcrescentar); impAcrescentar = false; e.target.value = ''; });
@@ -3545,10 +4115,15 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   };
   $('#imp-ia').onclick = async () => {
     if (!sample) return;
+    const mk = mascararPII(impTexto.slice(0, 60000));
+    const textoIA = await autorizarIA({chave:'extrato', finalidade:'Ler o texto do extrato ou da fatura e devolver a lista de lançamentos (data, descrição e valor).',
+      itens:['O texto abaixo, extraído do arquivo neste aparelho (o arquivo em si e a senha do PDF não são enviados).', `${mk.ocultos} dado(s) pessoal(is) detectado(s) foram ocultados automaticamente: CPF, CNPJ, cartão, agência, conta, e-mail, telefone e senhas.`, 'Revise e apague o que mais não quiser enviar, como nomes de pessoas em PIX.'],
+      texto:mk.texto, editavel:true});
+    if (textoIA == null){ $('#imp-msg').textContent = 'Envio ao Claude cancelado. Nada foi enviado.'; return; }
     $('#imp-ia').disabled = true; $('#imp-msg').textContent = 'O Claude está lendo o texto…';
     try {
       const ref = $('#imp-ref').value || hojeISO().slice(0,7);
-      const arr = await sample.json(`Extraia os lançamentos desta ${$('#imp-tipo').value === 'fatura' ? 'fatura de cartão de crédito' : 'extrato bancário'} brasileira. Mês de referência: ${ref}. Ignore totais, saldos, limites e resumos. Responda com APENAS um array JSON de objetos {"data":"AAAA-MM-DD","descricao":"texto","valor":número}, com valor positivo para compras e saídas e negativo para pagamentos, créditos e estornos.\n\nTEXTO:\n${impTexto.slice(0, 60000)}`, {modelTier:'default'});
+      const arr = await sample.json(`Extraia os lançamentos desta ${$('#imp-tipo').value === 'fatura' ? 'fatura de cartão de crédito' : 'extrato bancário'} brasileira. Mês de referência: ${ref}. Ignore totais, saldos, limites e resumos. Responda com APENAS um array JSON de objetos {"data":"AAAA-MM-DD","descricao":"texto","valor":número}, com valor positivo para compras e saídas e negativo para pagamentos, créditos e estornos.\n\nTEXTO:\n${textoIA.slice(0, 60000)}`, {modelTier:'default'});
       const l = (Array.isArray(arr) ? arr : []).map(o => ({data: dataImp(String(o.data || ''), ref), desc: String(o.descricao || ''), valor: $('#imp-tipo').value === 'fatura' ? +o.valor : -(+o.valor)})).filter(o => o.data && isFinite(o.valor) && o.valor);
       impArqs = []; impEdits = {}; impFalhas = []; adicionarArquivo('Texto lido pelo Claude', l, impTexto); montarPrevia();
     } catch(e){ $('#imp-msg').textContent = 'O Claude não conseguiu ler este texto agora.'; }
@@ -3556,9 +4131,12 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   };
   $('#imp-ai-cat').onclick = async () => {
     const alvo = impLinhas.filter(r => r.categoria === 'Outros' && !r.transf && !r.parSkip); if (!alvo.length || !sample){ $('#imp-msg2').textContent = 'Nenhum lançamento em "Outros".'; return; }
+    const lista = alvo.map(r => `${impLinhas.indexOf(r)}: [${r.tipo === 'receita' ? 'entrada' : 'gasto'}] ${mascararPII(r.desc).texto}`).join('\n');
+    const ok = await autorizarIA({chave:'categorias', finalidade:'Sugerir uma categoria para cada lançamento que ficou em "Outros".', itens:['Só a descrição de cada lançamento e se é entrada ou gasto. Valores, datas, contas e o arquivo não são enviados.', 'Dados como CPF, cartão e conta são ocultados automaticamente.'], texto:lista});
+    if (ok == null){ $('#imp-msg2').textContent = 'Envio ao Claude cancelado. Nada foi enviado.'; return; }
     $('#imp-ai-cat').disabled = true; $('#imp-msg2').textContent = 'Pedindo sugestões ao Claude…';
     try {
-      const resp = await sample.json(`Classifique cada lançamento brasileiro em uma categoria. Categorias de gasto: ${CAT_DESP.join(', ')}. Categorias de entrada: ${CAT_REC.join(', ')}. Responda com APENAS um objeto JSON {"índice": "categoria"}.\n\n${alvo.map(r => `${impLinhas.indexOf(r)}: [${r.tipo === 'receita' ? 'entrada' : 'gasto'}] ${r.desc}`).join('\n')}`, {modelTier:'quick'});
+      const resp = await sample.json(`Classifique cada lançamento brasileiro em uma categoria. Categorias de gasto: ${CAT_DESP.join(', ')}. Categorias de entrada: ${CAT_REC.join(', ')}. Responda com APENAS um objeto JSON {"índice": "categoria"}.\n\n${lista}`, {modelTier:'quick'});
       for (const [k, v] of Object.entries(resp || {})){ const r = impLinhas[+k]; if (r && (r.tipo === 'receita' ? CAT_REC : CAT_DESP).includes(v)) r.categoria = v; }
       renderPrevia(); $('#imp-msg2').textContent = 'Categorias sugeridas. Confira antes de importar.';
     } catch(e){ $('#imp-msg2').textContent = 'O Claude não conseguiu sugerir agora.'; }
@@ -3817,7 +4395,7 @@ ${bancosResumo(ym).lista.map(b => `- ${b.nome} (${TIPOS_BANCO[b.tipo] || ''}): e
   $('#ano-print').onclick = () => { try { window.print(); } catch(e){} };
   $('#ano-csv').onclick = async () => {
     const l = state.fin.lanc.filter(x => (x.data||'').startsWith(anoSel + '-')).sort((a, b) => a.data.localeCompare(b.data));
-    const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const q = v => { let t = String(v ?? ''); if (/^[=+\-@\t\r]/.test(t)) t = "'" + t; return `"${t.replace(/"/g, '""')}"`; };
     const linhas = ['Data;Tipo;Descrição;Categoria;Conta;Valor'].concat(l.map(x => [dataBR(x.data), x.tipo === 'receita' ? 'Entrada' : x.tipo === 'transf' ? 'Transferência' : 'Gasto', q(x.desc), q(x.tipo === 'transf' ? '' : x.categoria), q(contaLabel(x)), (x.tipo === 'receita' ? '' : '-') + num(x.valor).toFixed(2).replace('.', ',')].join(';')));
     const txt = '﻿' + linhas.join('\r\n'), nome = `bussola-lancamentos-${anoSel}.csv`;
     const dl = window.claude ? await window.claude.use('downloads') : null;
@@ -4832,9 +5410,11 @@ Use de 2 a 5 itens em "aportar" e de 1 a 4 em "evitar".`
     if (!sample) return;
     if (!state.ativos.length){ $('#an-status').textContent = 'Cadastre ao menos um ativo antes de gerar a análise.'; return; }
     anCtl = new AbortController();
+    const okA = await autorizarIA({chave:'analise', finalidade:'Analisar sua carteira com o cenário atual e sugerir onde aportar.', itens:['Patrimônio total, ativos (nome, classe, instituição, rentabilidade, valores aplicados e atuais) e metas de alocação.', 'Reserva de emergência, gastos médios, dívidas e metas financeiras, quando cadastrados.', 'O cenário de mercado salvo.', 'Não vão: senhas, backups, arquivos de extrato, números de conta ou cartão.'], texto:mascararPII(contexto()).texto, umaVez:true});
+    if (okA == null){ $('#an-status').textContent = 'Análise cancelada. Nada foi enviado.'; return; }
     $('#an-run').disabled = true; $('#an-stop').hidden = false;
     $('#an-status').textContent = 'Analisando sua carteira e o cenário… pode levar até 2 minutos.';
-    const prompt = promptAnalise(true);
+    const prompt = mascararPII(promptAnalise(true)).texto;
     const _old = `
 
 TAREFA: Analise a carteira considerando o cenário salvo e as metas. Diga onde aportar agora (em ordem de prioridade), o que evitar neste momento e quais riscos acompanhar. Se o cenário mostrar volatilidade forte, diga explicitamente como um conservador deve se comportar (por exemplo, não vender títulos marcados a mercado no pânico se pretende levar ao vencimento).
@@ -4863,12 +5443,14 @@ Use de 2 a 5 itens em "aportar" e de 1 a 4 em "evitar".`;
   $('#chat-form').addEventListener('submit', async e => {
     e.preventDefault();
     const q = $('#chat-in').value.trim(); if (!q || !sample) return;
+    const okC = await autorizarIA({chave:'perguntas', finalidade:'Responder às suas perguntas sobre a carteira. Junto com cada pergunta vai o contexto abaixo.', itens:['Patrimônio total, ativos (nome, classe, instituição, rentabilidade, valores aplicados e atuais) e metas de alocação.', 'Reserva de emergência, gastos médios, dívidas e metas financeiras, quando cadastrados.', 'O cenário de mercado salvo.', 'Não vão: senhas, backups, arquivos de extrato, números de conta ou cartão.'], texto:mascararPII(contexto()).texto, umaVez:true});
+    if (okC == null) return;
     $('#chat-in').value = ''; addMsg('user', q); turns.push({role:'user', content:q});
     while (turns.length > 12) turns.splice(0, 2);
     const bubble = addMsg('assistant', 'Pensando…');
     $('#chat-send').disabled = true;
     try {
-      const {text} = await sample([{role:'user', content:`${REGRAS}\nResponda em até 8 frases, em texto simples sem markdown.\n\n${contexto()}\n\nAgora responda às perguntas a seguir.`}, ...turns], {cache:false, onText:({text}) => { bubble.textContent = text; }});
+      const {text} = await sample([{role:'user', content:`${REGRAS}\nResponda em até 8 frases, em texto simples sem markdown.\n\n${mascararPII(contexto()).texto}\n\nAgora responda às perguntas a seguir.`}, ...turns], {cache:false, onText:({text}) => { bubble.textContent = text; }});
       turns.push({role:'assistant', content:text});
     } catch(err){
       bubble.textContent = err?.text || erroTxt(err?.code);
@@ -4876,10 +5458,56 @@ Use de 2 a 5 itens em "aportar" e de 1 a 4 em "evitar".`;
     } finally { $('#chat-send').disabled = false; }
   });
 
+
+  /* ---------- Painel de segurança ---------- */
+  function renderSeg(){
+    const on = cofreLigado;
+    $('#seg-off').hidden = on || !!db; $('#seg-on').hidden = !on;
+    $('#seg-cofre-st').textContent = db ? 'Seus dados estão na sua conta do Claude; a proteção por senha vale para os dados guardados só neste navegador.' : on ? `Ativa. Bloqueio automático após ${segPref.bloqueio} min sem uso.` : 'Desativada.';
+    let sobra = false; try { sobra = on && !!localStorage.getItem(LS); } catch(e){}
+    $('#seg-limpar-sobra').hidden = !sobra;
+    $('#seg-ativar').disabled = !$('#seg-guardei').checked;
+    document.querySelectorAll('[data-segopt]').forEach(g => g.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.v === +segPref[g.dataset.segopt]))));
+    $('#seg-diag').innerHTML = diagnosticoSeg().map(x => `<li><span class="pill ${x.st}">${x.st === 'ok' ? 'ok' : x.st === 'crit' ? 'erro' : x.st === 'warn' ? 'atenção' : 'info'}</span><strong>${esc(x.t)}</strong><span>${esc(x.d)}</span></li>`).join('');
+    const r = $('#seg-resumo'); if (r) r.textContent = db ? '' : on ? `Protegido por senha · bloqueia após ${segPref.bloqueio} min sem uso.` : 'Sem proteção por senha: os dados ficam legíveis neste navegador.';
+  }
+  let segVoltar = null;
+  $('#seg-open').onclick = e => { segVoltar = e.currentTarget; $('#seg-msg').textContent = ''; renderSeg(); $('#seg-sheet').hidden = false; $('#seg-close').focus(); };
+  $('#seg-close').onclick = () => { $('#seg-sheet').hidden = true; segVoltar?.focus(); };
+  $('#seg-guardei').onchange = renderSeg;
+  $('#seg-bk-c').onclick = async () => { if (await exportarBackupCifrado($('#seg-msg'))) renderSeg(); };
+  $('#seg-bk').onclick = () => { $('#bk-exp').click(); $('#seg-msg').textContent = 'Backup sem criptografia baixado: guarde-o em lugar seguro.'; renderSeg(); };
+  document.querySelectorAll('[data-segopt]').forEach(g => g.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; segPref[g.dataset.segopt] = +b.dataset.v; salvarSegPref(); renderSeg(); }));
+  $('#seg-ativar').onclick = async () => {
+    const senha = await pedirSenha({titulo:'Criar senha', texto:'Pelo menos 10 caracteres. Uma frase com palavras que só você conhece é mais forte e fácil de lembrar. A senha não é gravada em lugar nenhum.', confirmar:true, minimo:10, botao:'Ativar proteção'});
+    if (!senha) return;
+    $('#seg-msg').textContent = 'Criptografando e conferindo…'; $('#seg-ativar').disabled = true;
+    try { await ativarCofre(senha); $('#seg-msg').textContent = 'Proteção ativada. Os dados foram criptografados e conferidos; a cópia sem senha foi apagada.'; toast('Proteção por senha ativada.'); }
+    catch(e){ $('#seg-msg').textContent = 'Não foi possível ativar. Nada foi alterado: seus dados continuam como estavam.'; }
+    renderSeg();
+  };
+  $('#seg-bloquear').onclick = () => bloquearAgora();
+  $('#seg-trocar').onclick = async () => {
+    const atual = await pedirSenha({titulo:'Senha atual', botao:'Continuar'}); if (!atual) return;
+    const nova = await pedirSenha({titulo:'Nova senha', texto:'Pelo menos 10 caracteres.', confirmar:true, minimo:10, botao:'Trocar senha'}); if (!nova) return;
+    $('#seg-msg').textContent = 'Trocando…';
+    try { await trocarSenhaCofre(atual, nova); $('#seg-msg').textContent = 'Senha trocada. Backups criptografados antigos continuam com a senha deles.'; }
+    catch(e){ $('#seg-msg').textContent = e.message === 'senha' ? 'Senha atual incorreta. Nada foi alterado.' : 'Não foi possível trocar a senha. Nada foi alterado.'; }
+  };
+  $('#seg-desativar').onclick = async () => {
+    const senha = await pedirSenha({titulo:'Desativar proteção', texto:'Os dados voltam a ficar legíveis no armazenamento deste navegador. Digite a senha para confirmar.', botao:'Desativar'}); if (!senha) return;
+    try { await cofreFila; await desativarCofre(senha); $('#seg-msg').textContent = 'Proteção desativada.'; }
+    catch(e){ $('#seg-msg').textContent = e.message === 'senha' ? 'Senha incorreta. Nada foi alterado.' : 'Não foi possível desativar. Nada foi alterado.'; }
+    renderSeg();
+  };
+  $('#seg-limpar-sobra').onclick = () => { if (!confirm('Apagar a cópia antiga sem senha deste navegador? Os dados protegidos continuam.')) return; try { localStorage.removeItem(LS); } catch(e){} renderSeg(); };
+
   /* ---------- Inicialização ---------- */
   /* Outra aba gravou: recarrega os dados para não gravar por cima do que ela salvou. */
-  window.addEventListener('storage', e => {
-    if (e.key !== LS || db || state.demo || e.newValue == null) return;
+  window.addEventListener('storage', async e => {
+    if (e.key === COFRE_KEY && cofre && e.newValue){ try { const env = JSON.parse(e.newValue); aplicarDados(normalizarDados(JSON.parse(await decifrarCom(cofre.key, env, AAD_COFRE)))); render(); toast('Os dados foram atualizados com o que você fez em outra aba.'); } catch(err){ bloquearAgora(); } return; }
+    if (e.key === COFRE_KEY && !e.newValue && cofreLigado){ location.reload(); return; }
+    if (e.key !== LS || db || state.demo || e.newValue == null || cofreLigado) return;
     lsLoad(); render();
     toast('Os dados foram atualizados com o que você fez em outra aba.');
   });
@@ -4892,13 +5520,13 @@ Use de 2 a 5 itens em "aportar" e de 1 a 4 em "evitar".`;
 
   (async () => {
     const cl = window.claude;
-    if (!cl){ lsLoad(); render(); registrarHistorico(); talvezOnboarding(); $('#offline').hidden = false; $('#an-run').hidden = true; $('#chat-panel').hidden = true; return; }
+    if (!cl){ await carregarLocal(); render(); renderSeg(); registrarHistorico(); talvezOnboarding(); $('#offline').hidden = false; $('#an-run').hidden = true; $('#chat-panel').hidden = true; return; }
     const [d, s] = await Promise.all([cl.use('db'), cl.use('sample')]);
     sample = s;
     if (!sample){ $('#an-run').hidden = true; $('#chat-panel').hidden = true; }
     db = d;
     if (db){ $('#bk-desc').textContent = 'Seus dados ficam salvos na sua conta do Claude e aparecem no celular e no computador. O backup serve como cópia de segurança.'; }
-    if (!db){ lsLoad(); render(); registrarHistorico(); talvezOnboarding(); $('#offline').hidden = false; return; }
+    if (!db){ await carregarLocal(); render(); renderSeg(); registrarHistorico(); talvezOnboarding(); $('#offline').hidden = false; return; }
     const onErr = () => { $('#offline').hidden = false; };
     setTimeout(talvezOnboarding, 2500);
     db.collection('carteira').onSnapshot(snap => {
