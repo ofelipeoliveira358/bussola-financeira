@@ -1,5 +1,7 @@
 # Bússola Financeira: busca os dados do Cenário nos dias úteis, embute no index.html e publica o site (GitHub Pages).
 # Requer: Settings → Pages → Source = "GitHub Actions".
+# Segurança: permissões mínimas por job, ações fixadas por SHA (o Dependabot avisa atualizações),
+# credencial do checkout não persistida, nenhum segredo além do GITHUB_TOKEN automático, sem gatilho de pull request.
 # Horários em UTC; Brasília é UTC-3 o ano todo. Minutos fora da hora cheia para reduzir atrasos do GitHub.
 name: Cenário diário
 on:
@@ -10,23 +12,24 @@ on:
   workflow_dispatch: {}       # botão "Run workflow" para rodar na hora
   push:                       # você enviou um arquivo: embute os últimos dados e publica (sem consultar fontes)
     branches: [main]
-permissions:
-  contents: write             # gravar index.html e cenario.json no repositório
-  pages: write                # publicar o site
-  id-token: write             # exigido pela publicação do GitHub Pages
+permissions: {}               # nada por padrão; cada job pede só o que usa
 concurrency:
   group: cenario
   cancel-in-progress: false
 jobs:
   gerar:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+    timeout-minutes: 10
+    permissions:
+      contents: write         # gravar index.html e cenario.json no repositório
+    outputs:
+      sha: ${{ steps.gravar.outputs.sha }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09   # v5.1.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0       # histórico completo para a busca de segredos
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444   # v5.0.0
         with:
           node-version: '22'
 
@@ -41,45 +44,74 @@ jobs:
         if: github.event_name == 'push'
         run: node gerar-cenario.mjs --embutir
 
+      - name: Verificação de segurança (CSP, bibliotecas, segredos, dados publicados)
+        run: node verificar-seguranca.mjs
+
       - name: Gravar no repositório
+        id: gravar
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          PUSH_URL="${PUSH_URL:-https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if [ -f cenario.json ]; then cp cenario.json "$RUNNER_TEMP/cenario.json"; fi
           git add index.html; if [ -f cenario.json ]; then git add cenario.json; fi
-          if git diff --cached --quiet; then echo "Nada mudou no repositório."; exit 0; fi
+          if git diff --cached --quiet; then echo "Nada mudou no repositório."; echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"; exit 0; fi
           git commit -q -m "Cenário atualizado $(date -u +%Y-%m-%dT%H:%MZ)"
           for i in 1 2 3; do
-            if git push -q; then echo "Gravado no repositório."; exit 0; fi
+            if git push -q "$PUSH_URL" HEAD:main; then echo "Gravado no repositório."; echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"; exit 0; fi
             echo "O repositório mudou durante a geração (tentativa $i de 3): refazendo sobre a versão mais nova."
-            git fetch -q origin main && git reset -q --hard origin/main
+            git fetch -q "$PUSH_URL" main && git reset -q --hard FETCH_HEAD
             if [ -f "$RUNNER_TEMP/cenario.json" ]; then cp "$RUNNER_TEMP/cenario.json" cenario.json; fi
             node gerar-cenario.mjs --embutir
+            node verificar-seguranca.mjs
             git add index.html; if [ -f cenario.json ]; then git add cenario.json; fi
-            if git diff --cached --quiet; then echo "Nada a gravar sobre a versão mais nova."; exit 0; fi
+            if git diff --cached --quiet; then echo "Nada a gravar sobre a versão mais nova."; echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"; exit 0; fi
             git commit -q -m "Cenário atualizado $(date -u +%Y-%m-%dT%H:%MZ)"
             sleep 5
           done
           echo "::error::Não foi possível gravar no repositório. A última versão publicada continua no ar."
           exit 1
 
-      - name: Montar o site (só index.html e cenario.json)
+  publicar:
+    needs: gerar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write            # publicar o site
+      id-token: write         # exigido pela publicação do GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09   # v5.1.0
+        with:
+          ref: ${{ needs.gerar.outputs.sha }}
+          persist-credentials: false
+
+      - name: Montar o site (só index.html e cenario.json; nada de scripts, backups ou extratos)
         run: |
           mkdir -p _site
           cp index.html _site/
           if [ -f cenario.json ]; then cp cenario.json _site/; fi
+          ls -la _site
 
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b   # v5.0.0
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa   # v3.0.1
         with:
           path: _site
       - id: deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e   # v4.0.5
 
       - name: Confirmar que a versão nova está no ar
+        env:
+          URL: ${{ steps.deploy.outputs.page_url }}
         run: |
-          URL="${{ steps.deploy.outputs.page_url }}"
           ESPERADO=$(node -e "const fs=require('fs');const m=fs.readFileSync('index.html','utf8').match(/id=\"cenario-embutido\">([\s\S]*?)<\/script>/);const j=m&&JSON.parse(m[1]);console.log(j&&j.geradoEm||'')")
+          echo "Cabeçalhos de segurança enviados pelo GitHub Pages:"
+          curl -fsSI "$URL" | grep -iE '^(strict-transport-security|x-content-type-options|content-security-policy|referrer-policy|permissions-policy|x-frame-options):' || echo "(nenhum dos cabeçalhos procurados)"
           if [ -z "$ESPERADO" ]; then echo "::warning::O index.html publicado não tem dados embutidos ainda."; exit 0; fi
           for i in $(seq 1 18); do
             if curl -fsSL "${URL}?v=$(date +%s)" | grep -qF "\"geradoEm\":\"$ESPERADO\""; then
