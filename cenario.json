@@ -1,67 +1,95 @@
 {
  "versao": 2,
- "geradoEm": "2026-11-16T17:01:49.767Z",
+ "geradoEm": "2026-11-16T22:10:06.169Z",
  "fontes": {
-  "ipca12": {
-   "v": 4.63,
-   "ref": "2026-10",
+  "dolarBcb": {
+   "v": 5.7324,
+   "ref": "2026-11-16",
    "hist": [
     [
-     "2025-10",
-     4.68
+     "2026-10-19",
+     5.0564
     ],
     [
-     "2025-11",
-     4.46
+     "2026-10-20",
+     5.014
     ],
     [
-     "2025-12",
-     4.26
+     "2026-10-21",
+     5.0277
     ],
     [
-     "2026-01",
-     4.44
+     "2026-10-22",
+     5.0383
     ],
     [
-     "2026-02",
-     3.81
+     "2026-10-23",
+     5.0377
     ],
     [
-     "2026-03",
-     4.14
+     "2026-10-26",
+     5.5007
     ],
     [
-     "2026-04",
-     4.39
+     "2026-10-27",
+     5.3346
     ],
     [
-     "2026-05",
-     4.72
+     "2026-10-28",
+     5.342
     ],
     [
-     "2026-06",
-     4.64
+     "2026-10-29",
+     5.3744
     ],
     [
-     "2026-07",
-     4.44
+     "2026-10-30",
+     5.4212
     ],
     [
-     "2026-08",
-     4.22
+     "2026-11-03",
+     5.4935
     ],
     [
-     "2026-09",
-     4.58
+     "2026-11-04",
+     5.4778
     ],
     [
-     "2026-10",
-     4.63
+     "2026-11-05",
+     5.4621
+    ],
+    [
+     "2026-11-06",
+     5.5013
+    ],
+    [
+     "2026-11-09",
+     5.5146
+    ],
+    [
+     "2026-11-10",
+     5.584
+    ],
+    [
+     "2026-11-11",
+     5.5606
+    ],
+    [
+     "2026-11-12",
+     5.6143
+    ],
+    [
+     "2026-11-13",
+     5.6518
+    ],
+    [
+     "2026-11-16",
+     5.7324
     ]
    ],
-   "at": "2026-11-16T17:01:49.767Z",
-   "fonte": "IBGE via Banco Central · SGS 13522",
-   "url": "https://www.ibge.gov.br/explica/inflacao.php"
+   "at": "2026-11-16T22:10:06.169Z",
+   "fonte": "Banco Central · SGS 1",
+   "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes"
   },
   "cdi": {
    "v": 13.65,
@@ -148,7 +176,7 @@
      13.65
     ]
    ],
-   "at": "2026-11-16T17:01:49.767Z",
+   "at": "2026-11-16T22:10:06.169Z",
    "fonte": "Banco Central · SGS 4389",
    "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicotaxasjuros"
   },
@@ -282,7 +310,7 @@
      13.75
     ]
    ],
-   "at": "2026-11-16T17:01:49.767Z",
+   "at": "2026-11-16T22:10:06.169Z",
    "fonte": "Banco Central · SGS 432",
    "url": "https://www.bcb.gov.br/controleinflacao/historicotaxasjuros"
   },
@@ -343,114 +371,9 @@
      0.14
     ]
    ],
-   "at": "2026-11-16T17:01:49.767Z",
+   "at": "2026-11-16T22:10:06.169Z",
    "fonte": "IBGE via Banco Central · SGS 433",
    "url": "https://www.ibge.gov.br/explica/inflacao.php"
-  },
-  "dolarBcb": {
-   "v": 5.7324,
-   "ref": "2026-11-16",
-   "hist": [
-    [
-     "2026-10-19",
-     5.0564
-    ],
-    [
-     "2026-10-20",
-     5.014
-    ],
-    [
-     "2026-10-21",
-     5.0277
-    ],
-    [
-     "2026-10-22",
-     5.0383
-    ],
-    [
-     "2026-10-23",
-     5.0377
-    ],
-    [
-     "2026-10-26",
-     5.5007
-    ],
-    [
-     "2026-10-27",
-     5.3346
-    ],
-    [
-     "2026-10-28",
-     5.342
-    ],
-    [
-     "2026-10-29",
-     5.3744
-    ],
-    [
-     "2026-10-30",
-     5.4212
-    ],
-    [
-     "2026-11-03",
-     5.4935
-    ],
-    [
-     "2026-11-04",
-     5.4778
-    ],
-    [
-     "2026-11-05",
-     5.4621
-    ],
-    [
-     "2026-11-06",
-     5.5013
-    ],
-    [
-     "2026-11-09",
-     5.5146
-    ],
-    [
-     "2026-11-10",
-     5.584
-    ],
-    [
-     "2026-11-11",
-     5.5606
-    ],
-    [
-     "2026-11-12",
-     5.6143
-    ],
-    [
-     "2026-11-13",
-     5.6518
-    ],
-    [
-     "2026-11-16",
-     5.7324
-    ]
-   ],
-   "at": "2026-11-16T17:01:49.767Z",
-   "fonte": "Banco Central · SGS 1",
-   "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes"
-  },
-  "focusIpca": {
-   "v": 5.1082,
-   "ref": "2026-11-13",
-   "ant": {
-    "v": 5.2195,
-    "ref": "2026-11-06"
-   },
-   "prox": {
-    "ano": 2027,
-    "v": 5
-   },
-   "ano": 2026,
-   "at": "2026-11-16T17:01:49.767Z",
-   "fonte": "Banco Central · Boletim Focus",
-   "url": "https://www.bcb.gov.br/publicacoes/focus"
   },
   "focusSelic": {
    "v": 13.75,
@@ -464,98 +387,217 @@
     "v": 12.75
    },
    "ano": 2026,
-   "at": "2026-11-16T17:01:49.767Z",
+   "at": "2026-11-16T22:10:06.169Z",
    "fonte": "Banco Central · Boletim Focus",
    "url": "https://www.bcb.gov.br/publicacoes/focus"
+  },
+  "focusIpca": {
+   "v": 5.1082,
+   "ref": "2026-11-13",
+   "ant": {
+    "v": 5.2195,
+    "ref": "2026-11-06"
+   },
+   "prox": {
+    "ano": 2027,
+    "v": 5
+   },
+   "ano": 2026,
+   "at": "2026-11-16T22:10:06.169Z",
+   "fonte": "Banco Central · Boletim Focus",
+   "url": "https://www.bcb.gov.br/publicacoes/focus"
+  },
+  "ipca12": {
+   "v": 4.63,
+   "ref": "2026-10",
+   "hist": [
+    [
+     "2025-10",
+     4.68
+    ],
+    [
+     "2025-11",
+     4.46
+    ],
+    [
+     "2025-12",
+     4.26
+    ],
+    [
+     "2026-01",
+     4.44
+    ],
+    [
+     "2026-02",
+     3.81
+    ],
+    [
+     "2026-03",
+     4.14
+    ],
+    [
+     "2026-04",
+     4.39
+    ],
+    [
+     "2026-05",
+     4.72
+    ],
+    [
+     "2026-06",
+     4.64
+    ],
+    [
+     "2026-07",
+     4.44
+    ],
+    [
+     "2026-08",
+     4.22
+    ],
+    [
+     "2026-09",
+     4.58
+    ],
+    [
+     "2026-10",
+     4.63
+    ]
+   ],
+   "at": "2026-11-16T22:10:06.169Z",
+   "fonte": "IBGE via Banco Central · SGS 13522",
+   "url": "https://www.ibge.gov.br/explica/inflacao.php"
   }
  },
  "estado": {
-  "ipca12": {
+  "dolarBcb": {
    "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
-   "ms": 845
+   "em": "2026-11-16T22:10:06.169Z",
+   "ms": 231
   },
   "cdi": {
    "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
-   "ms": 848
+   "em": "2026-11-16T22:10:06.169Z",
+   "ms": 739
   },
   "selic": {
    "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
-   "ms": 942
+   "em": "2026-11-16T22:10:06.169Z",
+   "ms": 807
   },
   "ipcaMes": {
    "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
-   "ms": 989
-  },
-  "dolarBcb": {
-   "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
-   "ms": 988
-  },
-  "focusIpca": {
-   "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
-   "ms": 1077
+   "em": "2026-11-16T22:10:06.169Z",
+   "ms": 786
   },
   "focusSelic": {
    "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
-   "ms": 1134
+   "em": "2026-11-16T22:10:06.169Z",
+   "ms": 828
+  },
+  "focusIpca": {
+   "ok": true,
+   "em": "2026-11-16T22:10:06.169Z",
+   "ms": 876
+  },
+  "ipca12": {
+   "ok": true,
+   "em": "2026-11-16T22:10:06.169Z",
+   "ms": 1357
   },
   "dolar": {
    "ok": false,
-   "em": "2026-11-16T17:01:49.767Z",
+   "em": "2026-11-16T22:10:06.169Z",
    "erro": "HTTP 429 (2 tentativas)",
-   "ms": 5588
+   "ms": 5263
   },
   "mercado.ibov": {
    "ok": true,
-   "em": "2026-11-16T17:01:49.767Z"
+   "em": "2026-11-16T22:10:06.169Z"
   },
   "mercado.ifix": {
    "ok": true,
-   "em": "2026-11-16T17:01:49.767Z"
+   "em": "2026-11-16T22:10:06.169Z"
   },
   "noticias.g1 Economia": {
    "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
+   "em": "2026-11-16T22:10:06.169Z",
    "itens": 100
   },
   "noticias.InfoMoney": {
    "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
+   "em": "2026-11-16T22:10:06.169Z",
    "itens": 10
   },
   "noticias.Google Notícias": {
-   "ok": true,
-   "em": "2026-11-16T17:01:49.767Z",
-   "itens": 100
+   "ok": false,
+   "em": "2026-11-16T22:10:06.169Z",
+   "erro": "HTTP 429"
   }
  },
  "mercado": {
   "ibov": {
-   "v": 169476.45,
+   "v": 169295.4,
    "ref": "2026-11-16",
-   "cot": 1794847591000,
-   "var": -1.728855721393028,
-   "at": "2026-11-16T17:01:49.767Z",
+   "cot": 1794863820000,
+   "var": -1.8338378039870609,
+   "at": "2026-11-16T22:10:06.169Z",
    "fonte": "Yahoo Finance (não oficial, indicativo)",
    "url": "https://finance.yahoo.com/quote/%5EBVSP"
   },
   "ifix": {
-   "v": 3561,
+   "v": 3542.78,
    "ref": "2026-11-16",
-   "cot": 1794847591000,
+   "cot": 1794863820000,
    "var": null,
-   "at": "2026-11-16T17:01:49.767Z",
+   "at": "2026-11-16T22:10:06.169Z",
    "fonte": "Yahoo Finance (não oficial, indicativo)",
    "url": "https://www.b3.com.br/pt_br/market-data-e-indices/indices/indices-de-segmentos-e-setoriais/indice-de-fundos-de-investimentos-imobiliarios-ifix.htm"
   }
  },
  "noticias": [
+  {
+   "titulo": "Alckmin diz que não há razão para mercado ter oscilações após pacote fiscal: 'Brasil tem segurança jurídica e está trabalhando'",
+   "url": "https://g1.globo.com/economia/noticia/2026/11/16/alckmin-diz-que-nao-ha-razao-para-mercado-ter-oscilacoes-apos-pacote-fiscal-brasil-tem-seguranca-juridica-e-esta-trabalhando.ghtml",
+   "fonte": "g1 Economia",
+   "ts": 1794865987000,
+   "resumo": "O presidente em exercício, Geraldo Alckmin, afirmou nesta segunda-feira (16) que não há razão para as oscilações do mercado financeiro após o governo ter apresentado na semana passada pacote que reúne medidas para conter gastos e melhorar…"
+  },
+  {
+   "titulo": "Ibovespa cai cerca de 2% e fica abaixo dos 170 mil pontos: o que explica forte queda?",
+   "url": "https://www.infomoney.com.br/mercados/ibovespa-cai-15-e-fica-abaixo-dos-170-mil-pontos-o-que-explica-queda-nesta-2a/",
+   "fonte": "InfoMoney",
+   "ts": 1794865134000,
+   "resumo": "Cenário fiscal e aversão a risco também nos EUA implicam em queda dos ativos nacionais"
+  },
+  {
+   "titulo": "Moedas Globais: força do dólar segue e DXY sobe a maior nível desde Dia da Libertação",
+   "url": "https://www.infomoney.com.br/mercados/moedas-globais-forca-do-dolar-segue-e-dxy-sobe-a-maior-nivel-desde-dia-da-libertacao/",
+   "fonte": "InfoMoney",
+   "ts": 1794864621000,
+   "resumo": "A divisa norte-americana também apresentou alta ante o dólar canadense com as negociações comerciais ainda empacadas entre os dois países"
+  },
+  {
+   "titulo": "Vale (VALE3): ações caem 4% com minério na mínima em 16 meses",
+   "url": "https://www.infomoney.com.br/mercados/vale-vale3-acoes-caem-mais-de-3-com-minerio-na-minima-em-16-meses/",
+   "fonte": "InfoMoney",
+   "ts": 1794864372000,
+   "resumo": "A referência de minério de ferro de dezembro na Bolsa de Cingapura perdia 2,71%, a US$88 por tonelada, atingindo o nível mais baixo desde setembro de 2024"
+  },
+  {
+   "titulo": "Fornecedora de café da Nestlé enfrenta audiência por denúncias de violações trabalhistas",
+   "url": "https://g1.globo.com/trabalho-e-carreira/noticia/2026/11/16/fornecedora-de-cafe-da-nestle-enfrenta-audiencia-por-denuncias-de-violacoes-trabalhistas.ghtml",
+   "fonte": "g1 Economia",
+   "ts": 1794860257000,
+   "resumo": "Uma empilhadeira movimenta grandes sacos de grãos de café no armazém da cooperativa Cooabriel Robusta, em São Gabriel da Palha 23 de setembro de 2025 REUTERS/Alexandre Meneghini A Cooperativa Agrária dos Cafeicultores de São Gabriel…"
+  },
+  {
+   "titulo": "Bets tiraram R$ 40,4 bilhões do orçamento das famílias até julho de 2026, diz Comsefaz",
+   "url": "https://g1.globo.com/economia/noticia/2026/11/16/bets-orcamento-das-familias-2026.ghtml",
+   "fonte": "g1 Economia",
+   "ts": 1794848550000,
+   "resumo": "Pessoa mexendo no celular Reprodução/ RBS TV Desde setembro, o governo Lula proibiu as bets no Brasil. Mas as apostas online consumiram uma parcela significativa do dinheiro das famílias brasileiras nos primeiros sete meses de 2026. A…"
+  },
   {
    "titulo": "Moretti: PLP do ajuste dá mais flexibilidade para poder alterar o Orçamento de 2027",
    "url": "https://www.infomoney.com.br/politica/moretti-plp-do-ajuste-da-mais-flexibilidade-para-poder-alterar-o-orcamento-de-2027/",
@@ -764,42 +806,6 @@
    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQWFVoNDVxbW9rV09kd1loODlTQ0o4U3RLa0d4MzRQNkkxVTdkZ3BqLVlVeEdUN242MEh2eGRPZndVNGJ0bmt5RDg0RlRERmpfTXhseWhjWVhacmd0X21GWldPMkRvNzJQZ1RBcVNVY2p3U2RCS1B4UUprQU55N25UUllkV1Z3RVBCdVEtR3FLTmRYSURrT3fSAZsBQVVfeXFMTTlkOFp2SFgxVXN0WEM3ZkFLYU9Gd003OHNPN1pyZGFwTTJVTklvVlYwcWRHUER2NXIwb0RGcXV2ZnZDWlBXeXVnN1ZCQnY1azB5MGlmX2s3ZXJua2NHOE9BSUdFSFNNSDIzaGpTNURsM3lQTTlZS0hkX1hpbFVxb01WQ2xTemRJc2VheGd2dmpzSjhROU1hSGVkYTg?oc=5",
    "fonte": "InfoMoney",
    "ts": 1794839500000
-  },
-  {
-   "titulo": "Dólar tem alta firme em novo dia de pessimismo com quadro fiscal",
-   "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPaFFtYURBVk1xV0JBQ3VoMmdqTFNQWnRLZGZlM3ZYLUlsREpWR3dZNnFpTWZITG5UbG9wSDNHM1dKZXJtNE1IN0dNTWJTOGdKRFhKMzlIelhncVlwV3FodUJiazVMTFhpZkJvYWxPRGRJSzZsaVFRUm44aFZUcm5Mb3l2RU5kNFBWeUNNejZqbG40VnA3TG5QdXpPTWg0WlRtRENud05Gb0FMTTdUano3RTRMTmNJR0IzUUx3MlJYckZCeFcwVUlSNUxUdW5NZw?oc=5",
-   "fonte": "UOL Economia",
-   "ts": 1794839280000
-  },
-  {
-   "titulo": "Boletim Focus: Juros e inflação mais elevados em 2027 | 16/11/2026",
-   "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxON2F2UFd6NzNmX3JOdTBhNHRCVGZjNXU2MkpPYkJUVFBIbmFXZE1VOUp1MUpnd0NpM291NTAwS1pvNzV4OHFmV0lGaWl3X0tBZ3BzQ21IX01YLWpyRzlhRUtfX1gxbUYwVDYtcktjc1kySXZmMlFYUkxYSDdBTmt6VDNGSWtEZzRGTWZtcEItRDVnWEpjTEpQVm1od25WYUhxNkh3WQ?oc=5",
-   "fonte": "XP Investimentos",
-   "ts": 1794839175000
-  },
-  {
-   "titulo": "O arrocho fiscal e a carestia no Brasil",
-   "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNRDIxS01Yb2pvNEhqMjNvWDJhTTZNTXBPaTFfUW1rOG40TXNseWRNeFI3NUI4ekhqeDBPenhwck9wSUg1dlRBOHdlRnl2Mk5TLWVFakYxaGRlbWlvZ0FqLUN3TkNnVG1UTDBCel9QOF9JWnZucHFXTzBFMGVmRmRiVmlYV3JXZ28?oc=5",
-   "fonte": "Revista Movimento",
-   "ts": 1794838481000
-  },
-  {
-   "titulo": "Navegantes prorroga prazo de transição para o Emissor Nacional de Nota Fiscal Eletrônica",
-   "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNQ2N1eEdDQ1I3VFl2bXdzbUhxNmhOVjlHeXk5U3VodGhieFlwMUgxOWVMa1FjUnFFZU1lTFlyMXZBSDhFN05LVldBOFVoY0FUVFh0aEE3cEdVVjBjT2VNdDFOSWtOMlB6WUVVWUdhX1djcUpNQzQ1Y3VqS216VnVoNDFvYURtOFNmSEUyYW83T3NvTmNlb0lqU2tZbDVZNFhzNFBPMDU4cFRpYlFORjZGYzRscWFYRHRCWWxfcVlwY0ZqVERxTng2RQ?oc=5",
-   "fonte": "Prefeitura de Navegantes -",
-   "ts": 1794838009000
-  },
-  {
-   "titulo": "Dólar hoje supera R$ 5,72 com piora do Focus para 2027 e preocupação fiscal",
-   "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxNM3ZYWHFvSV9jb2dqZGxRcVhvZkpSYUoySWwwYnZ3SnRVTFJEYXVEU2xuREhmRUFrN1MxZEJjR2d0Mm9NZk9OeUZKd2pDTkhIWHNHZEkwV3Z2dWcweXZrQ2lyZkM1U1QxN21rWlZMSVRlSllKc2o2ZHFHZ3RXZmJxcG9iVnpUY1pLUVZLQnM5RktJMDN0UjdQa1Z1ZXE5akJQT3hQN0V3ejFXVS1QQjBNam0zTEhZR0Jha28yaGcwSnpRRGREY0hiZ0xLdzBKNWVLM25MSjg5LUx4SFRkbjhKc0lRY0c?oc=5",
-   "fonte": "Portal do Agronegócio",
-   "ts": 1794837900000
-  },
-  {
-   "titulo": "Focus: mercado eleva projeções de inflação para 5% e de Selic para 12,75% em 2027",
-   "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPbFR5QVZVc2V5SjJTSEJJT0JmTTQyYnFqdkhHMk85YU8wTGNQQ2UydmhycmlwMTBkSGVKS3RDZm96MHd3M0NOUVV4VlF2SVBzNnU3VDhLRktpeFZjRFVKdWE2OG5DWFFVdFF1M08yUWFhaWdmQlRzalc5MlZLVlo0RTB2NGtzZmhPWUxVN1A5NW1leWtWU1dVeldtVW1QUUFFQVdRWjZ4ZDJ3N2V4MDBrN05BQ2hzTjgxQVpnSFRtbHppV1dyem5TZHFaR0hmNF8tTkVndFRkSE5PX3NPR3lFcWg1R2jSAfMBQVVfeXFMUG9DOGR3MURDaVd4elVMM0J2U09SZHNZRDk1LVNMb0VudjRwQXJJejlQN05fTk1GZ21RRXJ1TDhkY3M0M1hodW8yZk5POFZZcERmN29ZOXBfY2JTOWQ5eXdtdWpyRWdQcEdoTG9VRTh4TXBjeE5XVEFrTGg5RFZJSWpkRm9tLXc4Sno0MHZiczhmMjNPMklvWGdmSlZsZnc4em11NFR5R2p4aVhJVzRQMDF5SUhnSElrTDRTNVZ6WjlFT3RHQWd3LTVETVRFeXJ4TlNRc2RBTTV4MjJGWXBLSlR3ZEdJdDhUMUdXeTBiMngwanBB?oc=5",
-   "fonte": "O GLOBO",
-   "ts": 1794837194000
   }
  ]
 }
