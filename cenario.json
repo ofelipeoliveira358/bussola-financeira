@@ -1,7 +1,96 @@
 {
  "versao": 2,
- "geradoEm": "2026-11-19T16:54:14.953Z",
+ "geradoEm": "2026-11-19T22:12:21.854Z",
  "fontes": {
+  "dolarBcb": {
+   "v": 5.8889,
+   "ref": "2026-11-19",
+   "hist": [
+    [
+     "2026-10-22",
+     5.0383
+    ],
+    [
+     "2026-10-23",
+     5.0377
+    ],
+    [
+     "2026-10-26",
+     5.5007
+    ],
+    [
+     "2026-10-27",
+     5.3346
+    ],
+    [
+     "2026-10-28",
+     5.342
+    ],
+    [
+     "2026-10-29",
+     5.3744
+    ],
+    [
+     "2026-10-30",
+     5.4212
+    ],
+    [
+     "2026-11-03",
+     5.4935
+    ],
+    [
+     "2026-11-04",
+     5.4778
+    ],
+    [
+     "2026-11-05",
+     5.4621
+    ],
+    [
+     "2026-11-06",
+     5.5013
+    ],
+    [
+     "2026-11-09",
+     5.5146
+    ],
+    [
+     "2026-11-10",
+     5.584
+    ],
+    [
+     "2026-11-11",
+     5.5606
+    ],
+    [
+     "2026-11-12",
+     5.6143
+    ],
+    [
+     "2026-11-13",
+     5.6518
+    ],
+    [
+     "2026-11-16",
+     5.7324
+    ],
+    [
+     "2026-11-17",
+     5.7851
+    ],
+    [
+     "2026-11-18",
+     5.8102
+    ],
+    [
+     "2026-11-19",
+     5.8889
+    ]
+   ],
+   "at": "2026-11-19T22:12:21.854Z",
+   "fonte": "Banco Central · SGS 1",
+   "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes"
+  },
   "ipcaMes": {
    "v": 0.14,
    "ref": "2026-10",
@@ -59,7 +148,7 @@
      0.14
     ]
    ],
-   "at": "2026-11-19T16:54:14.953Z",
+   "at": "2026-11-19T22:12:21.854Z",
    "fonte": "IBGE via Banco Central · SGS 433",
    "url": "https://www.ibge.gov.br/explica/inflacao.php"
   },
@@ -120,7 +209,7 @@
      4.63
     ]
    ],
-   "at": "2026-11-19T16:54:14.953Z",
+   "at": "2026-11-19T22:12:21.854Z",
    "fonte": "IBGE via Banco Central · SGS 13522",
    "url": "https://www.ibge.gov.br/explica/inflacao.php"
   },
@@ -209,130 +298,9 @@
      13.65
     ]
    ],
-   "at": "2026-11-19T16:54:14.953Z",
+   "at": "2026-11-19T22:12:21.854Z",
    "fonte": "Banco Central · SGS 4389",
    "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicotaxasjuros"
-  },
-  "dolarBcb": {
-   "v": 5.8889,
-   "ref": "2026-11-19",
-   "hist": [
-    [
-     "2026-10-22",
-     5.0383
-    ],
-    [
-     "2026-10-23",
-     5.0377
-    ],
-    [
-     "2026-10-26",
-     5.5007
-    ],
-    [
-     "2026-10-27",
-     5.3346
-    ],
-    [
-     "2026-10-28",
-     5.342
-    ],
-    [
-     "2026-10-29",
-     5.3744
-    ],
-    [
-     "2026-10-30",
-     5.4212
-    ],
-    [
-     "2026-11-03",
-     5.4935
-    ],
-    [
-     "2026-11-04",
-     5.4778
-    ],
-    [
-     "2026-11-05",
-     5.4621
-    ],
-    [
-     "2026-11-06",
-     5.5013
-    ],
-    [
-     "2026-11-09",
-     5.5146
-    ],
-    [
-     "2026-11-10",
-     5.584
-    ],
-    [
-     "2026-11-11",
-     5.5606
-    ],
-    [
-     "2026-11-12",
-     5.6143
-    ],
-    [
-     "2026-11-13",
-     5.6518
-    ],
-    [
-     "2026-11-16",
-     5.7324
-    ],
-    [
-     "2026-11-17",
-     5.7851
-    ],
-    [
-     "2026-11-18",
-     5.8102
-    ],
-    [
-     "2026-11-19",
-     5.8889
-    ]
-   ],
-   "at": "2026-11-19T16:54:14.953Z",
-   "fonte": "Banco Central · SGS 1",
-   "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes"
-  },
-  "focusSelic": {
-   "v": 13.75,
-   "ref": "2026-11-13",
-   "ant": {
-    "v": 13.75,
-    "ref": "2026-11-06"
-   },
-   "prox": {
-    "ano": 2027,
-    "v": 12.75
-   },
-   "ano": 2026,
-   "at": "2026-11-19T16:54:14.953Z",
-   "fonte": "Banco Central · Boletim Focus",
-   "url": "https://www.bcb.gov.br/publicacoes/focus"
-  },
-  "focusIpca": {
-   "v": 5.1082,
-   "ref": "2026-11-13",
-   "ant": {
-    "v": 5.2195,
-    "ref": "2026-11-06"
-   },
-   "prox": {
-    "ano": 2027,
-    "v": 5
-   },
-   "ano": 2026,
-   "at": "2026-11-19T16:54:14.953Z",
-   "fonte": "Banco Central · Boletim Focus",
-   "url": "https://www.bcb.gov.br/publicacoes/focus"
   },
   "selic": {
    "v": 13.75,
@@ -464,98 +432,172 @@
      13.75
     ]
    ],
-   "at": "2026-11-19T16:54:14.953Z",
+   "at": "2026-11-19T22:12:21.854Z",
    "fonte": "Banco Central · SGS 432",
    "url": "https://www.bcb.gov.br/controleinflacao/historicotaxasjuros"
+  },
+  "focusSelic": {
+   "v": 13.75,
+   "ref": "2026-11-13",
+   "ant": {
+    "v": 13.75,
+    "ref": "2026-11-06"
+   },
+   "prox": {
+    "ano": 2027,
+    "v": 12.75
+   },
+   "ano": 2026,
+   "at": "2026-11-19T22:12:21.854Z",
+   "fonte": "Banco Central · Boletim Focus",
+   "url": "https://www.bcb.gov.br/publicacoes/focus"
+  },
+  "focusIpca": {
+   "v": 5.1082,
+   "ref": "2026-11-13",
+   "ant": {
+    "v": 5.2195,
+    "ref": "2026-11-06"
+   },
+   "prox": {
+    "ano": 2027,
+    "v": 5
+   },
+   "ano": 2026,
+   "at": "2026-11-19T22:12:21.854Z",
+   "fonte": "Banco Central · Boletim Focus",
+   "url": "https://www.bcb.gov.br/publicacoes/focus"
   }
  },
  "estado": {
+  "dolarBcb": {
+   "ok": true,
+   "em": "2026-11-19T22:12:21.854Z",
+   "ms": 181
+  },
   "ipcaMes": {
    "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
-   "ms": 911
+   "em": "2026-11-19T22:12:21.854Z",
+   "ms": 186
   },
   "ipca12": {
    "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
-   "ms": 916
+   "em": "2026-11-19T22:12:21.854Z",
+   "ms": 233
   },
   "cdi": {
    "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
-   "ms": 953
-  },
-  "dolarBcb": {
-   "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
-   "ms": 980
-  },
-  "focusSelic": {
-   "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
-   "ms": 1122
-  },
-  "focusIpca": {
-   "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
-   "ms": 1158
+   "em": "2026-11-19T22:12:21.854Z",
+   "ms": 530
   },
   "selic": {
    "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
-   "ms": 1554
+   "em": "2026-11-19T22:12:21.854Z",
+   "ms": 593
+  },
+  "focusSelic": {
+   "ok": true,
+   "em": "2026-11-19T22:12:21.854Z",
+   "ms": 600
+  },
+  "focusIpca": {
+   "ok": true,
+   "em": "2026-11-19T22:12:21.854Z",
+   "ms": 630
   },
   "dolar": {
    "ok": false,
-   "em": "2026-11-19T16:54:14.953Z",
+   "em": "2026-11-19T22:12:21.854Z",
    "erro": "HTTP 429 (2 tentativas)",
-   "ms": 5615
+   "ms": 5084
   },
   "mercado.ibov": {
    "ok": true,
-   "em": "2026-11-19T16:54:14.953Z"
+   "em": "2026-11-19T22:12:21.854Z"
   },
   "mercado.ifix": {
    "ok": true,
-   "em": "2026-11-19T16:54:14.953Z"
+   "em": "2026-11-19T22:12:21.854Z"
   },
   "noticias.g1 Economia": {
    "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
+   "em": "2026-11-19T22:12:21.854Z",
    "itens": 100
   },
   "noticias.InfoMoney": {
    "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
+   "em": "2026-11-19T22:12:21.854Z",
    "itens": 10
   },
   "noticias.Google Notícias": {
-   "ok": true,
-   "em": "2026-11-19T16:54:14.953Z",
-   "itens": 100
+   "ok": false,
+   "em": "2026-11-19T22:12:21.854Z",
+   "erro": "HTTP 503"
   }
  },
  "mercado": {
   "ibov": {
-   "v": 166552.4,
+   "v": 166376.44,
    "ref": "2026-11-19",
-   "cot": 1795106341000,
-   "var": -0.5882844489011483,
-   "at": "2026-11-19T16:54:14.953Z",
+   "cot": 1795123200000,
+   "var": -0.6933113681672204,
+   "at": "2026-11-19T22:12:21.854Z",
    "fonte": "Yahoo Finance (não oficial, indicativo)",
    "url": "https://finance.yahoo.com/quote/%5EBVSP"
   },
   "ifix": {
-   "v": 3484.13,
+   "v": 3485.06,
    "ref": "2026-11-19",
-   "cot": 1795106341000,
+   "cot": 1795123200000,
    "var": null,
-   "at": "2026-11-19T16:54:14.953Z",
+   "at": "2026-11-19T22:12:21.854Z",
    "fonte": "Yahoo Finance (não oficial, indicativo)",
    "url": "https://www.b3.com.br/pt_br/market-data-e-indices/indices/indices-de-segmentos-e-setoriais/indice-de-fundos-de-investimentos-imobiliarios-ifix.htm"
   }
  },
  "noticias": [
+  {
+   "titulo": "Anthropic: BDR movimenta R$ 460 mi em estreia na B3, volume 3 vezes maior que SpaceX",
+   "url": "https://www.infomoney.com.br/mercados/anthropic-bdr-movimenta-r-460-mi-em-estreia-na-b3-volume-3-vezes-maior-que-spacex/",
+   "fonte": "InfoMoney",
+   "ts": 1795125747000,
+   "resumo": "BDR da empresa de inteligência artificial criadora do Claude movimentou R$ 460,2 milhões no primeiro dia de negociações e ficou entre os 20 ativos mais negociados da bolsa brasileira"
+  },
+  {
+   "titulo": "ANTH34: BDR da Anthropic dispara quase 19% em estreia na B3 junto com ação na Nasdaq",
+   "url": "https://www.infomoney.com.br/mercados/anth34-bdr-da-anthropic-estreia-na-b3-simultaneamente-a-estreia-na-nasdaq-por-cerca-de-r-60/",
+   "fonte": "InfoMoney",
+   "ts": 1795124363000,
+   "resumo": "Ativo negociado sob o código ANTH34 permite investir na empresa de inteligência artificial sem abrir conta no exterior"
+  },
+  {
+   "titulo": "Ibovespa fecha em queda com exterior e sem trégua com receio fiscal",
+   "url": "https://www.infomoney.com.br/mercados/pacote-fiscal-timido-impede-avanco-do-ibovespa/",
+   "fonte": "InfoMoney",
+   "ts": 1795123522000,
+   "resumo": "Na semana, encurtada por feriado na sexta-feira, que reforçou a cautela nesta quinta-feira, o Ibovespa acumulou queda de 3,53%"
+  },
+  {
+   "titulo": "Ibovespa encerra com nova baixa e semana termina negativa; dólar dispara a R$ 5,9",
+   "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-19112026/",
+   "fonte": "InfoMoney",
+   "ts": 1795123256000,
+   "resumo": "Índices nos EUA desabam após IPO da Anthropic e realização de lucros"
+  },
+  {
+   "titulo": "Mercado de câmbio trava após fala de Lula sobre escolha de ministros e BC intervém com leilão de dólar",
+   "url": "https://g1.globo.com/politica/blog/valdo-cruz/post/2026/11/19/mercado-de-cambio-trava-apos-fala-de-lula-sobre-escolha-de-ministros-e-bc-intervem-com-leilao-de-dolar.ghtml",
+   "fonte": "g1 Economia",
+   "ts": 1795116495000,
+   "resumo": "Mercado de câmbio trava após Lula sobre escolha de ministros e BC intervém Mesmo com a aprovação do ajuste fiscal pelo Senado Federal, o mercado cambial segue pressionado nesta quinta-feira (19) por causa de declarações do presidente Luiz…"
+  },
+  {
+   "titulo": "Trump comprou até US$ 265 mil em ações da Nvidia enquanto governo avaliava regras para chips",
+   "url": "https://g1.globo.com/economia/noticia/2026/11/19/trump-acoes-nvidia.ghtml",
+   "fonte": "g1 Economia",
+   "ts": 1795113266000,
+   "resumo": "Escândalo de espionagem envolvendo a Nvidia chega ao alto escalão do governo Trump O presidente dos Estados Unidos, Donald Trump, comprou até US$ 265 mil (R$ 1,57 milhão) em ações da Nvidia em setembro e vendeu até US$ 15 mil em papéis da…"
+  },
   {
    "titulo": "Anthropic: ações estreiam com alta de 35% na Nasdaq após maior IPO da história",
    "url": "https://www.infomoney.com.br/mercados/anthropic-acoes-estreia-nasdaq-apos-maior-ipo-historia/",
@@ -766,42 +808,6 @@
    "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPTUpRODVTZTR0WURHNzIzVVNpOEljOGdqV2l2OEZIMUhkdXdLSkxJVGNRSkV3Y1N4MWV3OWVFTTFlcHhsYWtSR1l6RXI0ZjRCN3F2VFZpV256aTc5N1kxT0RFdDBaeVdldG1zbUEtaEVfUkRVQ1lXZlZBa1d0N0pKQmRPUkNHQlZFS0VGeHc5TmxaZEdLMDdiUDRLVnppdXN5eFhmUWdSejRwNnRXcWZkdDlqWFFQMGV1eU82cVhCd2s?oc=5",
    "fonte": "CNN Brasil",
    "ts": 1795098841000
-  },
-  {
-   "titulo": "Senado aprova ajuste fiscal que restringe despesas e altera financiamento do Orçamento",
-   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNVzdsQ19nZWRTNG15YUNBX1FQdDEtOW05MFZLb1ZKTm81XzFxcVVlX1VWeHZKOUR1Y2daZTdldWdzWS1jTW5pSWVwYnBrdDRoSnZmdjZXM0RXN3FaNWhLM1hjR3pGX1JuRS03UzQxYWlCRWVMRkZRNmVHMTNVT3JKU1VSR1BZc20yejVIcFVuaGNUNDZQbXUzbzhPSldpdzZDSzVMU29uY25LUEdBWGNsSE9PaVU0Ul95YWFab0F2THp1UlhReGc?oc=5",
-   "fonte": "Revista Movimento",
-   "ts": 1795098746000
-  },
-  {
-   "titulo": "Lula cita 'confusão' após esquerda criticar ajuste e diz que deseja 'controle fiscal'",
-   "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNT3lReGQxSHAwZ1pwdERIOXRaZjVGSGVvUUpzaVdTbndSTXpEY1BtQ2pYamd1R0p6SEExbEVTY05pcUNKMHlaRlpIRTlWZTBqLWE0VWw1SGVrcFBGREtyTlYycGs1cHhLSHRfblhEQTRaWnZXNUR3Q0gtSXVhR0JaSXJLdXdOalV4cmZDTW16NU9HclNVMVN4dkpIN1NYdHdSOGpxZjdLTnJmUHFiYm9tS0d4THVsMVQxdE41Nk5sWFNXckRmMDZfc3lRWUdweXBXRTdjU3piNNIB5gFBVV95cUxOSS1jR0pTSGZPb3B3WHd1Ymd5R0VFaHV3cTlvN2pkc0tNMER3RmZzQWxXdHlvNy1SOVNNa3c2OGNIX2x3cVdlREg1VHo4MUw2RGlCOG9Wejg1aWxXTkJScW0yVVhiNExlVDMtVlFwbEQ0YVNqZE9ETUNtaG9xcEwyQVVCTTBsSEVwMXFXeUtsOEpJSzQyaFdzcS1sM2dSLXhDQzRFVUMyR1VvMXVNTmxZVTA4bHZhd3dOSFgtZkJTclFaN3dEcVpycFBYSF9JWHpMVzZjZ2dHWmlYNEdzNm82VmNYclFzUQ?oc=5",
-   "fonte": "O GLOBO",
-   "ts": 1795098728000
-  },
-  {
-   "titulo": "IFI vê cenário desafiador para 2027 e cobra ajuste fiscal estrutural",
-   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNMnExUkV3RFI0Y0hwa0NfSDhBSGFMZG12cS1INjJOSHpKR1E0dlV1NGFUaHpfbE9tTTdJVU1jd29ic29OeHIwR3NEa2NaRVpUNkRWYm8yRHo3ZTl0Y1ZPX0dMVk5xTDVLbmxqNl83VHZCclBrOXotRF9LVWlwLURBYmpHbEoxM1phbnhXdjZnRHlCaXBPMWFJMkJaSjkxc1ROaUhJb0NIaw?oc=5",
-   "fonte": "Poder360",
-   "ts": 1795098650000
-  },
-  {
-   "titulo": "Pedro Assumpção Alves: Balanço de pagamentos e ajuste fiscal",
-   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOOXNzdlFxcW0yR0xRRTVsbHh0Qm5qTHBfZ0tKMklKbl9nbDFSMjJ6U01WV0xSRjRsaEdZTW9wNEFOOEh3ZldvZlMwV2NmdUQxNklxWW43NFo3SXQyczV5c18xelExSXNhYzRuMGVhVHBkWWMzNTFaU2RfM0VraFpDSU5Lcw?oc=5",
-   "fonte": "CartaCapital",
-   "ts": 1795098600000
-  },
-  {
-   "titulo": "Larissa Gaspar defende ajuste fiscal do Governo Federal com justiça social",
-   "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPOXIwWFg3bThDUGhUWEFxYTRHTjhncmtpWGxFOGY5Z2VsYmdkZDZTeVRfMko2SEJUOVUtZUZWRDRvUWlUVGUxNVNSdm16eHhDcUwxdm1ZOHljOUR6QVg4Ukt0VzZVVXY3UXNDWU5VQmJFcHVWc3dtRjQ2aVpDSE1ZSjBMMXhKeGxWSmdwSWhFUEcwbUVhcEh0ZEV3dGhNSVRXUV8zQjJpeEphUWxURXJlM0NnYXpIcU9yNkEwSjBOYXFDX0llNndMU29nTkVkRmdQcFE?oc=5",
-   "fonte": "ALECE",
-   "ts": 1795098240000
-  },
-  {
-   "titulo": "Senado aprova PLP 299 que endurece arcabouço fiscal e amplia bloqueios de despesas. Texto segue para a Câmara",
-   "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNaWp3YWRsb2RTbFMtbjF1b1hLSTlyZUx3a1JHZ2pwMlZSV3gyS3c4SnhzRVN6N3NqeV8zekFrWFprNmpmYXNscXFxZzBPeHZRWHJidGJCQmdJWGdVVjFheHpmeGliMmYxYjc2aWdESmdRdlNkRk1WOUV3OTZ5UlFFdksyOXpQMVF0RTFCVkhNSEp2cUNqZHNsWnpVQnlZeWtqNHR4cWVYb3lGaTdXQWItMngwcE5lY3FkdnRWNE1yOTJlQ1piZkJmeWZkMF9nd3FLZ0x0dlRNbWJKa0E?oc=5",
-   "fonte": "CSP-Conlutas",
-   "ts": 1795098186000
   }
  ]
 }
