@@ -1,233 +1,95 @@
 {
  "versao": 2,
- "geradoEm": "2026-11-25T16:56:24.883Z",
+ "geradoEm": "2026-11-25T22:19:54.933Z",
  "fontes": {
-  "focusSelic": {
-   "v": 13.75,
-   "ref": "2026-11-19",
-   "ant": {
-    "v": 13.75,
-    "ref": "2026-11-13"
-   },
-   "prox": {
-    "ano": 2027,
-    "v": 13
-   },
-   "ano": 2026,
-   "at": "2026-11-25T16:56:24.883Z",
-   "fonte": "Banco Central · Boletim Focus",
-   "url": "https://www.bcb.gov.br/publicacoes/focus"
-  },
-  "ipca12": {
-   "v": 4.63,
-   "ref": "2026-10",
+  "dolarBcb": {
+   "v": 5.8825,
+   "ref": "2026-11-25",
    "hist": [
-    [
-     "2025-10",
-     4.68
-    ],
-    [
-     "2025-11",
-     4.46
-    ],
-    [
-     "2025-12",
-     4.26
-    ],
-    [
-     "2026-01",
-     4.44
-    ],
-    [
-     "2026-02",
-     3.81
-    ],
-    [
-     "2026-03",
-     4.14
-    ],
-    [
-     "2026-04",
-     4.39
-    ],
-    [
-     "2026-05",
-     4.72
-    ],
-    [
-     "2026-06",
-     4.64
-    ],
-    [
-     "2026-07",
-     4.44
-    ],
-    [
-     "2026-08",
-     4.22
-    ],
-    [
-     "2026-09",
-     4.58
-    ],
-    [
-     "2026-10",
-     4.63
-    ]
-   ],
-   "at": "2026-11-25T16:56:24.883Z",
-   "fonte": "IBGE via Banco Central · SGS 13522",
-   "url": "https://www.ibge.gov.br/explica/inflacao.php"
-  },
-  "ipcaMes": {
-   "v": 0.14,
-   "ref": "2026-10",
-   "hist": [
-    [
-     "2025-10",
-     0.09
-    ],
-    [
-     "2025-11",
-     0.18
-    ],
-    [
-     "2025-12",
-     0.33
-    ],
-    [
-     "2026-01",
-     0.33
-    ],
-    [
-     "2026-02",
-     0.7
-    ],
-    [
-     "2026-03",
-     0.88
-    ],
-    [
-     "2026-04",
-     0.67
-    ],
-    [
-     "2026-05",
-     0.58
-    ],
-    [
-     "2026-06",
-     0.16
-    ],
-    [
-     "2026-07",
-     0.07
-    ],
-    [
-     "2026-08",
-     -0.32
-    ],
-    [
-     "2026-09",
-     0.82
-    ],
-    [
-     "2026-10",
-     0.14
-    ]
-   ],
-   "at": "2026-11-25T16:56:24.883Z",
-   "fonte": "IBGE via Banco Central · SGS 433",
-   "url": "https://www.ibge.gov.br/explica/inflacao.php"
-  },
-  "cdi": {
-   "v": 13.65,
-   "ref": "2026-11-19",
-   "hist": [
-    [
-     "2026-10-22",
-     13.65
-    ],
-    [
-     "2026-10-23",
-     13.65
-    ],
-    [
-     "2026-10-26",
-     13.65
-    ],
     [
      "2026-10-27",
-     13.65
+     5.3346
     ],
     [
      "2026-10-28",
-     13.65
+     5.342
     ],
     [
      "2026-10-29",
-     13.65
+     5.3744
     ],
     [
      "2026-10-30",
-     13.65
+     5.4212
     ],
     [
      "2026-11-03",
-     13.65
+     5.4935
     ],
     [
      "2026-11-04",
-     13.65
+     5.4778
     ],
     [
      "2026-11-05",
-     13.65
+     5.4621
     ],
     [
      "2026-11-06",
-     13.65
+     5.5013
     ],
     [
      "2026-11-09",
-     13.65
+     5.5146
     ],
     [
      "2026-11-10",
-     13.65
+     5.584
     ],
     [
      "2026-11-11",
-     13.65
+     5.5606
     ],
     [
      "2026-11-12",
-     13.65
+     5.6143
     ],
     [
      "2026-11-13",
-     13.65
+     5.6518
     ],
     [
      "2026-11-16",
-     13.65
+     5.7324
     ],
     [
      "2026-11-17",
-     13.65
+     5.7851
     ],
     [
      "2026-11-18",
-     13.65
+     5.8102
     ],
     [
      "2026-11-19",
-     13.65
+     5.8889
+    ],
+    [
+     "2026-11-23",
+     5.9708
+    ],
+    [
+     "2026-11-24",
+     5.8573
+    ],
+    [
+     "2026-11-25",
+     5.8825
     ]
    ],
-   "at": "2026-11-25T16:56:24.883Z",
-   "fonte": "Banco Central · SGS 4389",
-   "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicotaxasjuros"
+   "at": "2026-11-25T22:19:54.933Z",
+   "fonte": "Banco Central · SGS 1",
+   "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes"
   },
   "selic": {
    "v": 13.75,
@@ -359,98 +221,236 @@
      13.75
     ]
    ],
-   "at": "2026-11-25T16:56:24.883Z",
+   "at": "2026-11-25T22:19:54.933Z",
    "fonte": "Banco Central · SGS 432",
    "url": "https://www.bcb.gov.br/controleinflacao/historicotaxasjuros"
   },
-  "dolarBcb": {
-   "v": 5.8825,
-   "ref": "2026-11-25",
+  "focusSelic": {
+   "v": 13.75,
+   "ref": "2026-11-19",
+   "ant": {
+    "v": 13.75,
+    "ref": "2026-11-13"
+   },
+   "prox": {
+    "ano": 2027,
+    "v": 13
+   },
+   "ano": 2026,
+   "at": "2026-11-25T22:19:54.933Z",
+   "fonte": "Banco Central · Boletim Focus",
+   "url": "https://www.bcb.gov.br/publicacoes/focus"
+  },
+  "ipcaMes": {
+   "v": 0.14,
+   "ref": "2026-10",
    "hist": [
     [
+     "2025-10",
+     0.09
+    ],
+    [
+     "2025-11",
+     0.18
+    ],
+    [
+     "2025-12",
+     0.33
+    ],
+    [
+     "2026-01",
+     0.33
+    ],
+    [
+     "2026-02",
+     0.7
+    ],
+    [
+     "2026-03",
+     0.88
+    ],
+    [
+     "2026-04",
+     0.67
+    ],
+    [
+     "2026-05",
+     0.58
+    ],
+    [
+     "2026-06",
+     0.16
+    ],
+    [
+     "2026-07",
+     0.07
+    ],
+    [
+     "2026-08",
+     -0.32
+    ],
+    [
+     "2026-09",
+     0.82
+    ],
+    [
+     "2026-10",
+     0.14
+    ]
+   ],
+   "at": "2026-11-25T22:19:54.933Z",
+   "fonte": "IBGE via Banco Central · SGS 433",
+   "url": "https://www.ibge.gov.br/explica/inflacao.php"
+  },
+  "ipca12": {
+   "v": 4.63,
+   "ref": "2026-10",
+   "hist": [
+    [
+     "2025-10",
+     4.68
+    ],
+    [
+     "2025-11",
+     4.46
+    ],
+    [
+     "2025-12",
+     4.26
+    ],
+    [
+     "2026-01",
+     4.44
+    ],
+    [
+     "2026-02",
+     3.81
+    ],
+    [
+     "2026-03",
+     4.14
+    ],
+    [
+     "2026-04",
+     4.39
+    ],
+    [
+     "2026-05",
+     4.72
+    ],
+    [
+     "2026-06",
+     4.64
+    ],
+    [
+     "2026-07",
+     4.44
+    ],
+    [
+     "2026-08",
+     4.22
+    ],
+    [
+     "2026-09",
+     4.58
+    ],
+    [
+     "2026-10",
+     4.63
+    ]
+   ],
+   "at": "2026-11-25T22:19:54.933Z",
+   "fonte": "IBGE via Banco Central · SGS 13522",
+   "url": "https://www.ibge.gov.br/explica/inflacao.php"
+  },
+  "cdi": {
+   "v": 13.65,
+   "ref": "2026-11-19",
+   "hist": [
+    [
+     "2026-10-22",
+     13.65
+    ],
+    [
+     "2026-10-23",
+     13.65
+    ],
+    [
+     "2026-10-26",
+     13.65
+    ],
+    [
      "2026-10-27",
-     5.3346
+     13.65
     ],
     [
      "2026-10-28",
-     5.342
+     13.65
     ],
     [
      "2026-10-29",
-     5.3744
+     13.65
     ],
     [
      "2026-10-30",
-     5.4212
+     13.65
     ],
     [
      "2026-11-03",
-     5.4935
+     13.65
     ],
     [
      "2026-11-04",
-     5.4778
+     13.65
     ],
     [
      "2026-11-05",
-     5.4621
+     13.65
     ],
     [
      "2026-11-06",
-     5.5013
+     13.65
     ],
     [
      "2026-11-09",
-     5.5146
+     13.65
     ],
     [
      "2026-11-10",
-     5.584
+     13.65
     ],
     [
      "2026-11-11",
-     5.5606
+     13.65
     ],
     [
      "2026-11-12",
-     5.6143
+     13.65
     ],
     [
      "2026-11-13",
-     5.6518
+     13.65
     ],
     [
      "2026-11-16",
-     5.7324
+     13.65
     ],
     [
      "2026-11-17",
-     5.7851
+     13.65
     ],
     [
      "2026-11-18",
-     5.8102
+     13.65
     ],
     [
      "2026-11-19",
-     5.8889
-    ],
-    [
-     "2026-11-23",
-     5.9708
-    ],
-    [
-     "2026-11-24",
-     5.8573
-    ],
-    [
-     "2026-11-25",
-     5.8825
+     13.65
     ]
    ],
-   "at": "2026-11-25T16:56:24.883Z",
-   "fonte": "Banco Central · SGS 1",
-   "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes"
+   "at": "2026-11-25T22:19:54.933Z",
+   "fonte": "Banco Central · SGS 4389",
+   "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicotaxasjuros"
   },
   "focusIpca": {
    "v": 5.1505,
@@ -464,98 +464,133 @@
     "v": 5.1214
    },
    "ano": 2026,
-   "at": "2026-11-25T16:56:24.883Z",
+   "at": "2026-11-25T22:19:54.933Z",
    "fonte": "Banco Central · Boletim Focus",
    "url": "https://www.bcb.gov.br/publicacoes/focus"
   }
  },
  "estado": {
-  "focusSelic": {
+  "dolarBcb": {
    "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
-   "ms": 516
-  },
-  "ipca12": {
-   "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
-   "ms": 696
-  },
-  "ipcaMes": {
-   "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
-   "ms": 698
-  },
-  "cdi": {
-   "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
-   "ms": 701
+   "em": "2026-11-25T22:19:54.933Z",
+   "ms": 187
   },
   "selic": {
    "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
-   "ms": 770
+   "em": "2026-11-25T22:19:54.933Z",
+   "ms": 323
   },
-  "dolarBcb": {
+  "focusSelic": {
    "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
-   "ms": 816
+   "em": "2026-11-25T22:19:54.933Z",
+   "ms": 251
+  },
+  "ipcaMes": {
+   "ok": true,
+   "em": "2026-11-25T22:19:54.933Z",
+   "ms": 527
+  },
+  "ipca12": {
+   "ok": true,
+   "em": "2026-11-25T22:19:54.933Z",
+   "ms": 528
+  },
+  "cdi": {
+   "ok": true,
+   "em": "2026-11-25T22:19:54.933Z",
+   "ms": 532
   },
   "focusIpca": {
    "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
-   "ms": 942
+   "em": "2026-11-25T22:19:54.933Z",
+   "ms": 596
   },
   "dolar": {
    "ok": false,
-   "em": "2026-11-25T16:56:24.883Z",
+   "em": "2026-11-25T22:19:54.933Z",
    "erro": "HTTP 429 (2 tentativas)",
-   "ms": 5526
+   "ms": 5073
   },
   "mercado.ibov": {
    "ok": true,
-   "em": "2026-11-25T16:56:24.883Z"
+   "em": "2026-11-25T22:19:54.933Z"
   },
   "mercado.ifix": {
    "ok": true,
-   "em": "2026-11-25T16:56:24.883Z"
+   "em": "2026-11-25T22:19:54.933Z"
   },
   "noticias.g1 Economia": {
    "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
+   "em": "2026-11-25T22:19:54.933Z",
    "itens": 100
   },
   "noticias.InfoMoney": {
    "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
+   "em": "2026-11-25T22:19:54.933Z",
    "itens": 10
   },
   "noticias.Google Notícias": {
-   "ok": true,
-   "em": "2026-11-25T16:56:24.883Z",
-   "itens": 100
+   "ok": false,
+   "em": "2026-11-25T22:19:54.933Z",
+   "erro": "HTTP 503"
   }
  },
  "mercado": {
   "ibov": {
-   "v": 164868.11,
+   "v": 166684.61,
    "ref": "2026-11-25",
-   "cot": 1795624861000,
-   "var": 0.47419708696446217,
-   "at": "2026-11-25T16:56:24.883Z",
+   "cot": 1795641480000,
+   "var": 1.581211530257777,
+   "at": "2026-11-25T22:19:54.933Z",
    "fonte": "Yahoo Finance (não oficial, indicativo)",
    "url": "https://finance.yahoo.com/quote/%5EBVSP"
   },
   "ifix": {
-   "v": 3504.96,
+   "v": 3541.11,
    "ref": "2026-11-25",
-   "cot": 1795624861000,
+   "cot": 1795641480000,
    "var": null,
-   "at": "2026-11-25T16:56:24.883Z",
+   "at": "2026-11-25T22:19:54.933Z",
    "fonte": "Yahoo Finance (não oficial, indicativo)",
    "url": "https://www.b3.com.br/pt_br/market-data-e-indices/indices/indices-de-segmentos-e-setoriais/indice-de-fundos-de-investimentos-imobiliarios-ifix.htm"
   }
  },
  "noticias": [
+  {
+   "titulo": "Cosan negocia venda de participações na Rumo, Compass e Moove para reduzir dívida",
+   "url": "https://www.infomoney.com.br/business/cosan-negocia-venda-de-participacoes-na-rumo-compass-e-moove-para-reduzir-divida/",
+   "fonte": "InfoMoney",
+   "ts": 1795644651000,
+   "resumo": "Segundo fontes, holding avalia vender participações minoritárias nas três subsidiárias e já atrai interesse de grupos como Cofco, Bunge, Ultra e Grupo México"
+  },
+  {
+   "titulo": "Especulações para Fazenda e fiscal: o que fez Ibovespa subir 1,6% após 4 quedas",
+   "url": "https://www.infomoney.com.br/mercados/ibovespa-tem-alta-modesta-com-fiscal-no-foco/",
+   "fonte": "InfoMoney",
+   "ts": 1795643384000,
+   "resumo": "Embora não haja confirmação oficial, o mercado costuma reagir positivamente a nomes associados à previsibilidade econômica"
+  },
+  {
+   "titulo": "Ibovespa dispara com notícias sobre ministério e fiscal; dólar recua a R$ 5,81",
+   "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-25112026/",
+   "fonte": "InfoMoney",
+   "ts": 1795642109000,
+   "resumo": "Índices nos EUA terminam mistos, após novos dados do PIB e da inflação"
+  },
+  {
+   "titulo": "Após suspensão, JBS prevê retomada das exportações de frango à UE em dezembro",
+   "url": "https://g1.globo.com/economia/agronegocios/noticia/2026/11/25/jbs-exportacao-frango-uniao-europeia.ghtml",
+   "fonte": "g1 Economia",
+   "ts": 1795636230000,
+   "resumo": "Imagem de frango. Claudio Schwarz/Unplash As vendas de carne de frango do Brasil para a União Europeia (UE) devem ser retomadas em dezembro, após esclarecimentos sobre o uso de substâncias antimicrobianas proibidas pelo bloco na produção…"
+  },
+  {
+   "titulo": "Bolsas dos EUA despencam com novo tarifaço de Trump e temores sobre investimentos em IA",
+   "url": "https://g1.globo.com/economia/noticia/2026/11/25/trump-tarifas-ia-bolsa-de-ny-wall-street.ghtml",
+   "fonte": "g1 Economia",
+   "ts": 1795625737000,
+   "resumo": "EUA propõem novas tarifas contra Brasil e 14 economias As bolsas de Nova York despencaram nesta quarta-feira (25), pressionadas por uma nova rodada de tarifas anunciadas pelo governo de Donald Trump e pela forte venda de ações ligadas à…"
+  },
   {
    "titulo": "Presidente do CRCMA integra programação do 1º Fórum Econômico e Fiscal do Maranhão",
    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNSWdKQlE0QkdhaWJqQ2RJdV83ZkdUQ3A2YnlFcm1vTy1tYnRlSXd4U2UxQnlQeTlqd1lMcVpDNF9mZkg1Y3JyUEJnRGNqSzN1aVpkOFZId2drUVE3QUpzV3NvYTU1dGpHYXVDdXdMeW50NnFyQ3BBNGRfd2JZc1k3dDBmUWUyS1I1QmE4d3NaaUhQRzFKazNUUGZzbEhqV3VWS083dGpfc2Q5N0lDWGdlbWNB?oc=5",
@@ -654,6 +689,13 @@
    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQQ1RjWkZvaVEzX2VESmpsSHN4bFBBUEU3RFNWYzhIcGRXcU42YkFXbGRKYUM1MVVBeTVwdVJwNGRZb2V0Yl9VdXYzbVNCZ3JuelVVcThUSkpia3ItRFpnbHotV0JBNlR0TVBxRHZJTkFNcm9qazZ0SHpESFZNNHBkRnAyWlJMSDlJR1lmQnBYOA?oc=5",
    "fonte": "InfoMoney",
    "ts": 1795617037000
+  },
+  {
+   "titulo": "Ações da Embraer caem 4% após EUA proporem tarifa sobre aviões brasileiros",
+   "url": "https://g1.globo.com/economia/noticia/2026/11/25/acoes-embraer-eua.ghtml",
+   "fonte": "g1 Economia",
+   "ts": 1795616813000,
+   "resumo": "EUA propõem novas tarifas contra Brasil e 14 economias As ações da Embraer fecharam em queda de 4% nesta quarta-feira (25), cotadas a R$ 103,20, após o governo dos Estados Unidos propor novas tarifas sobre aeronaves brasileiras. Durante o…"
   },
   {
    "titulo": "Ações da Embraer caem mais de 7% após EUA proporem tarifa sobre aviões brasileiros",
@@ -763,43 +805,6 @@
    "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNMjVxOXYtNG91dlgtbDlZaVFtVnc3YThtb05KX2JXM2JUa2wtcGI4cVpfOHQybl9oemV0ZkJGeDRHeFF2dWZuc3gwcEVVTmFya0k0dzhhenp3dGxwalI3YU1mNzRDbFNMN2FucERROF9GU0tiWEMtemlTSy1MTjlLRDVMZ3l3WVpQOUhLNWJSLWRqOE9fdjNIanQ1VzJNWExzRDdEUzBsLWJ4TG5OWHZGeXlQTzcwWi1DUmVQOU5YRQ?oc=5",
    "fonte": "UOL Economia",
    "ts": 1795613400000
-  },
-  {
-   "titulo": "EUA - Inflação (PCE)",
-   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9Tc3kzMHVPZWpUVFVFN3E1TmwyZ0lHVXlyb2FWZHVVWHhXUXU5cWlfbHp1M1d5UXhIVUVjUHFNLU9QVDdLWnpnWXl6MzBxVkxWNURJckNOMkI?oc=5",
-   "fonte": "trademap.com.br",
-   "ts": 1795613400000
-  },
-  {
-   "titulo": "Tarifaço de Trump: EUA propõem tarifa de 10% sobre aviões brasileiros e aumento de imposto sobre açúcar",
-   "url": "https://g1.globo.com/economia/noticia/2026/11/25/eua-propoem-tarifas-mais-altas-sobre-importacoes-do-brasil.ghtml",
-   "fonte": "g1 Economia",
-   "ts": 1795612590000,
-   "resumo": "Trump durante coletiva de imprensa na Casa Branca em 20 de novembro de 2026. Reuters O governo dos Estados Unidos propôs nesta quarta-feira (25) a cobrança de uma tarifa adicional de 10% sobre aeronaves brasileiras e o aumento da…"
-  },
-  {
-   "titulo": "Projeto de ajuste fiscal representa risco para o agro, afirma Sistema FAEP",
-   "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNU3ZFWHZ1NTN0dXc0NzdwaTR2NjdQSDlLVGdLVXllRnliWlNyY1dnMGRfRlBleVVlZEZnSExVaTdKc3ZsMm9fTWpXMWRlSVRrLWM3eFlhX2xtMkRWUDl3Yy02ZWRYOERuZ0JoeUZFbTNONVJhbExCazZfRW9qY3dINDRSbFA2TEZ0Tlh3ak4wRjFtdTVEOXg1RFc2amhGMENibjlqQjBSQkhvTEk?oc=5",
-   "fonte": "Portal CNA Brasil",
-   "ts": 1795611830000
-  },
-  {
-   "titulo": "Dólar cai e Bolsa avança com inflação dos EUA, expectativa por sinais fiscais e elevação de tarifas de Trump",
-   "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNOXA2VWlkZ2t2Mjc2TXhCRklvS2xnZUZkck5LVFV4S3B2VXF4NVQzaC1RNEJ2ZjFVbm5UQ1MwZG1TWjVORkxsVjFCaUZwcTdfNVpvY0hhNl9QeEgyQ1QwTlVkNFZqNXBJUXZ0ZHpyOFBXTXNqTzRoWF9jNmdhZmpsV1RvZEpmY3FhRWgwVGZ4S2hPREw3X1dVT1JLaVcwcXRmVHljM2RFeG1fZVl4RmRBSFd0VFU2cjZJSS13N2ZWVVY0OVZNY3VBQmY3V29JbEF5VDBGSjktY05FT3lNcFF3?oc=5",
-   "fonte": "Folha de S.Paulo",
-   "ts": 1795611360000
-  },
-  {
-   "titulo": "Deputado paranaense, Renato Freitas manda a real sobre ajuste fiscal",
-   "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQX3Y4VjRYd2Zvek1YZE5pLUtnYkg1cnVrbW04bm1NeFpGdzlIX0Rlc3hOd3FVSU5tSnhHUHpmUmdZNC1CWkZPT0ZuVGstdjZ6WGVaOVRLQmxJMUV2Qm90djJQU2J0NFAxRVRwaEg1UVJnX0ppYVRDWThYX0dsSXBZR09PcHZwZ2UwZEFnaHpNbXJUSFc0Z1NUanNreXNzajZmZUI0cDY2V3BjUElT?oc=5",
-   "fonte": "Auditoria Cidadã da Dívida",
-   "ts": 1795610927000
-  },
-  {
-   "titulo": "Dólar recua com leilão do BC e fiscal, apesar de novas tarifas de Trump",
-   "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPQnQzTlJwVThVRmZfWTlWVWpjb3Y0U0Z5MUlhSERyUUo0UExqNFl5QXdnRGlCakRyWFpBSnlJZVZUMmh4QTJZVFZibUZMOElfczZHX0haOWUtUldmaGt3RU9WLXNaSEl1TXRhZ0gyR2hFWDRMY0NjM0ZqQWw4dnh1SGRDUnZZTEc2Y3M3Yl9McW9ZZVRzSkttUzV4dw?oc=5",
-   "fonte": "UOL Economia",
-   "ts": 1795610291000
   }
  ]
 }
