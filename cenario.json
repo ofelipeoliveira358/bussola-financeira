@@ -1,20 +1,138 @@
 {
  "versao": 2,
- "geradoEm": "2026-11-27T23:52:46.289Z",
+ "geradoEm": "2026-11-28T03:22:55.151Z",
  "fontes": {
+  "ipca12": {
+   "v": 4.63,
+   "ref": "2026-10",
+   "hist": [
+    [
+     "2025-10",
+     4.68
+    ],
+    [
+     "2025-11",
+     4.46
+    ],
+    [
+     "2025-12",
+     4.26
+    ],
+    [
+     "2026-01",
+     4.44
+    ],
+    [
+     "2026-02",
+     3.81
+    ],
+    [
+     "2026-03",
+     4.14
+    ],
+    [
+     "2026-04",
+     4.39
+    ],
+    [
+     "2026-05",
+     4.72
+    ],
+    [
+     "2026-06",
+     4.64
+    ],
+    [
+     "2026-07",
+     4.44
+    ],
+    [
+     "2026-08",
+     4.22
+    ],
+    [
+     "2026-09",
+     4.58
+    ],
+    [
+     "2026-10",
+     4.63
+    ]
+   ],
+   "at": "2026-11-28T03:22:55.151Z",
+   "fonte": "IBGE via Banco Central · SGS 13522",
+   "url": "https://www.ibge.gov.br/explica/inflacao.php"
+  },
+  "ipcaMes": {
+   "v": 0.14,
+   "ref": "2026-10",
+   "hist": [
+    [
+     "2025-10",
+     0.09
+    ],
+    [
+     "2025-11",
+     0.18
+    ],
+    [
+     "2025-12",
+     0.33
+    ],
+    [
+     "2026-01",
+     0.33
+    ],
+    [
+     "2026-02",
+     0.7
+    ],
+    [
+     "2026-03",
+     0.88
+    ],
+    [
+     "2026-04",
+     0.67
+    ],
+    [
+     "2026-05",
+     0.58
+    ],
+    [
+     "2026-06",
+     0.16
+    ],
+    [
+     "2026-07",
+     0.07
+    ],
+    [
+     "2026-08",
+     -0.32
+    ],
+    [
+     "2026-09",
+     0.82
+    ],
+    [
+     "2026-10",
+     0.14
+    ]
+   ],
+   "at": "2026-11-28T03:22:55.151Z",
+   "fonte": "IBGE via Banco Central · SGS 433",
+   "url": "https://www.ibge.gov.br/explica/inflacao.php"
+  },
   "selic": {
    "v": 13.75,
-   "ref": "2026-11-27",
+   "ref": "2026-11-28",
    "vigenteDesde": "2026-09-17",
    "ant": {
     "v": 14,
     "ref": "2026-09-16"
    },
    "hist": [
-    [
-     "2026-10-29",
-     13.75
-    ],
     [
      "2026-10-30",
      13.75
@@ -130,133 +248,15 @@
     [
      "2026-11-27",
      13.75
+    ],
+    [
+     "2026-11-28",
+     13.75
     ]
    ],
-   "at": "2026-11-27T23:52:46.289Z",
+   "at": "2026-11-28T03:22:55.151Z",
    "fonte": "Banco Central · SGS 432",
    "url": "https://www.bcb.gov.br/controleinflacao/historicotaxasjuros"
-  },
-  "ipca12": {
-   "v": 4.63,
-   "ref": "2026-10",
-   "hist": [
-    [
-     "2025-10",
-     4.68
-    ],
-    [
-     "2025-11",
-     4.46
-    ],
-    [
-     "2025-12",
-     4.26
-    ],
-    [
-     "2026-01",
-     4.44
-    ],
-    [
-     "2026-02",
-     3.81
-    ],
-    [
-     "2026-03",
-     4.14
-    ],
-    [
-     "2026-04",
-     4.39
-    ],
-    [
-     "2026-05",
-     4.72
-    ],
-    [
-     "2026-06",
-     4.64
-    ],
-    [
-     "2026-07",
-     4.44
-    ],
-    [
-     "2026-08",
-     4.22
-    ],
-    [
-     "2026-09",
-     4.58
-    ],
-    [
-     "2026-10",
-     4.63
-    ]
-   ],
-   "at": "2026-11-27T23:52:46.289Z",
-   "fonte": "IBGE via Banco Central · SGS 13522",
-   "url": "https://www.ibge.gov.br/explica/inflacao.php"
-  },
-  "ipcaMes": {
-   "v": 0.14,
-   "ref": "2026-10",
-   "hist": [
-    [
-     "2025-10",
-     0.09
-    ],
-    [
-     "2025-11",
-     0.18
-    ],
-    [
-     "2025-12",
-     0.33
-    ],
-    [
-     "2026-01",
-     0.33
-    ],
-    [
-     "2026-02",
-     0.7
-    ],
-    [
-     "2026-03",
-     0.88
-    ],
-    [
-     "2026-04",
-     0.67
-    ],
-    [
-     "2026-05",
-     0.58
-    ],
-    [
-     "2026-06",
-     0.16
-    ],
-    [
-     "2026-07",
-     0.07
-    ],
-    [
-     "2026-08",
-     -0.32
-    ],
-    [
-     "2026-09",
-     0.82
-    ],
-    [
-     "2026-10",
-     0.14
-    ]
-   ],
-   "at": "2026-11-27T23:52:46.289Z",
-   "fonte": "IBGE via Banco Central · SGS 433",
-   "url": "https://www.ibge.gov.br/explica/inflacao.php"
   },
   "cdi": {
    "v": 13.65,
@@ -343,9 +343,41 @@
      13.65
     ]
    ],
-   "at": "2026-11-27T23:52:46.289Z",
+   "at": "2026-11-28T03:22:55.151Z",
    "fonte": "Banco Central · SGS 4389",
    "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicotaxasjuros"
+  },
+  "focusSelic": {
+   "v": 13.75,
+   "ref": "2026-11-19",
+   "ant": {
+    "v": 13.75,
+    "ref": "2026-11-13"
+   },
+   "prox": {
+    "ano": 2027,
+    "v": 13
+   },
+   "ano": 2026,
+   "at": "2026-11-28T03:22:55.151Z",
+   "fonte": "Banco Central · Boletim Focus",
+   "url": "https://www.bcb.gov.br/publicacoes/focus"
+  },
+  "focusIpca": {
+   "v": 5.1505,
+   "ref": "2026-11-19",
+   "ant": {
+    "v": 5.1082,
+    "ref": "2026-11-13"
+   },
+   "prox": {
+    "ano": 2027,
+    "v": 5.1214
+   },
+   "ano": 2026,
+   "at": "2026-11-28T03:22:55.151Z",
+   "fonte": "Banco Central · Boletim Focus",
+   "url": "https://www.bcb.gov.br/publicacoes/focus"
   },
   "dolarBcb": {
    "v": 5.543,
@@ -432,106 +464,74 @@
      5.543
     ]
    ],
-   "at": "2026-11-27T23:52:46.289Z",
+   "at": "2026-11-28T03:22:55.151Z",
    "fonte": "Banco Central · SGS 1",
    "url": "https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes"
-  },
-  "focusSelic": {
-   "v": 13.75,
-   "ref": "2026-11-19",
-   "ant": {
-    "v": 13.75,
-    "ref": "2026-11-13"
-   },
-   "prox": {
-    "ano": 2027,
-    "v": 13
-   },
-   "ano": 2026,
-   "at": "2026-11-27T23:52:46.289Z",
-   "fonte": "Banco Central · Boletim Focus",
-   "url": "https://www.bcb.gov.br/publicacoes/focus"
-  },
-  "focusIpca": {
-   "v": 5.1505,
-   "ref": "2026-11-19",
-   "ant": {
-    "v": 5.1082,
-    "ref": "2026-11-13"
-   },
-   "prox": {
-    "ano": 2027,
-    "v": 5.1214
-   },
-   "ano": 2026,
-   "at": "2026-11-27T23:52:46.289Z",
-   "fonte": "Banco Central · Boletim Focus",
-   "url": "https://www.bcb.gov.br/publicacoes/focus"
   }
  },
  "estado": {
-  "selic": {
-   "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
-   "ms": 259
-  },
   "ipca12": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
-   "ms": 630
+   "em": "2026-11-28T03:22:55.151Z",
+   "ms": 409
   },
   "ipcaMes": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
-   "ms": 645
+   "em": "2026-11-28T03:22:55.151Z",
+   "ms": 778
+  },
+  "selic": {
+   "ok": true,
+   "em": "2026-11-28T03:22:55.151Z",
+   "ms": 906
   },
   "cdi": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
-   "ms": 657
-  },
-  "dolarBcb": {
-   "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
-   "ms": 752
+   "em": "2026-11-28T03:22:55.151Z",
+   "ms": 814
   },
   "focusSelic": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
-   "ms": 908
+   "em": "2026-11-28T03:22:55.151Z",
+   "ms": 962
   },
   "focusIpca": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
-   "ms": 916
+   "em": "2026-11-28T03:22:55.151Z",
+   "ms": 981
+  },
+  "dolarBcb": {
+   "ok": true,
+   "em": "2026-11-28T03:22:55.151Z",
+   "ms": 1165
   },
   "dolar": {
    "ok": false,
-   "em": "2026-11-27T23:52:46.289Z",
+   "em": "2026-11-28T03:22:55.151Z",
    "erro": "HTTP 429 (2 tentativas)",
-   "ms": 5387
+   "ms": 5515
   },
   "mercado.ibov": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z"
+   "em": "2026-11-28T03:22:55.151Z"
   },
   "mercado.ifix": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z"
+   "em": "2026-11-28T03:22:55.151Z"
   },
   "noticias.g1 Economia": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
+   "em": "2026-11-28T03:22:55.151Z",
    "itens": 100
   },
   "noticias.InfoMoney": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
+   "em": "2026-11-28T03:22:55.151Z",
    "itens": 10
   },
   "noticias.Google Notícias": {
    "ok": true,
-   "em": "2026-11-27T23:52:46.289Z",
+   "em": "2026-11-28T03:22:55.151Z",
    "itens": 100
   }
  },
@@ -541,7 +541,7 @@
    "ref": "2026-11-27",
    "cot": 1795814280000,
    "var": -0.12820135746606534,
-   "at": "2026-11-27T23:52:46.289Z",
+   "at": "2026-11-28T03:22:55.151Z",
    "fonte": "Yahoo Finance (não oficial, indicativo)",
    "url": "https://finance.yahoo.com/quote/%5EBVSP"
   },
@@ -550,12 +550,36 @@
    "ref": "2026-11-27",
    "cot": 1795814280000,
    "var": null,
-   "at": "2026-11-27T23:52:46.289Z",
+   "at": "2026-11-28T03:22:55.151Z",
    "fonte": "Yahoo Finance (não oficial, indicativo)",
    "url": "https://www.b3.com.br/pt_br/market-data-e-indices/indices/indices-de-segmentos-e-setoriais/indice-de-fundos-de-investimentos-imobiliarios-ifix.htm"
   }
  },
  "noticias": [
+  {
+   "titulo": "Dólar cai 4% com Trabuco na Fazenda; Ibov vira e cai por causa da Petrobras",
+   "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQZ2p6OG9QanQ5VUpUeVJfMWtnRHRqVnpMOUhPekpQdGh4S1M2WHBUZUtHRkk5WXRUNnlvVkxDVkEzRVpXeFZWcFpReEQ0X2JWQS05MU16RGVQNldWcF9pLWpsR1hxYmR3NExXWEpuQWtUblpUY1pWZXhzYWQwb3FFMEZ3a1cxeGUxMTNyd0FreHp5QzJSYTM3SFNwMkZ3YXhwN2NTQTZrcm96c2tvY0VuOA?oc=5",
+   "fonte": "UOL Economia",
+   "ts": 1795828622000
+  },
+  {
+   "titulo": "O que a Folha pensa: Trabuco, ajuste, juros baixos e crescimento sem inflação",
+   "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNOVlJdmd0anZrMVd5VktRc2J6R1Y0SlZFQTBkSFBsVzlBalJKQ1p2emxEaTU3NW9zWVJkeWU2RzRsU3E5YjlWaHRaYUJndmlXVGx3aFRLM201N2ZYQ3J1QjNlMDVTM3Y2M1g4X1hyTVkzeXVJLXJfdFl3SWxtdU9SMU5Uamg3VnZ2ekNNUDhnNkN3em52M2pwSDZ1RUh0ZGVxSEFra1RyTTZkdw?oc=5",
+   "fonte": "Folha de S.Paulo",
+   "ts": 1795827600000
+  },
+  {
+   "titulo": "'Se a Faria Lima está comemorando, o povo vai chorar', diz leitor sobre queda do dólar",
+   "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOZFhiRFNLVGNHeFdxd2ZSYmdvWFg0NlRkaktaYUhMV21yWTMzem05UTVfXzloZm1PVmpwdWVBc1VCSWpEaV9BOGlfNGtCMjN0cHllOWJTLWc1U1VMZFZLZnEzSDBndXdaWVRuMUNWVHc5eldzbXN4d0Z4R3NweU1UdDhXalU5Z3hMTE1MdXNSZFU3MC1uUnkxbWM0eEt5bFRUeTRFODNPVDk4UncydXM3YVZIcVZCcm04NFVvWUkwc1p4MFEyYjROdThrbktJLVFOYWQ2dHd3NWY?oc=5",
+   "fonte": "Folha de S.Paulo",
+   "ts": 1795827600000
+  },
+  {
+   "titulo": "Com indicação de Luiz Carlos Trabuco para o Ministério da Fazenda, dólar tem a maior queda semanal desde 2008",
+   "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPdGRLTVNXV1QxNmkxcVZUdWwtUl9DMGNFbm1xMV9xSXU2SlMwTUVFb3VRX2FDN1ZVaVdPRzEtQnFtQ28zaHZwcEw3QmtlelRQd3dhVlNTTVBmeTJlSGdtbkoyaC1XZE1Tb3Z4ZXEweHRocXNoWE9lMUNweUw4cmp0T2NHZFRpcjV2Z3h0bFdPNUxSM2RwOTRnR0tSX2FqOHJ4TVBmTmV2NlBUWVhpOGV0TTVReVdjQ2xPV2piaGctQ3NJU1lpMmc4WkdHREptaHNwRzRUNmF1Mko3aWttaTNaUFlrcS1TRVgtVG8zWkUtNXpvbkVDLVp2V2RzSmk0V0XSAY4CQVVfeXFMUG9lNGZIUHhob1RUNzZkZ0hOLW5nRk1reXgtYlkzUE1KbVg2NkQ1bjRGZEY0X1V0NkREcUtPT0kzM2NHQmhXOWRpVmVCcDkxRDRpaTctWXJ2QmZoZ0tlcXFlRFU3NnhIR09FMTFaeWdjQnBhRXpwWFdLdVRKU1ZCOGFLZ0lnTWxVcWtZTUdQdk1NSTlOeDBEWnctaVFIeEtqajRZTVlFa0lqOUcxWm12MHY3UnMxNXVJZ1JGV3VWa3FnT3ZWdjNvX3ZXY0pYTks1VXdjb3A3SEZDMWZUZjJIdTQ3QTgzZDFLR3JUekt6M0t5Sjc3N0ZmNV95UGhZRktmS195aDRWTGtIRDlteFZ3?oc=5",
+   "fonte": "G1",
+   "ts": 1795823461000
+  },
   {
    "titulo": "Opinião - Adriana Fernandes: Após 'efeito Trabuco', Lula inicia recalibragem do discurso do ajuste fiscal",
    "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOcThmY3J2Zl9JWWJSQXRnY1JFQ0JXUzdBckhtU3ZFbVluQzN1ZGUwdW1qazhxV3NSSW9BTVd2ellEOHhETEYyMGdKZ2Z1VlA4akFQa194U19HaDJxNl9lclpuY01vRTNCRjFaTUV5eHdqM0lBOVdnbmcwWGhZeGFvcGJYQXd5YzJuTTVPVWlMZk04Z21iMWZCYVFneFNRdEYwS3E4SE5ac2JmNWcwVlJUaHpYcHJwS2FtWVBTLUZydHdzZXo3N1NWVExmaThTazdKUnZqZnoxRExVdFU?oc=5",
@@ -567,6 +591,12 @@
    "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPazVaVV9GTDJvMmpoS0lzeDkxNzFDME5tZjAyMXlNd1Q2NUpRZXVHLUdlNXlHaUlCOUNGamxXMWRRZFhocGNGM1JQVjNJb3F3M3o2WVZTaThqMEtUR3ZTZEh3TG1HUFFMT2xJbVBYS0h2VS1GLVR4UHFiSEJCSVBmUTlJQm45WFdySHdSUXNldGFtLTJTeVJTeXJOcjZmTmMtTGE5WUtwa0IyWWt1a0VhYUpSejhQVVZJUktOTnY0VFUydw?oc=5",
    "fonte": "VEJA",
    "ts": 1795822380000
+  },
+  {
+   "titulo": "Dólar fecha em baixa de 4%, aos R$ 5,51, após anúncio de Trabuco para Fazenda",
+   "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPVGoyQndacUJhLUZkbE9RSlplUnR5X01vUFJmcjgzV0xkUG50eTNzNlRtM0xwYXZla0dSUmtzZkc5Q1dodzM0bFloNzg0R3dpNlZfM1FSYWtReUI4b00tNlVNaGo2aXlEVG9fdUZnMzljclVRa1lBNEJ3Q2dNczY2NUw0NVhpQ28yTm1CLUlDRkhyN1pPM3dEQ1NzZDNTYms2NktYQjYtV0R5cU14bTZFQ2pmeWp0Ykh4QWotTzJzOEhkQXpETmZwN2NuWGliaUdMRGpPazVzaDcyeU9xRGc0bXh30gHwAUFVX3lxTFB1bUtNaUU1Zk1vMDY1c2ZsTlhCeXJzUDF4N05FWk0yUW9MNmRFYUN5cTFYVFV6Z0JIeTV3RFdBcEZpZks1aHZSYnpwLWU3NnRFYXlDNnByZjNHWFh6VXk4QjB5YmQyWnA4MDBPZ3I1VW1mX1JsYzJJcVNCaGloYlBwZUx3RFdzS0p0ZGYwNHVGa21hSHExWnJGN1dSVGxuZWl5ZFFIU2VYVU1ob1dDWjdHSjk4aE9GS2Yza0FSc2l0Y0hfeDZLSWZjRFEtYzJ5d1lhTl8wRkJUeUp6R1M0cFNqUVJZeGw2VnVSMEN2Q3pOTQ?oc=5",
+   "fonte": "O GLOBO",
+   "ts": 1795822260000
   },
   {
    "titulo": "Dólar despenca 4% e fecha a R$ 5,51 com escolha de ministro para Fazenda",
@@ -682,11 +712,16 @@
    "resumo": "\"Compra no boato, vende no fato\": o mercado acionário brasileiro vinha desde a quarta-feira reagindo positivamente a especulações envolvendo a indicação de Trabuco para a pasta"
   },
   {
-   "titulo": "Ibovespa anda de lado, mas tem melhor semana desde o primeiro turno; dólar recua 4%",
-   "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-27112026/",
+   "titulo": "Por que Ibovespa fechou em leve queda após saltar 7 mil pontos com “efeito Trabuco”?",
+   "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQcFpiY2hxUVNYbEZrYlZ1R2dQSThoU0NSVnlONW9IaDdSZ1dabXZEdEEtODRyR2kxWmhwZklMYzFTNlFlRl8wZk9fMWlwaXV3T2Z4eUpMcnBDeTFzZnhCdkliSWRKLVJicHZoRkZrUjFQXzZLS1dBZU03U3BMRzVYamhZblpzZGRfcXQ3cFUtbGZwekxsVEJ4WlBPZFRqZ1N4U1puT0ZIbUxWRGpLSXM1THZTVdIBuAFBVV95cUxOeElEYWxFdmRabUN2cHVRcGlmOThiekV6a3NTNWtIbzl0S3QzWm8xV2tmd1Q2Vk9fX2U0dmpmQkJtR2NwaDZxNmhLUXR5bHI0WjE0ekwyclhBOEt3UVYzcHBiZVVqc2dLMmgzblhDelpaTE1mZ3BfajNOOW1Wa2JjcW15MVl0bW1pNGJtRG5qTThUdC1ZS1hUZElqbjBUa2lqanNqeF9GbXdvV0RoTUxJd01fSnNlZ1BN?oc=5",
    "fonte": "InfoMoney",
-   "ts": 1795814898000,
-   "resumo": "Índices nos EUA fecham em alta, com sessão reduzida pós-feriado"
+   "ts": 1795815399000
+  },
+  {
+   "titulo": "Ibovespa anda de lado, mas tem melhor semana desde o primeiro turno; dólar recua 4%",
+   "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPbUszWEN5N2RtZFRqMDJPcllPOXB3bFdHRGZTaEk5Vkd6YlNtZGt4N1loRGJ5UUl0Uy1sNXBsSThOcnZ4NTE3bWFyY1RqaHFBVG5naUtNODF1Vk5kSkxDc08yaHBERXBtNmE1dUpBRVVaaThWSEdKYnd2eE50U1BaUzV4M2FBWmdfa1M3TlpIZw?oc=5",
+   "fonte": "InfoMoney",
+   "ts": 1795814898000
   },
   {
    "titulo": "Ibovespa termina em leve queda no ‘day after’ de Trabuco, mas sobe 6% na semana",
@@ -701,17 +736,17 @@
    "ts": 1795814640000
   },
   {
+   "titulo": "Tesouro tem “circuit breaker” e taxas fecham em forte queda após “sim” de Trabuco",
+   "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNbU93a3NzUFh3a3dQc1FnUTJhTElXdlBzR2hTcW1ra2hzT3RHVVBYNVlBTHNFeDk3dmRad0lSSFBMOFBsQmF2XzI4ekd3MW1KRURSV2pHaV9odTJrRGYzLWlTdlNRdjhtcGFIbTl0OGg0R0tnMEpzTnFYZldzc0RPOXJaQkFyNW02NUJ6b1hxdDHSAZYBQVVfeXFMTkw2cVVQNGQyNzFsOHFxNVBjWGJZMExMdUU1RGN3LUpVYzlISUlrTE4tMVYzckptbDJIWkU5aW5lbWNkcnk3MFRERzJiWGJkN29EN19rUjlZcEhLZFZNLVlRN3dZMlBpUGZETTNFdkdXTU9lMlFNSVN5MkcyU1hhM2U2S3hYSWZGcXpZNnRiQzhETDVoYW1R?oc=5",
+   "fonte": "InfoMoney",
+   "ts": 1795814113000
+  },
+  {
    "titulo": "Tesouro tem &#8220;circuit breaker&#8221; e taxas fecham em forte queda após &#8220;sim&#8221; de Trabuco",
    "url": "https://www.infomoney.com.br/onde-investir/tesouro-direto-abertura-fechamento-27112026/",
    "fonte": "InfoMoney",
    "ts": 1795814113000,
    "resumo": "Prefixado 2032 fecha com recuo de 65 pontos-base, depois de chegar a cair 86 pontos-base na abertura, e títulos IPCA+ terminam o dia acima de 7%, em semana de queda de 7% do dólar"
-  },
-  {
-   "titulo": "Tesouro tem “circuit breaker” e taxas fecham em forte queda após “sim” de Trabuco",
-   "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNbU93a3NzUFh3a3dQc1FnUTJhTElXdlBzR2hTcW1ra2hzT3RHVVBYNVlBTHNFeDk3dmRad0lSSFBMOFBsQmF2XzI4ekd3MW1KRURSV2pHaV9odTJrRGYzLWlTdlNRdjhtcGFIbTl0OGg0R0tnMEpzTnFYZldzc0RPOXJaQkFyNW02NUJ6b1hxdDHSAZYBQVVfeXFMTkw2cVVQNGQyNzFsOHFxNVBjWGJZMExMdUU1RGN3LUpVYzlISUlrTE4tMVYzckptbDJIWkU5aW5lbWNkcnk3MFRERzJiWGJkN29EN19rUjlZcEhLZFZNLVlRN3dZMlBpUGZETTNFdkdXTU9lMlFNSVN5MkcyU1hhM2U2S3hYSWZGcXpZNnRiQzhETDVoYW1R?oc=5",
-   "fonte": "InfoMoney",
-   "ts": 1795814113000
   },
   {
    "titulo": "Ibovespa fecha quase estável com Petrobras e Vale minando otimismo com Trabuco",
@@ -762,46 +797,10 @@
    "ts": 1795812079000
   },
   {
-   "titulo": "Dólar fecha em baixa de 4%, aos R$ 5,51, após anúncio de Trabuco para Fazenda",
-   "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPVGoyQndacUJhLUZkbE9RSlplUnR5X01vUFJmcjgzV0xkUG50eTNzNlRtM0xwYXZla0dSUmtzZkc5Q1dodzM0bFloNzg0R3dpNlZfM1FSYWtReUI4b00tNlVNaGo2aXlEVG9fdUZnMzljclVRa1lBNEJ3Q2dNczY2NUw0NVhpQ28yTm1CLUlDRkhyN1pPM3dEQ1NzZDNTYms2NktYQjYtV0R5cU14bTZFQ2pmeWp0Ykh4QWotTzJzOEhkQXpETmZwN2NuWGliaUdMRGpPazVzaDcyeU9xRGc0bXh30gHwAUFVX3lxTFB1bUtNaUU1Zk1vMDY1c2ZsTlhCeXJzUDF4N05FWk0yUW9MNmRFYUN5cTFYVFV6Z0JIeTV3RFdBcEZpZks1aHZSYnpwLWU3NnRFYXlDNnByZjNHWFh6VXk4QjB5YmQyWnA4MDBPZ3I1VW1mX1JsYzJJcVNCaGloYlBwZUx3RFdzS0p0ZGYwNHVGa21hSHExWnJGN1dSVGxuZWl5ZFFIU2VYVU1ob1dDWjdHSjk4aE9GS2Yza0FSc2l0Y0hfeDZLSWZjRFEtYzJ5d1lhTl8wRkJUeUp6R1M0cFNqUVJZeGw2VnVSMEN2Q3pOTQ?oc=5",
-   "fonte": "O GLOBO",
-   "ts": 1795811836000
-  },
-  {
    "titulo": "Dólar despenca após confirmação de Trabuco na Fazenda",
    "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQaURTaTNJajktc2l3dDQzLTlPYlZqZGtxM1E5Y2NjTkdpdm1hSnZmWGdyU3VDLTZQRnhoUU1DYWE1LXJrcmRNYmRBWHYzWXQ1dU1ueEZtMzJ6QUZTaFZveDFPWEM1a0Mtc3AxZjNKQmY2RFJmWThRSi1JZFliU3dDQlBNVzlBT0FxWFp3TWpQZnI1YUE0RGpOVlhxLUx2V0pzVVo0TDc5NGUzdVpEZUhQaGhveWhsck1HX3c?oc=5",
    "fonte": "Gazeta do Povo",
    "ts": 1795811220000
-  },
-  {
-   "titulo": "Dólar hoje cai 4%, a R$ 5,51, com anúncio de Trabuco na Fazenda; na semana, recua 7%",
-   "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPOVgyazlobGVfeUluNm5INjc3Y2o2THEtSjFBdWotOGJZRXhHb2Z0TFJncGNKNzNBT2tLTDFMWVpIR3FId1A2U19pcEVMU3kzbHNhV2RzdDF5Z2M3RHoteXhyZUtHU1p5czM5VUM2Z0JIYzRXLU8wbXR4bTdCbFhMaXNrS2hYVV9HX2pKM3JWbmE2cTc4YzVQYmo3ejXSAaIBQVVfeXFMUF9pejkwWmhkRWVudW44TnE5T1JvRklkTGx0Y1pqUy1ZRS1RTG1TQXRDbFdHR1JjRlBJSGZWQmFMZDFwZU1zVDQ2NURYcDVhOHNpTWpwVXRSbkJobC0ybWtTaUwyZGJjUllVMVlKU3N0RGYtQWgtUVNiS0E2cjY0MFgxbk1HUDBCYW5CZzM4X2VQR1lWVDVOZy1ndFRTNmk2cGVn?oc=5",
-   "fonte": "InfoMoney",
-   "ts": 1795811175000
-  },
-  {
-   "titulo": "Conselho Tributário da FIEMG debate ajuste fiscal e reforma",
-   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQcWhCMmpIZTFLdnMxWFd1SmNYZDd6V0RmVWx6T0cybHZaN1RnQ05jOXhkUXZISWJiU0szTEdaZ1RQRkJmMzViZzNSUF9mYjlPUXdQZVo1SmtHcmUtZThFRlI0aC1CRUxrRFZuLVhCaDNSTUQ0ZTRHRTdoaFhFekFubThyNXMzS01OaE90ZDVXVDdrRFdMOGVObVRR?oc=5",
-   "fonte": "FIEMG",
-   "ts": 1795810920000
-  },
-  {
-   "titulo": "Equipe econômica quer deixar pacote fiscal pronto e prevê apresentação a Trabuco",
-   "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOeUJmNnFYd1hFVkJTZ2QxN01xeC1hX09CX2JvTnVFRzJmN3lUQk96bFYxOG1rbGZ5TEw5U1dHM1NKT0Qyd1VKX05Hc2lzRXh3VDI2Mlh5bmNhaXYzdEhqd0JtTjNLT2hIQXR6ZTF3aXhtcmx4b3A4X3c1TV9NX1lLcUhEZVpxX2tZMmRLZnlVcVVCNEotMlhYYzZTejF3ektpcVFUYl9HTV9ZZU1FUUJnNjZwLWt0Z1paTmhVVmw2eFJNQzhRVThLYkRSMzdEbTJFVFHSAeABQVVfeXFMTWFpTS00d1BmUkZfNHFsN2RlOU05NV9kSS00dWZwdTVwalN5bWVNbk92Tng5NEkwZGtUdllFN3dsMG9ZeEp3cW10aXM4N0hTUDZGcUVjejJTOHJGY0Q1R0hjTGxrQWZVakl4eTIwRnBVSkU2NHNwTDJlWEZsc0hkeXB3Zjl2Z2hCNG9FWFh0QWNmSzJXa3dhYjMxMGM5SFkzOXVCRmRmNFNpM2VKa2ZtZWNuX2xaVXN5ME1NMnM2bDNJQUtzYVRPaUJya2VuN1d1V3lONzRwVGNOLVRYaDFvRVg?oc=5",
-   "fonte": "Valor Econômico",
-   "ts": 1795810632000
-  },
-  {
-   "titulo": "Dólar cai 4% com Trabuco na Fazenda; Ibov vira e cai por causa da Petrobras",
-   "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQZ2p6OG9QanQ5VUpUeVJfMWtnRHRqVnpMOUhPekpQdGh4S1M2WHBUZUtHRkk5WXRUNnlvVkxDVkEzRVpXeFZWcFpReEQ0X2JWQS05MU16RGVQNldWcF9pLWpsR1hxYmR3NExXWEpuQWtUblpUY1pWZXhzYWQwb3FFMEZ3a1cxeGUxMTNyd0FreHp5QzJSYTM3SFNwMkZ3YXhwN2NTQTZrcm96c2tvY0VuOA?oc=5",
-   "fonte": "UOL Economia",
-   "ts": 1795810622000
-  },
-  {
-   "titulo": "Com ‘efeito Trabuco’, dólar despenca 7% na semana, maior queda desde 2008 para o período",
-   "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPNWtnTjdNSWtYTlNkOXN0OTVXOF9RNkw1S2d2ZUNVUHVDNGkwbUFDTEc3SnU5dkJYclpCXzI1anRPN2pvMERQcERfcmM1MzZoNWxQQ0tZOXRfdGpRbE5XZFQwUXd5YXVVVThicHBieDRmbExiQk1YNkZBSDhfSWc2NzU1TXJwQ2Zqb3ZiMU1WY0dXZ3RUcDJMWW9DYWZVeFFMQjY2UnVxRnpyQ2lrX0xqeWQtdWlLdF9OUW5TODdwdE5tM1BUQzZTWWNodG5FYmwzM0w5S21TY0tJcTJKdmg5cWhn0gHwAUFVX3lxTE44RTZhMTVnMU9sVlZ5U0gwQUI2aG1XWEdVUzdmbVJJQzJudlhXZEQwWjRGT29abThxYTY4ZlZaYld3NzZ4bXQ1LUkwNnF2M0VLZTlPNEk4U0VlZ0VBNW4wNmRzbF9PSy1nejNseFhyc1pnN2hpZTZmT1JyeFI2RURTNUU5ODhlTkRsUVZrRWZrVGZMVXd1dGVtTzFmclJTQ2hLNV92TjFGS0ZtSnFJbjQzX2c5clVxV3MtYlY0SzhJaUVCbGJSbFdaV0cxVng3bm9kN3RmVU1ORkpiTmNERmR0VU9oUVdSUmY1ZTFtcUNjag?oc=5",
-   "fonte": "Valor Econômico",
-   "ts": 1795810575000
   }
  ]
 }
